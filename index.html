@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comfamiliar Risaralda - Intranet de Proyectos</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Estilos personalizados para simular transiciones fluidas */
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Ocultar barra de scroll estética */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#eef2f4] min-h-screen text-slate-800 flex flex-col transition-all duration-300">
+
+  <!-- Header Corporativo (Estilo Bitrix24 Clean Dark con Logotipo Oficial en Contraste) -->
+  <header class="bg-[#1c2e40] text-white shadow-sm sticky top-0 z-40 border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <!-- Contenedor transparente: permite que el logo blanco destaque sobre el fondo azul oscuro del header -->
+        <div class="flex items-center justify-center py-1">
+          <img 
+            src="https://i.imgur.com/yyI6FWO.png" 
+            alt="Comfamiliar Risaralda" 
+            class="h-12 w-auto object-contain"
+            onerror="this.onerror=null; this.src='https://placehold.co/120x40/1c2e40/ffffff?text=Comfamiliar';"
+          />
+        </div>
+        <div>
+          <h1 class="text-base font-extrabold tracking-tight flex items-center gap-1.5">
+            <span>Comfamiliar Risaralda</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-normal">Intranet Proyectos</span>
+          </h1>
+          <p class="text-[11px] text-[#00b4ac] font-bold tracking-wide uppercase">Gestión del Cambio & Operaciones</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2.5 self-start md:self-auto">
+        <button id="btn-show-all" class="hidden bg-slate-800/80 hover:bg-slate-800 text-slate-200 px-3.5 py-2 rounded-lg text-xs font-bold transition-all border border-slate-700 flex items-center gap-1.5" onclick="selectProject(null)">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Ver Todos los Proyectos</span>
+        </button>
+        <button class="bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 px-4 py-2 rounded-lg text-xs font-extrabold transition-all shadow-sm flex items-center gap-2" onclick="openLogModal()">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Registrar Avance</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Panel de Estadísticas / KPIs Superiores -->
+  <div class="bg-white border-b border-slate-200 py-4 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
+        <div class="p-2 bg-indigo-50/50 rounded-lg text-indigo-600">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Iniciativas Totales</p>
+          <h4 id="stat-total" class="text-base font-black text-slate-950">-- Activas</h4>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
+        <div class="p-2 bg-amber-50/50 rounded-lg text-amber-600">
+          <i data-lucide="trending-up" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Avance Promedio</p>
+          <h4 id="stat-avg" class="text-base font-black text-slate-950">--% Global</h4>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
+        <div class="p-2 bg-emerald-50/50 rounded-lg text-emerald-600">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Entregas Cerradas</p>
+          <h4 id="stat-completed" class="text-base font-black text-slate-950">-- Listos</h4>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 last:border-0">
+        <div class="p-2 bg-blue-50/50 rounded-lg text-blue-600">
+          <i data-lucide="users" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Especialistas Squads</p>
+          <h4 id="stat-squads" class="text-base font-black text-slate-950">-- Asignados</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal Adaptativo -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- CONTROLES FILTROS (Solo visibles en modo lista/cuadrícula) -->
+    <div id="controls-section" class="space-y-6 mb-6">
+      <!-- CRM Panel Filtro por Categorías -->
+      <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200/80 flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div class="flex bg-slate-100 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar">
+          <button id="tab-all" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all bg-white text-slate-950 shadow-sm whitespace-nowrap" onclick="setCategoryTab('all')">
+            Todas las Iniciativas
+          </button>
+          <button id="tab-gestion" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap" onclick="setCategoryTab('gestion')">
+            Gestión Humana
+          </button>
+          <button id="tab-cambio" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap" onclick="setCategoryTab('cambio')">
+            Gestores de Cambio
+          </button>
+        </div>
+
+        <!-- Input de Búsqueda -->
+        <div class="relative w-full md:w-80">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Buscar iniciativa..."
+            oninput="handleSearch(this.value)"
+            class="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-250 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white transition-all font-semibold"
+          />
+        </div>
+      </div>
+
+      <!-- Filtro Secundario por Estados de Avance -->
+      <div class="flex flex-wrap gap-2 items-center">
+        <span class="text-[11px] text-slate-400 font-extrabold uppercase tracking-wider flex items-center gap-1">
+          <i data-lucide="filter" class="w-3.5 h-3.5"></i> Estado del Avance:
+        </span>
+        <button id="filter-all" class="px-3 py-1 rounded-md text-xs font-bold border bg-[#e2f7f6] border-[#00b4ac]/30 text-[#008d87]" onclick="setStatusFilter('all')">Todos</button>
+        <button id="filter-completed" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('completed')">Completados (100%)</button>
+        <button id="filter-progress" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('progress')">En Progreso (30%-99%)</button>
+        <button id="filter-initial" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('initial')">Fase Inicial (<50%)</button>
+      </div>
+    </div>
+
+    <!-- AREA DINÁMICA DE CONTENIDO -->
+    <div id="dynamic-content" class="fade-in">
+      <!-- Aquí se renderiza dinámicamente la Cuadrícula o la Ficha de Detalle -->
+    </div>
+
+  </main>
+
+  <!-- MODAL: REGISTRAR AVANCE (Bitácora24) -->
+  <div id="log-modal" class="hidden fixed inset-0 bg-[#1c2e40]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
+    <div class="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-lg overflow-hidden">
+      <!-- Modal Header -->
+      <div class="bg-[#1c2e40] text-white p-5 flex items-center justify-between border-b border-slate-700">
+        <h3 class="font-bold text-sm flex items-center gap-2">
+          <i data-lucide="sparkles" class="text-[#2fc6f6] w-4.5 h-4.5"></i> Registrar Nuevo Avance (Bitácora24)
+        </h3>
+        <button class="text-white/80 hover:text-white text-sm focus:outline-none text-xl" onclick="closeLogModal()">&times;</button>
+      </div>
+      
+      <!-- Modal Form -->
+      <form id="log-form" onsubmit="handleFormSubmit(event)" class="p-6 flex flex-col gap-4">
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Iniciativa / Proyecto</label>
+          <select
+            id="modal-select-project"
+            required
+            class="w-full bg-slate-50 border border-slate-250 rounded-lg p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white font-semibold text-slate-800"
+          >
+            <!-- Se carga dinámicamente -->
+          </select>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Porcentaje de Progreso Actual (<span id="modal-progress-label">50</span>%)</label>
+          <input
+            id="modal-progress-range"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            oninput="updateModalProgressLabel(this.value)"
+            class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2fc6f6]"
+          />
+          <div class="flex justify-between text-[10px] text-slate-400 font-semibold mt-1">
+            <span>0%</span>
+            <span>50%</span>
+            <span>100% (Completado)</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Descripción del Avance u Hito</label>
+          <textarea
+            id="modal-log-text"
+            required
+            placeholder="Describe detalladamente el logro obtenido, entregable de fase o la resolución de un problema..."
+            rows="3"
+            class="w-full bg-slate-50 border border-slate-250 rounded-lg p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white resize-none text-slate-800 font-medium"
+          ></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-2">
+          <button
+            type="button"
+            onclick="closeLogModal()"
+            class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 rounded-lg text-xs font-black transition-all shadow-sm"
+          >
+            Actualizar Datos
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer Corporativo -->
+  <footer class="bg-[#1c2e40] text-slate-400 py-6 text-center text-xs mt-auto border-t border-slate-800">
+    <p>© <span id="current-year"></span> Comfamiliar Risaralda • Plataforma Corporativa de Iniciativas • Pereira, Colombia</p>
+  </footer>
+
+  <!-- Lucide Icons CDN para cargar los iconos -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    // Inicialización del año actual
+    document.getElementById('current-year').innerText = new Date().getFullYear();
+
+    // Dataset del Reporte de Iniciativas
+    let projects = [
+      {
+        id: 'proyectocx',
+        title: 'Proyecto CX (Experiencia del Cliente)',
+        category: 'cambio',
+        status: 'Propuesta Presentada',
+        progress: 20,
+        imageUrl: 'https://i.imgur.com/cQXIqQ3.jpeg',
+        assigned: 'Subdirección de Desarrollo Estratégico',
+        description: 'Estrategia de transformación integral centrada en el usuario para rediseñar y unificar la interacción con los afiliados de Comfamiliar Risaralda en todos los canales.',
+        highlights: [
+          'Elaboración y formalización del documento de propuesta metodológica de CX.',
+          'Presentación oficial ante la Subdirección de Desarrollo Estratégico para evaluación de viabilidad y asignación de recursos.',
+          'Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad.'
+        ],
+        nextPhase: [
+          'Aprobación formal del proyecto por parte de la Subdirección de Desarrollo Estratégico.',
+          'Diagnóstico participativo y mapeo de Arquetipos de Clientes y Customer Journeys prioritarios.',
+          'Establecimiento de la estructura de gobernanza de CX y asignación del Squad multidisciplinario.'
+        ],
+        squad: [
+          'Equipo de Desarrollo Estratégico',
+          'Líderes de Procesos de Cara al Cliente'
+        ],
+        issues: [
+          'Necesidad de unificar la voz del cliente entre los canales físicos y la creciente oferta de canales digitales.',
+          'Requerimiento de un sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES).'
+        ]
+      },
+      {
+        id: 'dotacion',
+        title: 'Módulo de Compras (Dotación)',
+        category: 'gestion',
+        status: 'Fase I Entregada',
+        progress: 70,
+        url: 'https://dotacion.comfamiliar.com/',
+        linkText: 'Acceder al Módulo de Compras (Dotación)',
+        assigned: 'Luisa Osorio (Acompañamiento Gestión Humana)',
+        description: 'Entrega de Fase I de Módulo de compras en trabajo conjunto con el proceso y sistemas para la automatización de dotaciones.',
+        highlights: [
+          'Generación de Listados de personal con derecho a dotación.',
+          'Generación de actas de entrega.',
+          'Incorporación de código consecutivo de tarjetas (Bonos dotación) eliminado tarjetas físicas.',
+          'Identificación de incidencias entre el momento de generación de listados para la compra vs momento de entrega.'
+        ],
+        nextPhase: [
+          'Generación Digital de documentos.',
+          'Firmas digitales por parte del líder de proceso en la custodia.',
+          'Firma digital por parte del colaborador en la recepción de la dotación.'
+        ],
+        squad: [],
+        issues: []
+      },
+      {
+        id: 'turnos',
+        title: 'Módulo de Gestión de Turnos Clínica Comfamiliar',
+        category: 'gestion',
+        status: 'Pruebas de Usuario',
+        progress: 90,
+        url: 'https://script.google.com/macros/s/AKfycbzXGVpPFxhW9OXODj9WHWYBcY3uzI0p8bXTSfrIKRm15lnlCYrPLVk5mtqRWGMTXGzs/exec',
+        linkText: 'Acceder a la Gestión de Turnos (Clínica Comfamiliar)',
+        description: 'Programa iniciado para propiciar la automatización de los cuadros de turno en la Clínica Comfamiliar.',
+        issues: [
+          'Política de cambio de turnos en el los procesos: se permite cambiar 6 veces al mes.',
+          'Incapacidades o Renuncias: Generan en ocasiones la necesidad de extender el horario de una auxiliar hasta 24 horas.',
+          'En algunos casos los turnos son cambiados por las auxiliares sin una fecha definida para el pago del turno.'
+        ],
+        highlights: [
+          'Automatización de la visualización de cuadros de turnos en fase avanzada de validación.',
+          'Integración de reglas de negocio para mitigar las incidencias reportadas.'
+        ],
+        nextPhase: [
+          'Cierre de etapa de pruebas de usuario final.',
+          'Puesta en marcha oficial en la Clínica.'
+        ],
+        squad: [],
+        assigned: 'Proceso de Turnos Clínica'
+      },
+      {
+        id: 'conciliacion',
+        title: 'Herramienta de Conciliación Interface Contable',
+        category: 'gestion',
+        status: 'Refinamientos',
+        progress: 100,
+        description: 'Herramienta de control en producción que cumple el original objetivo de detectar errores contables antes de subir datos a JDE.',
+        highlights: [
+          'En producción y funcionando exitosamente.',
+          'Cumple al 100% el objetivo de prevenir descuadres en JDE.'
+        ],
+        nextPhase: [
+          'Refinamientos menores de optimización de interfaz.'
+        ],
+        squad: [],
+        assigned: 'Sistemas / Contabilidad'
+      },
+      {
+        id: 'certificado220',
+        title: 'Certificado 220 DIAN',
+        category: 'gestion',
+        status: 'Cerrado',
+        progress: 100,
+        description: 'Proceso conciliado y cerrado para la emisión de certificados de ingresos y retenciones de la DIAN.',
+        highlights: [
+          'Conciliado de manera exitosa con el Proceso de Impuestos.',
+          'Se realizaron 13 ajustes críticos de certificados que no incluían viáticos no informados por contabilidad.',
+          'Ajustadas devoluciones de viáticos de tesorería no informadas oportunamente a Nómina.',
+          'Publicación de certificados y lanzamiento de video instructivo para los empleados.'
+        ],
+        nextPhase: [],
+        squad: [],
+        assigned: 'Nómina / Impuestos'
+      },
+      {
+        id: 'biometria',
+        title: 'Dispositivos Biométricos y Reconocimiento Facial',
+        category: 'gestion',
+        status: 'Habilitado - Pendiente Comunicación',
+        progress: 85,
+        description: 'Instalación de dispositivos biométricos de alta tecnología y reconocimiento facial en las sedes físicas de la organización.',
+        highlights: [
+          'Puntos habilitados de manera física y tecnológica en las sedes.'
+        ],
+        nextPhase: [
+          'Envío de circular corporativa para la activación del proceso de registro de empleados.'
+        ],
+        squad: [],
+        assigned: 'Seguridad / Gestión Humana'
+      },
+      {
+        id: 'culturadigital',
+        title: 'Proyecto Cultura Digital',
+        category: 'cambio',
+        status: 'En Ejecución',
+        progress: 75,
+        description: 'Proyecto estratégico para impulsar el cambio y adopción de herramientas digitales dentro de la caja de compensación.',
+        squad: [
+          'Pablo Esteban Sánchez Restrepo',
+          'Wilmer López Colorado',
+          'Diana Carolina Triana Serna',
+          'John Alexander Gil Mazuera'
+        ],
+        strategies: [
+          {
+            name: '1. Actualización de Manuales',
+            desc: 'Reunión realizada con Nancy Toro y Valeria Gómez. Se entregaron recomendaciones de cultura digital para su incorporación en el manual de responsabilidades.'
+          },
+          {
+            name: '2. Directorio de Soluciones Digitales',
+            desc: 'Creación de la primera "Gema" de automatización de actas e informes mediante IA basados en MAP. Producción de video tipo cápsula digital de lanzamiento con Ximena Agudelo Rendón.'
+          },
+          {
+            name: '3. Lanzamiento de Geeks Digitales',
+            desc: 'Identificación y formación de "Geeks Digitales" capaces de generar gemas de automatización de contenidos para nutrir el Directorio Digital.'
+          }
+        ],
+        highlights: [
+          'Primera Gema IA completada y probada.'
+        ],
+        nextPhase: [
+          'Lanzamiento oficial del Directorio Digital.',
+          'Expansión de la red de Geeks Digitales.'
+        ]
+      },
+      {
+        id: 'whatsappflow',
+        title: 'WhatsApp Business Centro Médico Aliado (IA Multimodal)',
+        category: 'cambio',
+        status: 'Pruebas / Flujo Nuevo',
+        progress: 60,
+        url: 'https://www.youtube.com/watch?v=wT-bZe5THu4',
+        linkText: 'Ver Showcase de IA Multimodal en Salud',
+        description: 'Integración de Inteligencia Artificial Multimodal de vanguardia para transformar la experiencia del paciente en WhatsApp Business. Permite la unificación de múltiples canales (telefonía y chat) y formatos (texto, voz y documentos) en una misma conversación contextual.',
+        squad: [
+          'Jhonier Alexander Álvarez Gallo',
+          'Yerly Yurany Oviedo Montealegre',
+          'Juan Camilo Pinto Osorio'
+        ],
+        highlights: [
+          'Despliegue del piloto de IA Multimodal enfocado en la atención integrada del sector salud.',
+          'Capacidad del bot conversacional de continuar por chat de WhatsApp una solicitud o llamada telefónica iniciada previamente, sin perder el contexto de la conversación.',
+          'Comprensión avanzada de formatos mixtos: el paciente puede enviar audios con consultas de salud o fotos de órdenes médicas y recibir respuestas precisas e indicaciones unificadas en texto o correo electrónico.',
+          'Pruebas con casos del sector salud (ej. validación y preparación de exámenes complejos como endoscopias, resolviendo dudas sobre suspensión de medicamentos como anticoagulantes).'
+        ],
+        nextPhase: [
+          'Presentación oficial del prototipo funcional integrado de IA Multimodal en la siguiente semana de seguimiento.'
+        ]
+      },
+      {
+        id: 'aipiweb',
+        title: 'AIPIWEB',
+        category: 'cambio',
+        status: 'Pruebas UX (95%)',
+        progress: 95,
+        url: 'https://aipi.comfamiliar.com/',
+        linkText: 'Visitar Sitio Web Interactivo AIPI (Foniñez)',
+        description: 'Desarrollo de una plataforma web interactiva orientada a las actividades de Foniñez en el programa integral de AIPI.',
+        squad: [
+          'Catalina Pabón',
+          'Juanita Carmona Estrada'
+        ],
+        highlights: [
+          'Plataforma al 95% de desarrollo total.',
+          'Página puesta en marcha en entorno de producción para medir la experiencia de los usuarios reales.'
+        ],
+        nextPhase: [
+          'Análisis de datos de experiencia de usuario.',
+          'Cierre y estabilización final.'
+        ]
+      },
+      {
+        id: 'carnet',
+        title: 'Carnet Digital Interactiva',
+        category: 'cambio',
+        status: 'En Ejecución',
+        progress: 80,
+        description: 'Ecosistema de carnetización interactiva digital que centraliza la identificación, datos familiares y acumulación de Pithcoripuntos.',
+        squad: [
+          'Javier de Jesús Trejos Cruz',
+          'Juanita Carmona Estrada'
+        ],
+        highlights: [
+          'Permite identificación del colaborador y su grupo familiar de forma interactiva.',
+          'Visualización de Pithcoripuntos.'
+        ],
+        nextPhase: [
+          'Implementación de campañas de fidelización para incrementar la entrada de colaboradores al Parque Consota.'
+        ]
+      },
+      {
+        id: 'robotica',
+        title: 'Proyecto Robótica Educativa',
+        category: 'cambio',
+        status: 'Fase Inicial (Maker)',
+        progress: 40,
+        description: 'Laboratorio de innovación basado en cultura maker "Aprender Haciendo" y enfoque STEAM. Comienza en el Instituto Comfamiliar y escala a nivel regional.',
+        squad: [
+          'Walter David Soto Villada'
+        ],
+        requirements: {
+          training: 'Plan de formación docente en plataformas como Arduino, ESP32 o simulación (Tinkercad).',
+          materials: 'Kits de robótica y componentes electrónicos educativos.'
+        },
+        phases: [
+          {
+            phase: 'Fase 1',
+            title: 'Activación y Cimentación',
+            desc: 'Creación del grupo de robótica con estudiantes pioneros del Instituto.'
+          },
+          {
+            phase: 'Fase 2',
+            title: 'Desarrollo y Sistematización',
+            desc: 'Ejecución de proyectos STEAM bajo la filosofía Maker. Creación y carga de evidencias en un Repositorio Web Institucional.'
+          },
+          {
+            phase: 'Fase 3',
+            title: 'Validación y Competencia',
+            desc: 'Gestión y participación de los estudiantes en ferias de ciencia y competencias de robótica interinstitucionales.'
+          },
+          {
+            phase: 'Fase 4',
+            title: 'Liderazgo y Transferencia',
+            desc: 'Oferta de talleres para externos e Institucionalización de la Copa Robótica Comfamiliar (Evento Regional).'
+          }
+        ],
+        highlights: [
+          'Diseño conceptual STEAM sólido.',
+          'Planteamiento de transición de espacio educativo interno hacia polo de innovación regional.'
+        ]
+      }
+    ];
+
+    // Datos estáticos requeridos para la Copa de Robótica
+    const roboticaRequirements = {
+      training: 'Plan de formación docente en plataformas como Arduino, ESP32 o simulación (Tinkercad).',
+      materials: 'Kits de robótica y componentes electrónicos educativos.'
+    };
+
+    // Estado de la Aplicación (State)
+    const state = {
+      activeTab: 'all',
+      searchQuery: '',
+      selectedStatusFilter: 'all',
+      selectedProjectId: 'proyectocx' // Default seleccionado
+    };
+
+    // Inicializador de las iniciales de avatar
+    function getAvatarInitials(name) {
+      return name
+        .split(' ')
+        .map(word => word[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+    }
+
+    // Calcular y renderizar estadísticas superiores (Kpis)
+    function renderStats() {
+      const total = projects.length;
+      const avg = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / total);
+      const completed = projects.filter(p => p.progress === 100).length;
+      
+      const squadSet = new Set();
+      projects.forEach(p => {
+        if (p.squad) p.squad.forEach(m => squadSet.add(m));
+      });
+
+      document.getElementById('stat-total').innerText = `${total} Activas`;
+      document.getElementById('stat-avg').innerText = `${avg}% Global`;
+      document.getElementById('stat-completed').innerText = `${completed} Listos`;
+      document.getElementById('stat-squads').innerText = `${squadSet.size} Asignados`;
+    }
+
+    // Retorna las clases de Tailwind correspondientes al estado de avance de la tarea (Estilo Bitrix24)
+    function getStatusBadgeClass(progress) {
+      if (progress === 100) return 'bg-emerald-50 text-emerald-700 border-emerald-200/60';
+      if (progress >= 80) return 'bg-blue-50 text-blue-700 border-blue-200/60';
+      if (progress >= 50) return 'bg-amber-50 text-amber-700 border-amber-200/60';
+      return 'bg-orange-50 text-orange-700 border-orange-200/60';
+    }
+
+    // Obtener los proyectos filtrados según el estado actual
+    function getFilteredProjects() {
+      return projects.filter(project => {
+        // Tab de Categoría
+        if (state.activeTab !== 'all' && project.category !== state.activeTab) {
+          return false;
+        }
+
+        // Filtro de Avance/Estado
+        if (state.selectedStatusFilter !== 'all') {
+          if (state.selectedStatusFilter === 'completed' && project.progress < 100) return false;
+          if (state.selectedStatusFilter === 'progress' && (project.progress === 100 || project.progress < 30)) return false;
+          if (state.selectedStatusFilter === 'initial' && project.progress >= 50) return false;
+        }
+
+        // Filtro de Texto
+        if (state.searchQuery.trim() !== '') {
+          const query = state.searchQuery.toLowerCase();
+          const matchesTitle = project.title.toLowerCase().includes(query);
+          const matchesDesc = project.description.toLowerCase().includes(query);
+          const matchesAssigned = project.assigned?.toLowerCase().includes(query);
+          const matchesSquad = project.squad?.some(m => m.toLowerCase().includes(query));
+          return matchesTitle || matchesDesc || matchesAssigned || matchesSquad;
+        }
+
+        return true;
+      });
+    }
+
+    // Renderizar la Vista Principal (Dinámica)
+    function renderApp() {
+      renderStats();
+      
+      const contentArea = document.getElementById('dynamic-content');
+      const controlsSection = document.getElementById('controls-section');
+      const btnShowAll = document.getElementById('btn-show-all');
+
+      if (state.selectedProjectId) {
+        // ==========================================
+        // MODO ENFOCADO: DETALLE EXPANDIDO COMPLETO
+        // ==========================================
+        controlsSection.classList.add('hidden');
+        btnShowAll.classList.remove('hidden');
+
+        const project = projects.find(p => p.id === state.selectedProjectId);
+        const filteredList = getFilteredProjects();
+        const currentIndex = filteredList.findIndex(p => p.id === project.id);
+
+        if (!project) {
+          // Si el proyecto seleccionado fue filtrado o borrado, volvemos a la lista
+          selectProject(null);
+          return;
+        }
+
+        // Estructuración de la Ficha Técnica de Detalle
+        let htmlDetail = `
+          <div class="space-y-6 animate-fadeIn">
+            
+            <!-- Barra de Navegación del Detalle -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+              <button
+                onclick="selectProject(null)"
+                class="inline-flex items-center gap-2 text-xs font-black text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-lg transition-all self-start"
+              >
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                <span>Volver al Tablero Principal</span>
+              </button>
+
+              <!-- Navegador Secuencial -->
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button
+                  onclick="navigateProject(-1)"
+                  ${currentIndex <= 0 ? 'disabled' : ''}
+                  class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 transition-all bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700"
+                >
+                  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                  <span>Anterior</span>
+                </button>
+                <span class="text-xs font-mono font-bold text-slate-400 px-2">
+                  ${currentIndex !== -1 ? currentIndex + 1 : '--'} de ${filteredList.length}
+                </span>
+                <button
+                  onclick="navigateProject(1)"
+                  ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''}
+                  class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 transition-all bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700"
+                >
+                  <span>Siguiente</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ficha Técnica -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[70vh] flex flex-col">
+              
+              <!-- Cabecera de la Ficha -->
+              <div class="bg-gradient-to-r from-[#1c2e40] via-[#21374d] to-[#1c2e40] text-white p-6 md:p-8 relative">
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <span class="bg-white/10 text-slate-200 px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border border-white/10">
+                    ${project.category === 'gestion' ? 'Módulo Gestión Humana' : 'Gestor de Cambio'}
+                  </span>
+                  <span class="px-3 py-1 rounded-md text-xs font-bold border ${getStatusBadgeClass(project.progress)}">
+                    ${project.status}
+                  </span>
+                </div>
+
+                <h2 class="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-3">
+                  ${project.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-[#2fc6f6] w-8 h-8 shrink-0"></i>' : ''}
+                  <span>${project.title}</span>
+                </h2>
+                
+                <p class="text-sm text-slate-300 mt-3 leading-relaxed max-w-4xl">
+                  ${project.description}
+                </p>
+
+                <!-- Barra de Progreso Interna -->
+                <div class="mt-6 max-w-2xl">
+                  <div class="flex justify-between text-xs font-bold text-slate-300 mb-1.5">
+                    <span>Avance Técnico de la Iniciativa</span>
+                    <span>${project.progress}% Completado</span>
+                  </div>
+                  <div class="w-full bg-[#1c2e40]/80 rounded-full h-3.5 p-0.5 border border-slate-700/60">
+                    <div 
+                      class="bg-gradient-to-r from-[#2fc6f6] to-[#00b4ac] h-2.5 rounded-full transition-all duration-500"
+                      style="width: ${project.progress}%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cuerpo de la Ficha Técnica (Dos Columnas) -->
+              <div class="p-6 md:p-8 flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 overflow-y-auto">
+                
+                <!-- Columna Izquierda: Arquitectura / Roles / Retos / Estrategias -->
+                <div class="flex flex-col gap-6">
+                  
+                  <!-- Propuesta Visual de CX si tiene imageUrl -->
+                  ${project.imageUrl ? `
+                    <div class="rounded-xl overflow-hidden border border-slate-200 shadow-md">
+                      <span class="text-xs font-bold text-[#1c2e40] block p-3 bg-slate-50 border-b border-slate-150 flex items-center justify-between">
+                        <span>Framework Arquitectura CX</span>
+                        <span class="bg-[#2fc6f6] text-slate-950 px-2 py-0.5 rounded text-[10px] font-black">Presentado</span>
+                      </span>
+                      <img 
+                        src="${project.imageUrl}" 
+                        alt="Propuesta de Desarrollo Estratégico CX" 
+                        class="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                      />
+                    </div>
+                  ` : ''}
+
+                  <!-- Enlace de Aplicación (Si Aplica) -->
+                  ${project.url ? `
+                    <a 
+                      href="${project.url}" 
+                      target="_blank" 
+                      rel="noreferrer"
+                      class="inline-flex items-center justify-center gap-2.5 w-full bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 font-black py-3 px-5 rounded-xl text-xs transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 duration-150"
+                    >
+                      <i data-lucide="external-link" class="w-4 h-4"></i>
+                      <span>${project.linkText || 'Visitar Aplicación en Producción'}</span>
+                    </a>
+                  ` : ''}
+
+                  <!-- Responsables -->
+                  <div>
+                    <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Responsabilidad & Squad</h3>
+                    ${project.assigned ? `
+                      <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mb-3 flex items-center gap-3">
+                        <div class="h-10 w-10 bg-indigo-100 text-indigo-800 rounded-lg flex items-center justify-center font-bold text-sm">
+                          LID
+                        </div>
+                        <div>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase">Proceso Liderado por:</p>
+                          <p class="text-xs font-black text-slate-800">${project.assigned}</p>
+                        </div>
+                      </div>
+                    ` : ''}
+
+                    <!-- Miembros del Squad -->
+                    ${project.squad && project.squad.length > 0 ? `
+                      <div class="space-y-2">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Especialistas Asignados (Squad):</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          ${project.squad.map(member => `
+                            <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                              <div class="h-6 w-6 rounded-full bg-indigo-100 text-indigo-900 text-[10px] font-extrabold flex items-center justify-center shrink-0">
+                                ${getAvatarInitials(member)}
+                              </div>
+                              <span class="text-xs font-semibold text-slate-700 truncate">${member}</span>
+                            </div>
+                          `).join('')}
+                        </div>
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  <!-- Retos / Situaciones Identificadas -->
+                  ${project.issues && project.issues.length > 0 ? `
+                    <div>
+                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 text-red-600">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i> Retos y Situaciones Identificadas
+                      </h3>
+                      <div class="space-y-2">
+                        ${project.issues.map(issue => `
+                          <div class="text-xs text-slate-700 bg-red-50/40 p-3 rounded-lg border border-red-100/50 flex gap-2">
+                            <span class="text-red-500 font-bold">•</span>
+                            <span>${issue}</span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <!-- Estrategias de Cultura Digital -->
+                  ${project.strategies ? `
+                    <div>
+                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Estrategias de Implementación</h3>
+                      <div class="space-y-3">
+                        ${project.strategies.map(strat => `
+                          <div class="p-4.5 bg-amber-50/50 rounded-xl border border-amber-200/50">
+                            <h4 class="text-xs font-black text-amber-900 mb-1">${strat.name}</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">${strat.desc}</p>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+                </div>
+
+                <!-- Columna Derecha: Logros, Planificación, Robótica -->
+                <div class="flex flex-col gap-6">
+                  
+                  <!-- Logros -->
+                  ${project.highlights && project.highlights.length > 0 ? `
+                    <div>
+                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 text-emerald-600 flex items-center gap-1">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> Logros Obtenidos (Hitos)
+                      </h3>
+                      <div class="space-y-2">
+                        ${project.highlights.map(item => `
+                          <div class="text-xs text-slate-700 bg-emerald-50/30 p-3 rounded-xl border border-emerald-100 flex gap-2.5 items-start">
+                            <span class="text-emerald-500 font-bold mt-0.5">✓</span>
+                            <span>${item}</span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <!-- Planificación Siguiente -->
+                  ${project.nextPhase && project.nextPhase.length > 0 ? `
+                    <div>
+                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 text-blue-600 flex items-center gap-1">
+                        <i data-lucide="clock" class="w-4 h-4"></i> Planificación / Próximos Pasos
+                      </h3>
+                      <div class="space-y-2">
+                        ${project.nextPhase.map(item => `
+                          <div class="text-xs text-slate-700 bg-blue-50/30 p-3 rounded-xl border border-blue-100 flex gap-2.5 items-start">
+                            <span class="text-blue-500 font-bold mt-0.5">→</span>
+                            <span>${item}</span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <!-- Renderizado de Fases de la Copa de Robótica -->
+                  ${project.id === 'robotica' ? `
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-150">
+                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-1.5">
+                        <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> Fases de la Copa Robótica
+                      </h3>
+
+                      <div class="relative border-l-2 border-indigo-100 ml-2 space-y-6">
+                        ${project.phases.map((phase, idx) => `
+                          <div class="relative pl-6">
+                            <div class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 ${
+                              idx === 0 
+                                ? 'bg-orange-500 border-white ring-2 ring-orange-100' 
+                                : 'bg-white border-slate-300'
+                            }"></div>
+                            <div class="flex items-center gap-2 mb-1">
+                              <span class="bg-orange-100 text-orange-800 text-[10px] font-black px-1.5 py-0.5 rounded uppercase">
+                                ${phase.phase}
+                              </span>
+                              <span class="text-xs font-black text-slate-900">${phase.title}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 leading-relaxed">${phase.desc}</p>
+                          </div>
+                        `).join('')}
+                      </div>
+
+                      <div class="bg-amber-50 rounded-lg p-3 border border-amber-200/50 mt-5 space-y-2.5">
+                        <p class="text-xs font-black text-amber-900">Requerimientos Técnicos:</p>
+                        <p class="text-[11px] text-slate-700"><strong>Capacitación:</strong> ${roboticaRequirements.training}</p>
+                        <p class="text-[11px] text-slate-700"><strong>Materiales:</strong> ${roboticaRequirements.materials}</p>
+                      </div>
+                    </div>
+                  ` : ''}
+
+                </div>
+              </div>
+
+              <!-- Footer de la Ficha Técnica con Navegadores -->
+              <div class="bg-slate-50 border-t border-slate-200 p-4 flex justify-between items-center">
+                <button
+                  onclick="navigateProject(-1)"
+                  ${currentIndex <= 0 ? 'disabled' : ''}
+                  class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40"
+                >
+                  ← Proyecto Anterior
+                </button>
+                <button
+                  onclick="selectProject(null)"
+                  class="text-xs font-bold text-indigo-900 hover:underline"
+                >
+                  Cerrar y volver al inicio
+                </button>
+                <button
+                  onclick="navigateProject(1)"
+                  ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''}
+                  class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40"
+                >
+                  Siguiente Proyecto →
+                </button>
+              </div>
+
+            </section>
+          </div>
+        `;
+        contentArea.innerHTML = htmlDetail;
+
+      } else {
+        // ==========================================
+        // MODO GRILLA COMPLETA (CRM BITRIX24 STYLE)
+        // ==========================================
+        controlsSection.classList.remove('hidden');
+        btnShowAll.classList.add('hidden');
+
+        const filteredList = getFilteredProjects();
+
+        if (filteredList.length > 0) {
+          let htmlCards = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+
+          filteredList.forEach(p => {
+            const hasSquad = p.squad && p.squad.length > 0;
+            const leftBorderColor = p.category === 'gestion' ? 'bg-[#4a5fcf]' : 'bg-[#f7a700]';
+            const categoryBadgeColor = p.category === 'gestion' 
+              ? 'bg-indigo-50/70 text-[#4a5fcf] border-indigo-150' 
+              : 'bg-amber-50/70 text-[#c28400] border-amber-150';
+            const categoryLabel = p.category === 'gestion' ? 'Gestión Humana' : 'Gestores de Cambio';
+
+            htmlCards += `
+              <div
+                onclick="selectProject('${p.id}')"
+                class="bg-white rounded-xl shadow-xs border border-slate-200/80 hover:border-slate-350 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col group overflow-hidden relative"
+              >
+                <!-- Banda lateral Bitrix24 -->
+                <div class="absolute left-0 top-0 bottom-0 w-[5px] ${leftBorderColor}"></div>
+
+                <!-- Contenido de la Tarjeta -->
+                <div class="p-5 pl-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                      <span class="text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider border ${categoryBadgeColor}">
+                        ${categoryLabel}
+                      </span>
+                      <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider border ${getStatusBadgeClass(p.progress)}">
+                        ${p.status}
+                      </span>
+                    </div>
+
+                    <h3 class="font-extrabold text-slate-900 text-[15px] leading-snug group-hover:text-[#4a5fcf] transition-colors flex items-center gap-2">
+                      ${p.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-[#f7a700] w-4.5 h-4.5 shrink-0"></i>' : ''}
+                      <span>${p.title}</span>
+                    </h3>
+
+                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">
+                      ${p.description}
+                    </p>
+
+                    <!-- Tabla CRM de Atributos -->
+                    <div class="mt-4.5 space-y-2 border-t border-slate-100 pt-3.5">
+                      <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-medium">Responsable:</span>
+                        <span class="font-bold text-slate-700 truncate max-w-[150px]">
+                          ${p.assigned || 'Squad Multidisciplinario'}
+                        </span>
+                      </div>
+
+                      ${hasSquad ? `
+                        <div class="flex items-center justify-between text-xs">
+                          <span class="text-slate-400 font-medium">Colaboradores:</span>
+                          <div class="flex items-center gap-1.5">
+                            <div class="flex -space-x-1.5 overflow-hidden">
+                              ${p.squad.slice(0, 3).map(m => `
+                                <div class="inline-block h-5 w-5 rounded-full ring-2 ring-white bg-[#00b4ac] text-white flex items-center justify-center text-[7px] font-black">
+                                  ${getAvatarInitials(m)}
+                                </div>
+                              `).join('')}
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-bold">+${p.squad.length}</span>
+                          </div>
+                        </div>
+                      ` : ''}
+                    </div>
+                  </div>
+
+                  <!-- Footer con KPI de avance -->
+                  <div class="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-2 flex-1 max-w-[60%]">
+                      <span class="text-xs font-black text-slate-900">${p.progress}%</span>
+                      <div class="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden border border-slate-200/50">
+                        <div class="h-full ${p.progress === 100 ? 'bg-[#00c853]' : 'bg-[#2fc6f6]'}" style="width: ${p.progress}%"></div>
+                      </div>
+                    </div>
+
+                    <!-- Indicadores de Recursos Externos -->
+                    <div class="flex items-center gap-2 text-slate-400">
+                      ${p.url ? '<i data-lucide="link-2" class="text-[#00b4ac] w-3.5 h-3.5" title="Enlace web disponible"></i>' : ''}
+                      ${p.issues && p.issues.length > 0 ? '<i data-lucide="alert-triangle" class="text-orange-500 w-3.5 h-3.5" title="Retos identificados"></i>' : ''}
+                      <span class="text-[10px] text-[#4a5fcf] font-bold group-hover:underline flex items-center gap-0.5">
+                        Ficha <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          htmlCards += '</div>';
+          contentArea.innerHTML = htmlCards;
+
+        } else {
+          contentArea.innerHTML = `
+            <div class="bg-white rounded-2xl p-10 text-center border border-slate-200 flex flex-col items-center justify-center">
+              <i data-lucide="alert-circle" class="text-slate-300 w-11 h-11 mb-2"></i>
+              <h4 class="font-bold text-slate-800">No se encontraron proyectos</h4>
+              <p class="text-xs text-slate-400 mt-1">Intenta con otros filtros de búsqueda.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Re-inicializa todos los iconos renderizados dinámicamente con Lucide
+      lucide.createIcons();
+    }
+
+    // Funciones del Controlador de Estado
+    function selectProject(id) {
+      state.selectedProjectId = id;
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Lógica de navegación secuencial
+    function navigateProject(direction) {
+      const filteredList = getFilteredProjects();
+      const currentIndex = filteredList.findIndex(p => p.id === state.selectedProjectId);
+      const targetIndex = currentIndex + direction;
+
+      if (targetIndex >= 0 && targetIndex < filteredList.length) {
+        state.selectedProjectId = filteredList[targetIndex].id;
+        renderApp();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function setCategoryTab(tab) {
+      state.activeTab = tab;
+      
+      // Actualizar estilos activos de los Tabs
+      ['all', 'gestion', 'cambio'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all bg-white text-slate-950 shadow-sm whitespace-nowrap";
+        } else {
+          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap";
+        }
+      });
+
+      renderApp();
+    }
+
+    function setStatusFilter(filter) {
+      state.selectedStatusFilter = filter;
+
+      // Actualizar estilos activos de los filtros secundarios
+      ['all', 'completed', 'progress', 'initial'].forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (f === filter) {
+          btn.className = "px-3 py-1 rounded-md text-xs font-bold border bg-[#e2f7f6] border-[#00b4ac]/30 text-[#008d87]";
+        } else {
+          btn.className = "px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+        }
+      });
+
+      renderApp();
+    }
+
+    function handleSearch(val) {
+      state.searchQuery = val;
+      renderApp();
+    }
+
+    // Funciones del Modal y Simulación de Escritura de Bitácora
+    function openLogModal() {
+      const modalSelect = document.getElementById('modal-select-project');
+      modalSelect.innerHTML = projects.map(p => `
+        <option value="${p.id}" ${state.selectedProjectId === p.id ? 'selected' : ''}>${p.title}</option>
+      `).join('');
+
+      // Sincronizar el slider inicial con el proyecto enfocado si lo hay
+      if (state.selectedProjectId) {
+        const p = projects.find(proj => proj.id === state.selectedProjectId);
+        document.getElementById('modal-progress-range').value = p.progress;
+        document.getElementById('modal-progress-label').innerText = p.progress;
+      } else {
+        document.getElementById('modal-progress-range').value = 50;
+        document.getElementById('modal-progress-label').innerText = 50;
+      }
+
+      document.getElementById('modal-log-text').value = '';
+      document.getElementById('log-modal').classList.remove('hidden');
+    }
+
+    function closeLogModal() {
+      document.getElementById('log-modal').classList.add('hidden');
+    }
+
+    function updateModalProgressLabel(val) {
+      document.getElementById('modal-progress-label').innerText = val;
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const projectId = document.getElementById('modal-select-project').value;
+      const progressValue = parseInt(document.getElementById('modal-progress-range').value);
+      const logText = document.getElementById('modal-log-text').value;
+
+      // Actualizar la base de datos temporal en memoria
+      projects = projects.map(p => {
+        if (p.id === projectId) {
+          return {
+            ...p,
+            progress: progressValue,
+            highlights: [logText, ...(p.highlights || [])]
+          };
+        }
+        return p;
+      });
+
+      // Cerrar el modal y refrescar la aplicación
+      closeLogModal();
+      renderApp();
+    }
+
+    // Inicialización al cargar el documento
+    window.onload = function() {
+      renderApp();
+    }
+  </script>
+</body>
+</html>
