@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comfamiliar Risaralda • Portafolio de Proyectos e Iniciativas SDHO</title>
+  <title>Comfamiliar Risaralda • Portafolio de Iniciativas (Kanban & PMO)</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -52,16 +52,15 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    /* Kanban Drag & Drop */
+    /* Kanban Drag & Drop Effects */
     .kanban-card[draggable="true"] { cursor: grab; }
     .kanban-card[draggable="true"]:active { cursor: grabbing; }
     .kanban-card.dragging { opacity: 0.35; transform: scale(0.97); }
     .kanban-column.drag-over {
-      background-color: #e2f7f6 !important;
-      border: 2px dashed #00b4ac !important;
+      background-color: #e0f2fe !important;
+      border: 2px dashed #0284c7 !important;
     }
 
-    /* Impresión y Reporte One-Pager */
     @media print {
       header, #cloud-banner, #controls-section, #header-kpis, .no-print, #view-mode-selector {
         display: none !important;
@@ -70,13 +69,6 @@
       .print-modal {
         display: block !important;
         position: static !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-      }
-      .print-modal > div {
-        max-width: 100% !important;
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
@@ -119,7 +111,7 @@
               <span>Portafolio de Iniciativas</span>
               <span id="badge-cloud-status" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>SDHO • 2026</span>
+                <span>Kanban Móvil • SDHO</span>
               </span>
             </h1>
           </div>
@@ -140,12 +132,21 @@
           <span>Volver al Tablero</span>
         </button>
 
-        <!-- Selector de Vista (4 Modos: Tarjetas, Tabla PMO, Kanban, Gantt) -->
+        <!-- Selector de Vista: Kanban activo por defecto -->
         <div id="view-mode-selector" class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+          <button 
+            id="view-btn-kanban" 
+            onclick="setViewMode('kanban')" 
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm"
+            title="Tablero Kanban por Etapas"
+          >
+            <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
+            <span>Kanban</span>
+          </button>
           <button 
             id="view-btn-cards" 
             onclick="setViewMode('cards')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
             title="Vista de Tarjetas"
           >
             <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
@@ -161,32 +162,23 @@
             <span class="hidden sm:inline">Matriz PMO</span>
           </button>
           <button 
-            id="view-btn-kanban" 
-            onclick="setViewMode('kanban')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
-            title="Kanban con Drag & Drop"
-          >
-            <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">Kanban</span>
-          </button>
-          <button 
             id="view-btn-gantt" 
             onclick="setViewMode('gantt')" 
             class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
             title="Roadmap Trimestral 2026"
           >
             <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">Gantt 2026</span>
+            <span class="hidden sm:inline">Gantt</span>
           </button>
         </div>
 
-        <!-- Botón Reporte para Comité Directivo (One-Pager) -->
+        <!-- Botón Reporte Comité -->
         <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-1.5" onclick="openExecutiveReportModal()" title="Generar One-Pager para Dirección">
           <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
           <span class="hidden sm:inline">Reporte Comité</span>
         </button>
 
-        <!-- Botón Registrar Avance / Hito -->
+        <!-- Botón Documentar Avance -->
         <button class="bg-gradient-to-r from-brand-cyan to-brand-teal hover:opacity-90 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-2 hover:scale-[1.02]" onclick="openLogModal()">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
           <span>Documentar Avance</span>
@@ -196,11 +188,10 @@
     </div>
   </header>
 
-  <!-- PANEL DE KPIS ESTRATÉGICOS CON SEMÁFORO RAG Y MONITOR FINANCIERO -->
+  <!-- PANEL DE KPIS ESTRATÉGICOS CON SEMÁFORO RAG -->
   <section id="header-kpis" class="bg-white border-b border-slate-200/90 py-4 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-6 gap-3.5">
       
-      <!-- KPI 1: Total Iniciativas -->
       <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
         <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl shadow-xs">
           <i data-lucide="folder-kanban" class="w-4.5 h-4.5"></i>
@@ -214,7 +205,6 @@
         </div>
       </div>
 
-      <!-- KPI 2: Avance Ponderado -->
       <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
         <div class="p-2.5 bg-cyan-50 text-cyan-600 rounded-xl shadow-xs">
           <i data-lucide="trending-up" class="w-4.5 h-4.5"></i>
@@ -223,12 +213,11 @@
           <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Avance Global</p>
           <div class="flex items-baseline gap-1">
             <h4 id="stat-avg" class="text-base font-black text-slate-950">--%</h4>
-            <span class="text-[9px] text-emerald-600 font-bold">ponderado</span>
+            <span class="text-[9px] text-emerald-600 font-bold">en meta</span>
           </div>
         </div>
       </div>
 
-      <!-- KPI 3: Semáforo RAG: A Tiempo (Verde) -->
       <div onclick="setHealthFilter('en_tiempo')" class="flex items-center gap-3 p-3 rounded-xl bg-emerald-50/50 border border-emerald-100 cursor-pointer hover:bg-emerald-50 transition-colors">
         <div class="p-2.5 bg-emerald-100 text-emerald-700 rounded-xl shadow-xs">
           <i data-lucide="check-circle" class="w-4.5 h-4.5"></i>
@@ -242,7 +231,6 @@
         </div>
       </div>
 
-      <!-- KPI 4: Semáforo RAG: Con Alerta (Amarillo) -->
       <div onclick="setHealthFilter('en_riesgo')" class="flex items-center gap-3 p-3 rounded-xl bg-amber-50/50 border border-amber-100 cursor-pointer hover:bg-amber-50 transition-colors">
         <div class="p-2.5 bg-amber-100 text-amber-700 rounded-xl shadow-xs">
           <i data-lucide="alert-triangle" class="w-4.5 h-4.5"></i>
@@ -256,7 +244,6 @@
         </div>
       </div>
 
-      <!-- KPI 5: Semáforo RAG: Bloqueados (Rojo) -->
       <div onclick="setHealthFilter('bloqueado')" class="flex items-center gap-3 p-3 rounded-xl bg-rose-50/50 border border-rose-100 cursor-pointer hover:bg-rose-50 transition-colors">
         <div class="p-2.5 bg-rose-100 text-rose-700 rounded-xl shadow-xs">
           <i data-lucide="octagon-alert" class="w-4.5 h-4.5"></i>
@@ -270,13 +257,12 @@
         </div>
       </div>
 
-      <!-- KPI 6: Monitor Financiero & Recursos -->
       <div class="col-span-2 lg:col-span-1 flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
         <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl shadow-xs">
           <i data-lucide="badge-dollar-sign" class="w-4.5 h-4.5"></i>
         </div>
         <div>
-          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Presupuesto Aprobado</p>
+          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Inversión Aprobada</p>
           <div class="flex items-baseline gap-1">
             <h4 class="text-base font-black text-slate-950">$440.7M</h4>
           </div>
@@ -292,10 +278,8 @@
     <!-- CONTROLES, PESTAÑAS Y BÚSQUEDA -->
     <div id="controls-section" class="space-y-4 mb-6">
       
-      <!-- Fila 1: Pestañas de Proyectos y Buscador -->
       <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
         
-        <!-- Pestañas Activos vs Archivados -->
         <div class="flex bg-slate-100/90 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar gap-1">
           <button id="tab-all" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-black transition-all bg-white text-slate-950 shadow-xs whitespace-nowrap" onclick="setCategoryTab('all')">
             Todas las Iniciativas (<span id="count-tab-all">0</span>)
@@ -312,7 +296,6 @@
           </button>
         </div>
 
-        <!-- Buscador y Filtro Mis Proyectos -->
         <div class="flex items-center gap-2 w-full md:w-auto">
           <button 
             id="btn-my-projects"
@@ -340,11 +323,11 @@
 
       </div>
 
-      <!-- Fila 2: Filtros de Semáforo RAG y Estado -->
+      <!-- Filtros rápidos de Semáforo RAG -->
       <div class="flex flex-wrap gap-2.5 items-center justify-between text-xs">
         <div class="flex flex-wrap items-center gap-1.5">
           <span class="text-[10px] text-slate-400 font-black uppercase tracking-wider flex items-center gap-1 mr-1">
-            <i data-lucide="activity" class="w-3 h-3"></i> Salud RAG:
+            <i data-lucide="activity" class="w-3 h-3"></i> Filtro RAG:
           </span>
           <button id="health-filter-all" class="px-2.5 py-1 rounded-lg text-xs font-bold border bg-brand-teal/15 border-brand-teal/40 text-brand-tealDark" onclick="setHealthFilter('all')">Todos</button>
           <button id="health-filter-en_tiempo" class="px-2.5 py-1 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-emerald-700 hover:bg-emerald-50 flex items-center gap-1" onclick="setHealthFilter('en_tiempo')">
@@ -359,13 +342,10 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <span class="text-[10px] text-slate-400 font-black uppercase tracking-wider">Avance:</span>
-          <select id="select-status-filter" onchange="setStatusFilter(this.value)" class="bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg px-2.5 py-1">
-            <option value="all">Cualquier avance</option>
-            <option value="completed">Completados (100%)</option>
-            <option value="progress">En Ejecución (50%-99%)</option>
-            <option value="initial">Fase Inicial (&lt;50%)</option>
-          </select>
+          <div class="flex items-center gap-1.5 text-slate-400 text-[11px] font-semibold bg-slate-100 px-3 py-1 rounded-xl">
+            <i data-lucide="move" class="w-3.5 h-3.5 text-brand-teal"></i>
+            <span>Arrastra tarjetas entre las etapas del Kanban</span>
+          </div>
 
           <button id="btn-reset-filters" onclick="resetAllFilters()" class="hidden text-[11px] font-bold text-rose-600 hover:underline px-2 py-1 flex items-center gap-1">
             <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Limpiar
@@ -407,13 +387,23 @@
           </div>
 
           <div>
-            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Salud del Proyecto (RAG)</label>
+            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Salud RAG</label>
             <select id="modal-select-health" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800">
               <option value="en_tiempo">🟢 En Tiempo (En meta)</option>
               <option value="en_riesgo">🟡 En Riesgo (Atención)</option>
               <option value="bloqueado">🔴 Bloqueado (Detenido)</option>
             </select>
           </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Etapa Kanban</label>
+          <select id="modal-select-stage" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800">
+            <option value="inicial">1. Fase Inicial / Propuesta</option>
+            <option value="ejecucion">2. En Desarrollo / Ejecución</option>
+            <option value="pruebas">3. Pruebas & Validación UX</option>
+            <option value="produccion">4. En Producción / Listo</option>
+          </select>
         </div>
 
         <div>
@@ -439,7 +429,7 @@
     </div>
   </div>
 
-  <!-- MODAL: REPORTAR BLOQUEO O SOLICITAR APOYO -->
+  <!-- MODAL: REPORTAR BLOQUEO -->
   <div id="blockage-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
     <div class="bg-white rounded-2xl shadow-2xl border border-rose-200 w-full max-w-md overflow-hidden">
       <div class="bg-rose-600 text-white p-5 flex items-center justify-between">
@@ -452,7 +442,7 @@
 
       <form id="blockage-form" onsubmit="handleBlockageSubmit(event)" class="p-6 space-y-4">
         <p class="text-xs text-slate-600 leading-relaxed">
-          Esto marcará la iniciativa con semáforo <strong>🔴 Bloqueado</strong> y notificará la necesidad de intervención de la Subdirección o áreas transversales (Compras, Sistemas, etc.).
+          Esto marcará la iniciativa con semáforo <strong>🔴 Bloqueado</strong> para alertar la necesidad de intervención de la Subdirección o áreas transversales (Compras, Sistemas, etc.).
         </p>
 
         <div>
@@ -473,11 +463,9 @@
     </div>
   </div>
 
-  <!-- MODAL: ONE-PAGER EJECUTIVO PARA COMITÉS DIRECTIVOS -->
+  <!-- MODAL: ONE-PAGER EJECUTIVO PARA COMITÉ DIRECTIVO -->
   <div id="executive-report-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn overflow-y-auto">
     <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
-      
-      <!-- Header Modal -->
       <div class="bg-brand-navy text-white p-5 flex items-center justify-between border-b border-slate-700 no-print">
         <div class="flex items-center gap-2.5">
           <i data-lucide="file-text" class="w-5 h-5 text-brand-cyan"></i>
@@ -495,11 +483,7 @@
         </div>
       </div>
 
-      <!-- Contenido del One-Pager imprimible -->
-      <div id="executive-report-content" class="p-8 overflow-y-auto space-y-6 text-slate-800 print-modal">
-        <!-- Renderizado dinámicamente -->
-      </div>
-
+      <div id="executive-report-content" class="p-8 overflow-y-auto space-y-6 text-slate-800 print-modal"></div>
     </div>
   </div>
 
@@ -510,7 +494,7 @@
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <p class="font-medium">Comfamiliar Risaralda • Subdirección de Desarrollo Humano y Organizacional (SDHO)</p>
       </div>
-      <p class="text-slate-500 text-[11px]">Portafolio Estratégico 2026 • Semáforo RAG, Roadmap Gantt & Gestión de Bloqueos</p>
+      <p class="text-slate-500 text-[11px]">Tablero Kanban por Etapas • Semáforo RAG & Roadmap 2026</p>
     </div>
   </footer>
 
@@ -581,7 +565,8 @@
     "timelineWidthPct": 90,
     "budgetType": "Aprobado",
     "budgetNumeric": 440752000,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "inicial"
   },
   {
     "id": "dotacion",
@@ -645,7 +630,8 @@
     "timelineWidthPct": 35,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "produccion"
   },
   {
     "id": "turnos",
@@ -708,7 +694,8 @@
     "timelineWidthPct": 35,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "produccion"
   },
   {
     "id": "conciliacion",
@@ -768,7 +755,8 @@
     "timelineWidthPct": 25,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "produccion"
   },
   {
     "id": "biometria",
@@ -828,7 +816,8 @@
     "timelineWidthPct": 30,
     "budgetType": "Aprobado",
     "budgetNumeric": 35000000,
-    "blockage": "Requiere emisión de circular institucional por Dirección y Gestión Humana para iniciar registro masivo de personal."
+    "blockage": "Requiere emisión de circular institucional por Dirección y Gestión Humana para iniciar registro masivo de personal.",
+    "kanbanStage": "pruebas"
   },
   {
     "id": "culturadigital",
@@ -905,7 +894,8 @@
     "timelineWidthPct": 55,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "ejecucion"
   },
   {
     "id": "whatsappflow",
@@ -969,7 +959,8 @@
     "timelineWidthPct": 50,
     "budgetType": "Por Definir",
     "budgetNumeric": 0,
-    "blockage": "Complejidad técnica de integración entre telefonía PBX e infraestructura del proveedor tecnológico ICONO."
+    "blockage": "Complejidad técnica de integración entre telefonía PBX e infraestructura del proveedor tecnológico ICONO.",
+    "kanbanStage": "pruebas"
   },
   {
     "id": "aipiweb",
@@ -1029,7 +1020,8 @@
     "timelineWidthPct": 40,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "produccion"
   },
   {
     "id": "carnet",
@@ -1090,7 +1082,8 @@
     "timelineWidthPct": 50,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "ejecucion"
   },
   {
     "id": "robotica",
@@ -1177,7 +1170,8 @@
     "timelineWidthPct": 60,
     "budgetType": "Por Aprobar",
     "budgetNumeric": 28000000,
-    "blockage": "Detenido por falta de aprobación presupuestal para kits Arduino/ESP32 y asignación formal de horas docentes en el Instituto."
+    "blockage": "Detenido por falta de aprobación presupuestal para kits Arduino/ESP32 y asignación formal de horas docentes en el Instituto.",
+    "kanbanStage": "inicial"
   },
   {
     "id": "certificado220",
@@ -1233,7 +1227,8 @@
     "timelineWidthPct": 25,
     "budgetType": "In-house",
     "budgetNumeric": 0,
-    "blockage": null
+    "blockage": null,
+    "kanbanStage": "produccion"
   }
 ];
     const STORAGE_KEY = 'comfamiliar_proyectos_cultura_v2';
@@ -1245,13 +1240,14 @@
     let currentBlockageProjectId = null;
     let draggedProjectId = null;
 
+    // KANBAN ES LA VISTA POR DEFECTO
     const state = {
       selectedProjectId: null,
       activeTab: 'all',
       statusFilter: 'all',
-      healthFilter: 'all', // 'all', 'en_tiempo', 'en_riesgo', 'bloqueado'
+      healthFilter: 'all',
       searchQuery: '',
-      viewMode: 'cards', // 'cards', 'table', 'kanban', 'gantt'
+      viewMode: 'kanban', // <--- KANBAN POR DEFECTO
       onlyMyProjects: false
     };
 
@@ -1288,7 +1284,7 @@
       }, 3500);
     }
 
-    // BADGES VISUALES RAG
+    // BADGES RAG
     function getHealthBadgeClass(health) {
       if (health === 'bloqueado') return 'bg-rose-100 text-rose-800 border-rose-300';
       if (health === 'en_riesgo') return 'bg-amber-100 text-amber-800 border-amber-300';
@@ -1326,7 +1322,6 @@
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
-    // FILTRADO
     function getCurrentDataset() {
       return state.activeTab === 'archivados' ? archivedProjects : projects;
     }
@@ -1353,14 +1348,12 @@
           const matchTitle = (p.title || '').toLowerCase().includes(q);
           const matchDesc = (p.description || '').toLowerCase().includes(q);
           const matchAssigned = (p.assigned || '').toLowerCase().includes(q);
-          const matchTech = (p.tech || []).some(t => t.toLowerCase().includes(q));
-          return matchTitle || matchDesc || matchAssigned || matchTech;
+          return matchTitle || matchDesc || matchAssigned;
         }
         return true;
       });
     }
 
-    // RENDERIZADO DE ESTADÍSTICAS
     function renderStats() {
       const activeCount = projects.length;
       const totalProg = projects.reduce((acc, p) => acc + p.progress, 0);
@@ -1385,10 +1378,9 @@
       document.getElementById('btn-reset-filters').classList.toggle('hidden', !isFiltered);
     }
 
-    // CONTROLADORES DE FILTRO
     function setViewMode(mode) {
       state.viewMode = mode;
-      ['cards', 'table', 'kanban', 'gantt'].forEach(m => {
+      ['kanban', 'cards', 'table', 'gantt'].forEach(m => {
         const btn = document.getElementById(`view-btn-${m}`);
         if (m === mode) {
           btn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm";
@@ -1425,12 +1417,6 @@
       renderApp();
     }
 
-    function setStatusFilter(filter) {
-      state.statusFilter = filter;
-      document.getElementById('select-status-filter').value = filter;
-      renderApp();
-    }
-
     function toggleMyProjectsFilter() {
       state.onlyMyProjects = !state.onlyMyProjects;
       const btn = document.getElementById('btn-my-projects');
@@ -1454,7 +1440,6 @@
       state.searchQuery = '';
       state.onlyMyProjects = false;
       document.getElementById('search-input').value = '';
-      document.getElementById('select-status-filter').value = 'all';
       setCategoryTab('all');
       setHealthFilter('all');
       const btn = document.getElementById('btn-my-projects');
@@ -1480,7 +1465,7 @@
     }
 
     // ==========================================
-    // KANBAN DRAG & DROP
+    // KANBAN DRAG & DROP POR ETAPAS EXPLÍCITAS
     // ==========================================
     function handleDragStart(e, id) {
       draggedProjectId = id;
@@ -1516,19 +1501,32 @@
       const project = projects.find(p => p.id === projId);
       if (!project) return;
 
+      // Asignar etapa explícita
+      project.kanbanStage = targetPhase;
+
       let newProg = project.progress;
       let phaseName = '';
-      if (targetPhase === 'inicial') { newProg = 40; phaseName = 'Fase Inicial / Propuesta'; }
-      else if (targetPhase === 'ejecucion') { newProg = 65; phaseName = 'En Desarrollo / Ejecución'; }
-      else if (targetPhase === 'pruebas') { newProg = 85; phaseName = 'Pruebas & Validación UX'; }
-      else if (targetPhase === 'produccion') { newProg = 100; phaseName = 'En Producción / Listo'; }
+
+      if (targetPhase === 'inicial') {
+        phaseName = 'Fase Inicial / Propuesta';
+        if (newProg >= 50) newProg = 40;
+      } else if (targetPhase === 'ejecucion') {
+        phaseName = 'En Desarrollo / Ejecución';
+        if (newProg < 50 || newProg >= 85) newProg = 65;
+      } else if (targetPhase === 'pruebas') {
+        phaseName = 'Pruebas & Validación UX';
+        if (newProg < 85) newProg = 85;
+      } else if (targetPhase === 'produccion') {
+        phaseName = 'En Producción / Listo';
+        newProg = 100;
+        project.health = 'en_tiempo';
+      }
 
       project.progress = newProg;
       project.status = phaseName;
-      if (newProg === 100) project.health = 'en_tiempo';
 
       renderApp();
-      showToast('Fase Actualizada', `Movido a "${phaseName}" (${newProg}%).`);
+      showToast('Etapa Actualizada', `Movido a "${phaseName}" (${newProg}%).`);
 
       if (isAppsScript) {
         google.script.run.moverFaseKanban({
@@ -1540,7 +1538,7 @@
     }
 
     // ==========================================
-    // GESTIÓN DE BLOQUEOS
+    // BLOQUEOS
     // ==========================================
     function openBlockageModal(id) {
       currentBlockageProjectId = id;
@@ -1568,7 +1566,7 @@
       }
 
       closeBlockageModal();
-      showToast('Bloqueo Notificado', 'Se marcó con semáforo rojo y se registró en bitácora.');
+      showToast('Bloqueo Notificado', 'Semáforo rojo registrado y auditado.');
       renderApp();
 
       if (isAppsScript) {
@@ -1591,13 +1589,13 @@
         renderApp();
 
         if (isAppsScript) {
-          google.script.run.resolverBloqueo({ projectId: id, solucion: 'Resuelto por líder / Subdirección' });
+          google.script.run.resolverBloqueo({ projectId: id, solucion: 'Resuelto por Subdirección' });
         }
       }
     }
 
     // ==========================================
-    // MODAL ONE-PAGER EJECUTIVO (COMITÉ DIRECTIVO)
+    // ONE-PAGER EJECUTIVO
     // ==========================================
     function openExecutiveReportModal() {
       const activeList = projects;
@@ -1610,7 +1608,6 @@
 
       const html = `
         <div class="space-y-6">
-          <!-- Membrete y Fecha -->
           <div class="border-b-2 border-slate-900 pb-4 flex items-center justify-between">
             <div>
               <p class="text-[10px] font-black uppercase text-brand-teal tracking-widest">Informe de Estado de Portafolio</p>
@@ -1623,7 +1620,6 @@
             </div>
           </div>
 
-          <!-- Cuadro de Mando Ejecutivo -->
           <div class="grid grid-cols-4 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
             <div class="text-center border-r border-slate-200">
               <p class="text-[10px] font-bold text-slate-400 uppercase">Iniciativas Totales</p>
@@ -1647,7 +1643,6 @@
             </div>
           </div>
 
-          <!-- SECCIÓN 1: DECISIONES E INTERVENCIONES REQUERIDAS (BLOQUEOS Y RIESGOS) -->
           <div class="space-y-3">
             <h3 class="text-xs font-black uppercase tracking-wider text-rose-800 flex items-center gap-1.5 border-b border-rose-200 pb-1.5">
               <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-600"></i>
@@ -1663,20 +1658,18 @@
                       ${p.health === 'bloqueado' ? '🔴 BLOQUEADO' : '🟡 EN RIESGO'}
                     </span>
                   </div>
-                  <p class="text-slate-700"><strong>Situación / Reto:</strong> ${p.blockage || p.healthReason || 'Desfase en cronograma'}</p>
+                  <p class="text-slate-700"><strong>Situación:</strong> ${p.blockage || p.healthReason || 'Desfase en cronograma'}</p>
                   <p class="text-slate-900 font-bold mt-1"><strong>Líder responsable:</strong> ${p.assigned || 'Squad'}</p>
                 </div>
               `).join('')}
             </div>
           </div>
 
-          <!-- SECCIÓN 2: TOP LOGROS Y RESULTADOS ENTREGADOS -->
           <div class="space-y-3">
             <h3 class="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 border-b border-emerald-200 pb-1.5">
               <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-              <span>Iniciativas en Producción & Resultados Tangibles</span>
+              <span>Iniciativas en Producción (100% Entregadas)</span>
             </h3>
-
             <div class="grid grid-cols-2 gap-3 text-xs">
               ${completed.map(p => `
                 <div class="p-3 bg-emerald-50/30 rounded-xl border border-emerald-100">
@@ -1684,22 +1677,6 @@
                   <p class="text-slate-600 mt-1 line-clamp-2">${p.highlights && p.highlights[0] ? p.highlights[0] : p.description}</p>
                 </div>
               `).join('')}
-            </div>
-          </div>
-
-          <!-- SECCIÓN 3: MONITOR FINANCIERO -->
-          <div class="p-4 bg-slate-100 rounded-2xl flex items-center justify-between text-xs">
-            <div>
-              <p class="font-black text-slate-800">Inversión Directa Aprobada:</p>
-              <p class="text-sm font-black text-indigo-900">$440.752.000 (Proyecto CX)</p>
-            </div>
-            <div>
-              <p class="font-black text-slate-800">Iniciativas In-House / Squads:</p>
-              <p class="text-sm font-black text-slate-700">8 Proyectos</p>
-            </div>
-            <div>
-              <p class="font-black text-slate-800">Inversiones por Aprobar:</p>
-              <p class="text-sm font-black text-amber-800">$28.000.000 (Kits STEAM)</p>
             </div>
           </div>
         </div>
@@ -1715,7 +1692,7 @@
     }
 
     // ==========================================
-    // MODAL REGISTRO DE AVANCE
+    // REGISTRO DE AVANCE
     // ==========================================
     function openLogModal(projId = null) {
       const select = document.getElementById('modal-select-project');
@@ -1742,6 +1719,7 @@
         document.getElementById('modal-progress-range').value = p.progress;
         document.getElementById('modal-progress-label').innerText = p.progress;
         document.getElementById('modal-select-health').value = p.health || 'en_tiempo';
+        document.getElementById('modal-select-stage').value = p.kanbanStage || 'ejecucion';
       }
     }
 
@@ -1754,6 +1732,7 @@
       const projId = document.getElementById('modal-select-project').value;
       const progress = parseInt(document.getElementById('modal-progress-range').value);
       const health = document.getElementById('modal-select-health').value;
+      const stage = document.getElementById('modal-select-stage').value;
       const hito = document.getElementById('modal-log-text').value.trim();
       const proximos = document.getElementById('modal-next-steps').value.trim();
 
@@ -1761,12 +1740,13 @@
       if (p) {
         p.progress = progress;
         p.health = health;
+        p.kanbanStage = stage;
         if (hito) p.highlights = [hito, ...(p.highlights || [])];
         if (proximos) p.nextPhase = [proximos, ...(p.nextPhase || [])];
       }
 
       closeLogModal();
-      showToast('Avance Documentado', 'Registrado con semáforo y auditado.');
+      showToast('Avance Documentado', 'Registrado en portafolio y bitácora.');
       renderApp();
 
       if (isAppsScript) {
@@ -1774,6 +1754,7 @@
           projectId: projId,
           newProgress: progress,
           health: health,
+          stage: stage,
           hito: hito,
           proximosPasos: proximos
         });
@@ -1791,7 +1772,6 @@
       const btnShowAll = document.getElementById('btn-show-all');
       const viewSelector = document.getElementById('view-mode-selector');
 
-      // MODO DETALLE EXPANDIDO
       if (state.selectedProjectId) {
         controlsSection.classList.add('hidden');
         headerKpis.classList.add('hidden');
@@ -1810,11 +1790,10 @@
 
         let htmlDetail = `
           <div class="space-y-6 fade-in print-full">
-            
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs no-print">
               <button onclick="selectProject(null)" class="inline-flex items-center gap-2 text-xs font-black text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-xl">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                <span>Volver al Tablero Principal</span>
+                <span>Volver al Tablero</span>
               </button>
 
               <div class="flex items-center gap-2">
@@ -1844,7 +1823,6 @@
             <!-- Ficha Técnica -->
             <section class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
               <div class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white p-6 sm:p-8">
-                
                 <div class="flex flex-wrap items-center gap-2 mb-3">
                   <span class="text-[11px] font-black px-3 py-1 rounded-lg uppercase tracking-wider bg-white/10 text-brand-cyan border border-white/15">${categoryLabel}</span>
                   <span class="text-[11px] font-bold px-3 py-1 rounded-lg border ${getStatusBadgeClass(project.progress)}">${project.status}</span>
@@ -1855,7 +1833,6 @@
                 <h2 class="text-2xl sm:text-3xl font-black text-white">${project.title}</h2>
                 <p class="text-sm text-slate-300 mt-2.5 max-w-4xl">${project.description}</p>
 
-                <!-- Barra de Progreso y RAG -->
                 <div class="mt-5 max-w-2xl bg-slate-900/60 p-4 rounded-2xl border border-slate-700/60">
                   <div class="flex justify-between items-center text-xs font-bold text-slate-200 mb-1.5">
                     <span class="flex items-center gap-1.5">
@@ -1870,7 +1847,6 @@
                 </div>
               </div>
 
-              <!-- ALERTA DE BLOQUEO ACTIVO SI TIENE -->
               ${project.blockage ? `
                 <div class="p-4 bg-rose-50 border-b border-rose-200 flex items-center justify-between text-xs text-rose-900">
                   <div class="flex items-center gap-2.5">
@@ -1886,15 +1862,8 @@
                 </div>
               ` : ''}
 
-              <!-- Cuerpo de la Ficha Técnica -->
               <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="space-y-6">
-                  ${project.imageUrl ? `
-                    <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                      <img src="${project.imageUrl}" alt="Arquitectura CX" class="w-full h-auto object-cover" />
-                    </div>
-                  ` : ''}
-
                   <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
                     <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Liderazgo & Squad</h4>
                     <p class="text-xs text-slate-800 font-bold">Líder: ${project.assigned || 'Sin asignar'}</p>
@@ -1934,7 +1903,6 @@
                 </div>
 
                 <div class="space-y-6">
-                  <!-- Bitácora Auditada -->
                   <div class="bg-emerald-50/40 p-5 rounded-2xl border border-emerald-200/60">
                     <h4 class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-4 flex items-center justify-between">
                       <span class="flex items-center gap-1.5"><i data-lucide="history" class="w-4 h-4 text-emerald-600"></i><span>Bitácora de Avances</span></span>
@@ -1962,27 +1930,7 @@
                       `).join('')}
                     </div>
                   </div>
-
-                  ${project.nextPhase && project.nextPhase.length > 0 ? `
-                    <div class="bg-blue-50/40 p-5 rounded-2xl border border-blue-200/60">
-                      <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest mb-3">Próximos Pasos</h4>
-                      <div class="space-y-2">
-                        ${project.nextPhase.map(item => `
-                          <div class="text-xs text-slate-800 bg-white p-3 rounded-xl border border-blue-100 flex gap-2">
-                            <span class="text-blue-500 font-bold">→</span>
-                            <span>${item}</span>
-                          </div>
-                        `).join('')}
-                      </div>
-                    </div>
-                  ` : ''}
                 </div>
-              </div>
-
-              <div class="bg-slate-50 border-t border-slate-200 p-4 sm:p-5 flex justify-between items-center no-print">
-                <button onclick="navigateProject(-1)" ${currentIndex <= 0 ? 'disabled' : ''} class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 disabled:opacity-30">← Proyecto Anterior</button>
-                <button onclick="selectProject(null)" class="px-4 py-2 bg-brand-navy text-white rounded-xl text-xs font-bold">Cerrar y Volver</button>
-                <button onclick="navigateProject(1)" ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''} class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 disabled:opacity-30">Siguiente Proyecto →</button>
               </div>
             </section>
           </div>
@@ -2010,147 +1958,71 @@
         }
 
         // ==========================================
-        // VISTA 1: TARJETAS (CARDS) CON RAG
+        // VISTA PRINCIPAL: KANBAN POR ETAPAS (4 ETAPAS CLARAS)
         // ==========================================
-        if (state.viewMode === 'cards') {
-          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-          filteredList.forEach(p => {
-            const leftBorderColor = p.category === 'gestion' ? 'bg-brand-accent' : 'bg-amber-500';
-
-            html += `
-              <div onclick="selectProject('${p.id}')" class="bg-white rounded-2xl shadow-xs border border-slate-200 hover:border-slate-350 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group overflow-hidden relative">
-                <div class="absolute left-0 top-0 bottom-0 w-[5px] ${leftBorderColor}"></div>
-                
-                <div class="p-5 pl-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between gap-1.5 mb-2.5">
-                      <div class="flex items-center gap-1.5">
-                        ${p.no ? `<span class="text-[9px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">#${p.no}</span>` : ''}
-                        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
-                      </div>
-                      <span class="text-[9px] font-bold px-2 py-0.5 rounded border ${getStatusBadgeClass(p.progress)}">${p.status}</span>
-                    </div>
-
-                    <h3 class="font-extrabold text-slate-900 text-sm leading-snug group-hover:text-brand-accent transition-colors">${p.title}</h3>
-                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">${p.description}</p>
-
-                    ${p.blockage ? `
-                      <div class="mt-3 p-2 bg-rose-50 border border-rose-200 rounded-lg text-[10px] text-rose-800 font-semibold line-clamp-1 flex items-center gap-1">
-                        <i data-lucide="alert-octagon" class="w-3 h-3 text-rose-600 shrink-0"></i>
-                        <span>${p.blockage}</span>
-                      </div>
-                    ` : ''}
-
-                    <div class="mt-3.5 space-y-1.5 border-t border-slate-100 pt-3 text-xs">
-                      <div class="flex items-center justify-between">
-                        <span class="text-slate-400 font-medium">Líder:</span>
-                        <span class="font-bold text-slate-700 truncate max-w-[170px]">${p.assigned || 'Squad'}</span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <span class="text-slate-400 font-medium">Horizonte:</span>
-                        <span class="font-semibold text-slate-600 text-[11px]">${p.quarterStart || 'Q1 2026'} - ${p.quarterEnd || 'Q4 2026'}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <div class="flex items-center gap-2 flex-1 max-w-[65%]">
-                      <span class="text-xs font-black text-slate-900">${p.progress}%</span>
-                      <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
-                        <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-brand-cyan to-brand-teal'}" style="width: ${p.progress}%"></div>
-                      </div>
-                    </div>
-                    <span class="text-[11px] text-brand-accent font-bold group-hover:underline flex items-center">
-                      Ficha <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-          html += `</div>`;
-          contentArea.innerHTML = html;
-
-        // ==========================================
-        // VISTA 2: TABLA PMO CON RAG
-        // ==========================================
-        } else if (state.viewMode === 'table') {
-          let html = `
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-              <table class="w-full text-left text-xs">
-                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-black uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th class="py-3 px-3.5 text-center">N°</th>
-                    <th class="py-3 px-3.5">Iniciativa / Proyecto</th>
-                    <th class="py-3 px-3.5">Salud RAG</th>
-                    <th class="py-3 px-3.5 w-32">Avance</th>
-                    <th class="py-3 px-3.5">Horizonte</th>
-                    <th class="py-3 px-3.5">Líder / Squad</th>
-                    <th class="py-3 px-3.5 text-center">Acción</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-          `;
-          filteredList.forEach(p => {
-            html += `
-              <tr class="hover:bg-slate-50/80 cursor-pointer group" onclick="selectProject('${p.id}')">
-                <td class="py-3 px-3.5 text-center font-mono text-slate-400 font-bold">#${p.no || '--'}</td>
-                <td class="py-3 px-3.5">
-                  <p class="font-extrabold text-slate-900 group-hover:text-brand-accent transition-colors">${p.title}</p>
-                  ${p.blockage ? `<p class="text-[10px] text-rose-600 font-bold line-clamp-1 mt-0.5">⚠️ ${p.blockage}</p>` : ''}
-                </td>
-                <td class="py-3 px-3.5">
-                  <span class="text-[9px] font-black px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
-                </td>
-                <td class="py-3 px-3.5">
-                  <div class="flex items-center gap-2">
-                    <span class="font-black text-slate-900 w-8">${p.progress}%</span>
-                    <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden">
-                      <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
-                    </div>
-                  </div>
-                </td>
-                <td class="py-3 px-3.5 font-semibold text-slate-600">${p.quarterStart || 'Q1'} - ${p.quarterEnd || 'Q4'}</td>
-                <td class="py-3 px-3.5 font-bold text-slate-800">${p.assigned || 'Squad'}</td>
-                <td class="py-3 px-3.5 text-center">
-                  <button class="px-2.5 py-1 bg-slate-100 hover:bg-brand-cyan text-slate-800 rounded-lg text-xs font-bold">Ver Ficha</button>
-                </td>
-              </tr>
-            `;
-          });
-          html += `</tbody></table></div>`;
-          contentArea.innerHTML = html;
-
-        // ==========================================
-        // VISTA 3: KANBAN DRAG & DROP CON RAG
-        // ==========================================
-        } else if (state.viewMode === 'kanban') {
+        if (state.viewMode === 'kanban') {
           const columns = [
-            { id: 'inicial', title: 'Fase Inicial / Propuesta', filter: p => p.progress < 50, color: 'bg-amber-500' },
-            { id: 'ejecucion', title: 'En Desarrollo / Ejecución', filter: p => p.progress >= 50 && p.progress < 85, color: 'bg-brand-cyan' },
-            { id: 'pruebas', title: 'Pruebas & Validación UX', filter: p => p.progress >= 85 && p.progress < 100, color: 'bg-blue-500' },
-            { id: 'produccion', title: 'En Producción / Listos', filter: p => p.progress === 100, color: 'bg-emerald-500' }
+            { 
+              id: 'inicial', 
+              title: '1. Fase Inicial / Propuesta', 
+              subtitle: 'Concepción & Diagnóstico', 
+              color: 'bg-amber-500', 
+              borderAccent: 'border-t-4 border-amber-500',
+              filter: p => (p.kanbanStage || (p.progress < 50 ? 'inicial' : 'ejecucion')) === 'inicial' 
+            },
+            { 
+              id: 'ejecucion', 
+              title: '2. En Desarrollo / Ejecución', 
+              subtitle: 'Construcción & Despliegue', 
+              color: 'bg-brand-cyan', 
+              borderAccent: 'border-t-4 border-brand-cyan',
+              filter: p => (p.kanbanStage || 'ejecucion') === 'ejecucion' 
+            },
+            { 
+              id: 'pruebas', 
+              title: '3. Pruebas & Validación UX', 
+              subtitle: 'Piloto con Usuarios Reales', 
+              color: 'bg-blue-500', 
+              borderAccent: 'border-t-4 border-blue-500',
+              filter: p => (p.kanbanStage || 'pruebas') === 'pruebas' 
+            },
+            { 
+              id: 'produccion', 
+              title: '4. En Producción / Listos', 
+              subtitle: 'Operativo & Estabilizado', 
+              color: 'bg-emerald-500', 
+              borderAccent: 'border-t-4 border-emerald-500',
+              filter: p => (p.kanbanStage || (p.progress === 100 ? 'produccion' : 'ejecucion')) === 'produccion' 
+            }
           ];
 
           let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">`;
+          
           columns.forEach(col => {
             const colProjects = filteredList.filter(col.filter);
 
             html += `
               <div 
-                class="kanban-column bg-slate-100/80 rounded-2xl p-3.5 border border-slate-200 transition-colors min-h-[380px]"
+                class="kanban-column bg-slate-100/90 rounded-2xl p-3.5 border border-slate-200/90 ${col.borderAccent} transition-all min-h-[440px] shadow-2xs"
                 ondragover="handleDragOver(event)"
                 ondragleave="handleDragLeave(event)"
                 ondrop="handleDrop(event, '${col.id}')"
               >
-                <div class="flex items-center justify-between mb-3 px-1">
-                  <h4 class="font-extrabold text-xs text-slate-800 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full ${col.color}"></span>
-                    <span>${col.title}</span>
-                  </h4>
-                  <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-600 rounded-full border border-slate-200">${colProjects.length}</span>
+                <!-- Cabecera de la Etapa -->
+                <div class="mb-3 px-1 pb-2.5 border-b border-slate-200">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-black text-xs text-slate-900 flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full ${col.color}"></span>
+                      <span>${col.title}</span>
+                    </h4>
+                    <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-700 rounded-full border border-slate-200 shadow-2xs">
+                      ${colProjects.length}
+                    </span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 font-medium mt-0.5 pl-4">${col.subtitle}</p>
                 </div>
 
+                <!-- Tarjetas de la Etapa -->
                 <div class="space-y-3">
                   ${colProjects.map(p => `
                     <div 
@@ -2161,28 +2033,44 @@
                       onclick="selectProject('${p.id}')"
                       class="kanban-card bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-350 hover:shadow-sm transition-all cursor-grab active:cursor-grabbing group relative select-none"
                     >
+                      <!-- Badges Superiores -->
                       <div class="flex items-center justify-between text-[9px] mb-1.5">
                         <span class="font-mono font-bold text-slate-400">#${p.no || ''}</span>
-                        <span class="font-black px-1.5 py-0.2 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
+                        <span class="font-black px-1.5 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
                       </div>
-                      <h5 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">${p.title}</h5>
+
+                      <h5 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">
+                        ${p.title}
+                      </h5>
+
+                      <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal">
+                        ${p.description}
+                      </p>
                       
                       ${p.blockage ? `
-                        <p class="text-[9px] text-rose-600 font-bold line-clamp-1 mt-1 bg-rose-50 p-1 rounded">⚠️ Bloqueo activo</p>
+                        <div class="mt-2 p-1.5 bg-rose-50 border border-rose-200 rounded-lg text-[9px] text-rose-700 font-bold flex items-center gap-1 line-clamp-1">
+                          <i data-lucide="alert-octagon" class="w-3 h-3 text-rose-600 shrink-0"></i>
+                          <span>${p.blockage}</span>
+                        </div>
                       ` : ''}
 
-                      <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
-                        <span class="font-bold text-slate-700">${p.progress}%</span>
-                        <div class="w-20 bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                          <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
+                      <!-- Barra de Progreso y Líder -->
+                      <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[10px]">
+                        <div class="flex items-center gap-1.5">
+                          <span class="font-black text-slate-900">${p.progress}%</span>
+                          <div class="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                            <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
+                          </div>
                         </div>
+
+                        <span class="text-slate-400 font-medium truncate max-w-[90px]">${p.assigned || 'Squad'}</span>
                       </div>
                     </div>
                   `).join('')}
 
                   ${colProjects.length === 0 ? `
-                    <div class="text-center py-10 text-slate-400 text-xs font-medium border-2 border-dashed border-slate-200 rounded-xl">
-                      Arrastra una ficha aquí
+                    <div class="text-center py-12 text-slate-400 text-xs font-medium border-2 border-dashed border-slate-200 rounded-xl bg-white/40">
+                      Arrastra una iniciativa aquí
                     </div>
                   ` : ''}
                 </div>
@@ -2192,9 +2080,67 @@
           html += `</div>`;
           contentArea.innerHTML = html;
 
-        // ==========================================
-        // VISTA 4: ROADMAP GANTT TRIMESTRAL 2026
-        // ==========================================
+        // VISTA TARJETAS
+        } else if (state.viewMode === 'cards') {
+          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+          filteredList.forEach(p => {
+            const leftBorderColor = p.category === 'gestion' ? 'bg-brand-accent' : 'bg-amber-500';
+            html += `
+              <div onclick="selectProject('${p.id}')" class="bg-white rounded-2xl shadow-xs border border-slate-200 hover:border-slate-350 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group overflow-hidden relative">
+                <div class="absolute left-0 top-0 bottom-0 w-[5px] ${leftBorderColor}"></div>
+                <div class="p-5 pl-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between gap-1.5 mb-2.5">
+                      <span class="text-[9px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">#${p.no || ''}</span>
+                      <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-sm group-hover:text-brand-accent transition-colors">${p.title}</h3>
+                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">${p.description}</p>
+                  </div>
+                  <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-900">${p.progress}%</span>
+                    <span class="text-[11px] text-brand-accent font-bold group-hover:underline">Ver Ficha →</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+          contentArea.innerHTML = html;
+
+        // VISTA TABLA
+        } else if (state.viewMode === 'table') {
+          let html = `
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-black uppercase tracking-wider text-[10px]">
+                  <tr>
+                    <th class="py-3 px-3.5 text-center">N°</th>
+                    <th class="py-3 px-3.5">Iniciativa / Proyecto</th>
+                    <th class="py-3 px-3.5">Salud RAG</th>
+                    <th class="py-3 px-3.5 w-32">Avance</th>
+                    <th class="py-3 px-3.5">Líder / Squad</th>
+                    <th class="py-3 px-3.5 text-center">Acción</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+          `;
+          filteredList.forEach(p => {
+            html += `
+              <tr class="hover:bg-slate-50/80 cursor-pointer group" onclick="selectProject('${p.id}')">
+                <td class="py-3 px-3.5 text-center font-mono text-slate-400 font-bold">#${p.no || '--'}</td>
+                <td class="py-3 px-3.5 font-extrabold text-slate-900 group-hover:text-brand-accent">${p.title}</td>
+                <td class="py-3 px-3.5"><span class="text-[9px] font-black px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span></td>
+                <td class="py-3 px-3.5 font-black">${p.progress}%</td>
+                <td class="py-3 px-3.5 font-bold text-slate-800">${p.assigned || 'Squad'}</td>
+                <td class="py-3 px-3.5 text-center"><button class="px-2.5 py-1 bg-slate-100 hover:bg-brand-cyan text-slate-800 rounded-lg text-xs font-bold">Ver Ficha</button></td>
+              </tr>
+            `;
+          });
+          html += `</tbody></table></div>`;
+          contentArea.innerHTML = html;
+
+        // VISTA GANTT
         } else if (state.viewMode === 'gantt') {
           let html = `
             <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 space-y-6">
@@ -2206,14 +2152,8 @@
                   </h3>
                   <p class="text-xs text-slate-500 mt-0.5">Seguimiento temporal por trimestres con avance real y estado de salud</p>
                 </div>
-                <div class="flex items-center gap-3 text-xs font-semibold text-slate-600">
-                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> A Tiempo</span>
-                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> En Riesgo</span>
-                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Bloqueado</span>
-                </div>
               </div>
 
-              <!-- Cabecera de Trimestres -->
               <div class="grid grid-cols-12 gap-2 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-200 pb-2">
                 <div class="col-span-4">Iniciativa / Responsable</div>
                 <div class="col-span-8 grid grid-cols-5 text-center">
@@ -2225,7 +2165,6 @@
                 </div>
               </div>
 
-              <!-- Filas del Gantt -->
               <div class="space-y-4">
                 ${filteredList.map(p => {
                   let barBg = 'bg-gradient-to-r from-emerald-500 to-teal-500';
@@ -2246,9 +2185,8 @@
                       </div>
 
                       <div class="col-span-8 relative h-8 bg-slate-100/70 rounded-xl overflow-hidden flex items-center p-1 border border-slate-200/60">
-                        <!-- Barra de Gantt -->
                         <div 
-                          class="absolute h-6 rounded-lg ${barBg} text-white text-[10px] font-black flex items-center justify-between px-2.5 shadow-sm transition-all duration-300 hover:brightness-110"
+                          class="absolute h-6 rounded-lg ${barBg} text-white text-[10px] font-black flex items-center justify-between px-2.5 shadow-sm transition-all"
                           style="left: ${startPct}%; width: ${widthPct}%;"
                         >
                           <span class="truncate">${p.status}</span>
