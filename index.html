@@ -1,875 +1,1586 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comfamiliar Risaralda - Intranet de Proyectos</title>
+  <title>Comfamiliar Risaralda • Portafolio de Proyectos e Iniciativas de Cultura</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- Google Fonts: Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0f1e2e',
+              dark: '#1c2e40',
+              surface: '#243b53',
+              teal: '#00b4ac',
+              tealDark: '#008d87',
+              cyan: '#2fc6f6',
+              cyanHover: '#1fb6e6',
+              accent: '#4a5fcf'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    /* Estilos personalizados para simular transiciones fluidas */
-    .fade-in {
-      animation: fadeIn 0.3s ease-out forwards;
-    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .fade-in { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Ocultar barra de scroll estética */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @media print {
+      header, .no-print, #controls-section, #header-kpis, #cloud-banner { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .print-full { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
     }
   </style>
 </head>
-<body class="bg-[#eef2f4] min-h-screen text-slate-800 flex flex-col transition-all duration-300">
+<body class="bg-[#f0f4f8] min-h-screen text-slate-800 flex flex-col antialiased selection:bg-[#00b4ac]/20 selection:text-[#008d87]">
 
-  <!-- Header Corporativo (Estilo Bitrix24 Clean Dark con Logotipo Oficial en Contraste) -->
-  <header class="bg-[#1c2e40] text-white shadow-sm sticky top-0 z-40 border-b border-slate-700/40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+  <!-- BANNER DESTACADO DE CONEXIÓN A GOOGLE APPS SCRIPT / CLOUD -->
+  <div id="cloud-banner" class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white text-xs border-b border-slate-700/80 px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2 text-center sm:text-left">
+        <span class="inline-flex items-center justify-center p-1 bg-brand-cyan/20 text-brand-cyan rounded-md">
+          <i data-lucide="cloud" class="w-3.5 h-3.5"></i>
+        </span>
+        <span class="font-medium text-slate-200">
+          <strong class="text-white">Tablero Colaborativo en la Nube:</strong> Mueve fichas por arrastre (Kanban móvil), crea y audita avances en tiempo real con Google Sheets.
+        </span>
+      </div>
+      <a 
+        href="https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec" 
+        target="_blank" 
+        rel="noreferrer"
+        class="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-cyan to-brand-teal text-slate-950 px-3 py-1 rounded-lg text-xs font-black shadow-sm hover:opacity-90 transition-all hover:scale-[1.02] shrink-0"
+      >
+        <span>Abrir en Google Apps Script</span>
+        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- HEADER CORPORATIVO OFICIAL -->
+  <header class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white shadow-md sticky top-0 z-40 border-b border-slate-700/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      
+      <!-- Logo y Título -->
       <div class="flex items-center gap-4">
-        <!-- Contenedor transparente: permite que el logo blanco destaque sobre el fondo azul oscuro del header -->
-        <div class="flex items-center justify-center py-1">
+        <div class="flex items-center justify-center p-1 bg-white/5 rounded-xl border border-white/10 shadow-inner">
           <img 
             src="https://i.imgur.com/yyI6FWO.png" 
             alt="Comfamiliar Risaralda" 
-            class="h-12 w-auto object-contain"
-            onerror="this.onerror=null; this.src='https://placehold.co/120x40/1c2e40/ffffff?text=Comfamiliar';"
+            class="h-11 w-auto object-contain filter drop-shadow"
+            onerror="this.onerror=null; this.src='https://placehold.co/140x44/1c2e40/ffffff?text=Comfamiliar';"
           />
         </div>
         <div>
-          <h1 class="text-base font-extrabold tracking-tight flex items-center gap-1.5">
-            <span>Comfamiliar Risaralda</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-normal">Intranet Proyectos</span>
-          </h1>
-          <p class="text-[11px] text-[#00b4ac] font-bold tracking-wide uppercase">Gestión del Cambio & Operaciones</p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
+              <span>Portafolio de Iniciativas</span>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand-teal/20 text-brand-cyan border border-brand-teal/30">
+                SDHO • 2026
+              </span>
+            </h1>
+          </div>
+          <p class="text-xs text-brand-teal font-bold tracking-wide uppercase flex items-center gap-1.5 mt-0.5">
+            <span>Cultura, Productividad & Gestión del Cambio</span>
+            <span class="text-slate-500">•</span>
+            <span class="text-slate-400 font-normal normal-case">Subdirección de Desarrollo Humano y Organizacional</span>
+          </p>
         </div>
       </div>
-      
-      <div class="flex items-center gap-2.5 self-start md:self-auto">
-        <button id="btn-show-all" class="hidden bg-slate-800/80 hover:bg-slate-800 text-slate-200 px-3.5 py-2 rounded-lg text-xs font-bold transition-all border border-slate-700 flex items-center gap-1.5" onclick="selectProject(null)">
-          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-          <span>Ver Todos los Proyectos</span>
+
+      <!-- Barra de Acciones Globales -->
+      <div class="flex items-center flex-wrap gap-2.5 self-start md:self-auto">
+        
+        <!-- Botón Ver Todos (en modo detalle) -->
+        <button id="btn-show-all" class="hidden bg-slate-800/90 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border border-slate-600/80 flex items-center gap-1.5 shadow-sm" onclick="selectProject(null)">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Volver al Tablero</span>
         </button>
-        <button class="bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 px-4 py-2 rounded-lg text-xs font-extrabold transition-all shadow-sm flex items-center gap-2" onclick="openLogModal()">
+
+        <!-- Selector de Vista (Grilla, Tabla, Pipeline) -->
+        <div id="view-mode-selector" class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+          <button 
+            id="view-btn-cards" 
+            onclick="setViewMode('cards')" 
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm"
+            title="Vista de Tarjetas"
+          >
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Tarjetas</span>
+          </button>
+          <button 
+            id="view-btn-table" 
+            onclick="setViewMode('table')" 
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
+            title="Vista Matriz PMO"
+          >
+            <i data-lucide="table" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Matriz PMO</span>
+          </button>
+          <button 
+            id="view-btn-kanban" 
+            onclick="setViewMode('kanban')" 
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
+            title="Vista Pipeline por Fases"
+          >
+            <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Pipeline</span>
+          </button>
+        </div>
+
+        <!-- Botón Abrir Apps Script Web App -->
+        <a 
+          href="https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec" 
+          target="_blank" 
+          class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition-all border border-slate-700 flex items-center gap-1.5"
+          title="Abrir Web App de Google Apps Script"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-brand-cyan"></i>
+          <span class="hidden sm:inline">Entorno Cloud</span>
+        </a>
+
+        <!-- Botón Registrar Avance -->
+        <button class="bg-gradient-to-r from-brand-cyan to-brand-teal hover:opacity-90 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-2 hover:scale-[1.02]" onclick="openLogModal()">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
           <span>Registrar Avance</span>
         </button>
+
+        <!-- Botón Imprimir -->
+        <button class="bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-xl text-xs font-bold transition-all border border-slate-700" onclick="window.print()" title="Imprimir / PDF">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+        </button>
+
       </div>
     </div>
   </header>
 
-  <!-- Panel de Estadísticas / KPIs Superiores -->
-  <div class="bg-white border-b border-slate-200 py-4 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
-        <div class="p-2 bg-indigo-50/50 rounded-lg text-indigo-600">
-          <i data-lucide="layers" class="w-4 h-4"></i>
+  <!-- PANEL DE KPIS ESTRATÉGICOS -->
+  <section id="header-kpis" class="bg-white border-b border-slate-200/90 py-4 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-5 gap-4">
+      
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl shadow-xs">
+          <i data-lucide="folder-kanban" class="w-5 h-5"></i>
         </div>
         <div>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Iniciativas Totales</p>
-          <h4 id="stat-total" class="text-base font-black text-slate-950">-- Activas</h4>
+          <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Iniciativas Portafolio</p>
+          <div class="flex items-baseline gap-1.5">
+            <h4 id="stat-total" class="text-lg font-black text-slate-950">--</h4>
+            <span class="text-[10px] text-slate-400 font-bold">priorizadas</span>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
-        <div class="p-2 bg-amber-50/50 rounded-lg text-amber-600">
-          <i data-lucide="trending-up" class="w-4 h-4"></i>
+
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-cyan-50 text-cyan-600 rounded-xl shadow-xs">
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
         </div>
         <div>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Avance Promedio</p>
-          <h4 id="stat-avg" class="text-base font-black text-slate-950">--% Global</h4>
+          <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Avance Global</p>
+          <div class="flex items-baseline gap-1.5">
+            <h4 id="stat-avg" class="text-lg font-black text-slate-950">--%</h4>
+            <span class="text-[10px] text-emerald-600 font-bold">en meta</span>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-3 border-r border-slate-100 last:border-0">
-        <div class="p-2 bg-emerald-50/50 rounded-lg text-emerald-600">
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
+
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl shadow-xs">
+          <i data-lucide="check-check" class="w-5 h-5"></i>
         </div>
         <div>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Entregas Cerradas</p>
-          <h4 id="stat-completed" class="text-base font-black text-slate-950">-- Listos</h4>
+          <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">En Producción / Listos</p>
+          <div class="flex items-baseline gap-1.5">
+            <h4 id="stat-completed" class="text-lg font-black text-slate-950">--</h4>
+            <span id="stat-completed-percent" class="text-[10px] text-slate-400 font-bold">(--%)</span>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-3 last:border-0">
-        <div class="p-2 bg-blue-50/50 rounded-lg text-blue-600">
-          <i data-lucide="users" class="w-4 h-4"></i>
+
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl shadow-xs">
+          <i data-lucide="users" class="w-5 h-5"></i>
         </div>
         <div>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Especialistas Squads</p>
-          <h4 id="stat-squads" class="text-base font-black text-slate-950">-- Asignados</h4>
+          <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Squads & Liderazgo</p>
+          <div class="flex items-baseline gap-1.5">
+            <h4 id="stat-squads" class="text-lg font-black text-slate-950">--</h4>
+            <span class="text-[10px] text-slate-400 font-bold">personas</span>
+          </div>
         </div>
       </div>
+
+      <div class="col-span-2 lg:col-span-1 flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-amber-50 text-amber-600 rounded-xl shadow-xs">
+          <i data-lucide="sparkle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Prioridad Alta</p>
+          <div class="flex items-baseline gap-1.5">
+            <h4 id="stat-high-priority" class="text-lg font-black text-slate-950">--</h4>
+            <span class="text-[10px] text-amber-700 font-bold">iniciativas clave</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </section>
 
-  <!-- Contenedor Principal Adaptativo -->
-  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 w-full">
     
-    <!-- CONTROLES FILTROS (Solo visibles en modo lista/cuadrícula) -->
-    <div id="controls-section" class="space-y-6 mb-6">
-      <!-- CRM Panel Filtro por Categorías -->
-      <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200/80 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div class="flex bg-slate-100 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar">
-          <button id="tab-all" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all bg-white text-slate-950 shadow-sm whitespace-nowrap" onclick="setCategoryTab('all')">
-            Todas las Iniciativas
+    <!-- CONTROLES Y FILTROS -->
+    <div id="controls-section" class="space-y-4 mb-6">
+      
+      <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+        
+        <div class="flex bg-slate-100/90 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar gap-1">
+          <button id="tab-all" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-black transition-all bg-white text-slate-950 shadow-xs whitespace-nowrap" onclick="setCategoryTab('all')">
+            Todas las Iniciativas (<span id="count-tab-all">0</span>)
           </button>
-          <button id="tab-gestion" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap" onclick="setCategoryTab('gestion')">
-            Gestión Humana
+          <button id="tab-cambio" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap" onclick="setCategoryTab('cambio')">
+            Gestores de Cambio (<span id="count-tab-cambio">0</span>)
           </button>
-          <button id="tab-cambio" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap" onclick="setCategoryTab('cambio')">
-            Gestores de Cambio
+          <button id="tab-gestion" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap" onclick="setCategoryTab('gestion')">
+            Gestión Humana (<span id="count-tab-gestion">0</span>)
           </button>
         </div>
 
-        <!-- Input de Búsqueda -->
-        <div class="relative w-full md:w-80">
+        <div class="relative w-full md:w-84">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-4 h-4"></i>
           </span>
           <input
             id="search-input"
             type="text"
-            placeholder="Buscar iniciativa..."
+            placeholder="Buscar por proyecto, squad, tecnología..."
             oninput="handleSearch(this.value)"
-            class="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-250 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white transition-all font-semibold"
+            class="w-full pl-10 pr-9 py-2.5 text-xs bg-slate-50/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-teal focus:bg-white font-semibold text-slate-800 placeholder:text-slate-400"
           />
+          <button id="btn-clear-search" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="flex flex-wrap gap-2.5 items-center justify-between text-xs">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-[10px] text-slate-400 font-black uppercase tracking-wider flex items-center gap-1 mr-1">
+            <i data-lucide="filter" class="w-3 h-3"></i> Avance:
+          </span>
+          <button id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-bold border bg-brand-teal/15 border-brand-teal/40 text-brand-tealDark" onclick="setStatusFilter('all')">Todos</button>
+          <button id="filter-completed" class="px-3 py-1.5 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('completed')">Completados (100%)</button>
+          <button id="filter-progress" class="px-3 py-1.5 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('progress')">En Ejecución (50%-99%)</button>
+          <button id="filter-initial" class="px-3 py-1.5 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('initial')">Fase Inicial (&lt;50%)</button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
+            <span class="text-[10px] text-slate-400 font-black uppercase tracking-wider">Prioridad:</span>
+            <select id="select-priority-filter" onchange="setPriorityFilter(this.value)" class="bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg px-2.5 py-1.5">
+              <option value="all">Todas</option>
+              <option value="Alto">Alta</option>
+              <option value="Medio">Media</option>
+            </select>
+          </div>
+          <button id="btn-reset-filters" onclick="resetAllFilters()" class="hidden text-[11px] font-bold text-rose-600 hover:underline px-2 py-1 flex items-center gap-1">
+            <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Limpiar
+          </button>
         </div>
       </div>
 
-      <!-- Filtro Secundario por Estados de Avance -->
-      <div class="flex flex-wrap gap-2 items-center">
-        <span class="text-[11px] text-slate-400 font-extrabold uppercase tracking-wider flex items-center gap-1">
-          <i data-lucide="filter" class="w-3.5 h-3.5"></i> Estado del Avance:
-        </span>
-        <button id="filter-all" class="px-3 py-1 rounded-md text-xs font-bold border bg-[#e2f7f6] border-[#00b4ac]/30 text-[#008d87]" onclick="setStatusFilter('all')">Todos</button>
-        <button id="filter-completed" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('completed')">Completados (100%)</button>
-        <button id="filter-progress" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('progress')">En Progreso (30%-99%)</button>
-        <button id="filter-initial" class="px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50" onclick="setStatusFilter('initial')">Fase Inicial (<50%)</button>
-      </div>
     </div>
 
-    <!-- AREA DINÁMICA DE CONTENIDO -->
-    <div id="dynamic-content" class="fade-in">
-      <!-- Aquí se renderiza dinámicamente la Cuadrícula o la Ficha de Detalle -->
-    </div>
+    <!-- ÁREA DINÁMICA DE CONTENIDO -->
+    <div id="dynamic-content" class="fade-in"></div>
 
   </main>
 
-  <!-- MODAL: REGISTRAR AVANCE (Bitácora24) -->
-  <div id="log-modal" class="hidden fixed inset-0 bg-[#1c2e40]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
-    <div class="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-lg overflow-hidden">
-      <!-- Modal Header -->
-      <div class="bg-[#1c2e40] text-white p-5 flex items-center justify-between border-b border-slate-700">
-        <h3 class="font-bold text-sm flex items-center gap-2">
-          <i data-lucide="sparkles" class="text-[#2fc6f6] w-4.5 h-4.5"></i> Registrar Nuevo Avance (Bitácora24)
+  <!-- MODAL: REGISTRAR AVANCE -->
+  <div id="log-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-brand-navy to-brand-dark text-white p-5 flex items-center justify-between border-b border-slate-700">
+        <h3 class="font-extrabold text-sm flex items-center gap-2">
+          <i data-lucide="sparkles" class="text-brand-cyan w-4.5 h-4.5"></i>
+          <span>Registrar Avance • Bitácora de Proyecto</span>
         </h3>
-        <button class="text-white/80 hover:text-white text-sm focus:outline-none text-xl" onclick="closeLogModal()">&times;</button>
+        <button class="text-white/70 hover:text-white text-xl p-1" onclick="closeLogModal()">&times;</button>
       </div>
       
-      <!-- Modal Form -->
       <form id="log-form" onsubmit="handleFormSubmit(event)" class="p-6 flex flex-col gap-4">
+        
+        <!-- Alerta de sincronización con Google Apps Script -->
+        <div class="p-3 bg-cyan-50/70 border border-cyan-200 rounded-xl flex items-center justify-between text-xs text-cyan-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="cloud" class="w-4 h-4 text-brand-teal shrink-0"></i>
+            <span>¿Deseas auditarlo directamente en Google Sheets?</span>
+          </div>
+          <a href="https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec" target="_blank" class="font-bold underline text-brand-tealDark ml-2 shrink-0">Ir al App Script</a>
+        </div>
+
         <div>
           <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Iniciativa / Proyecto</label>
-          <select
-            id="modal-select-project"
-            required
-            class="w-full bg-slate-50 border border-slate-250 rounded-lg p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white font-semibold text-slate-800"
-          >
-            <!-- Se carga dinámicamente -->
-          </select>
+          <select id="modal-select-project" required onchange="syncModalProgress(this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800"></select>
         </div>
 
         <div>
-          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Porcentaje de Progreso Actual (<span id="modal-progress-label">50</span>%)</label>
-          <input
-            id="modal-progress-range"
-            type="range"
-            min="0"
-            max="100"
-            value="50"
-            oninput="updateModalProgressLabel(this.value)"
-            class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2fc6f6]"
-          />
-          <div class="flex justify-between text-[10px] text-slate-400 font-semibold mt-1">
-            <span>0%</span>
-            <span>50%</span>
-            <span>100% (Completado)</span>
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Porcentaje de Avance Real</label>
+            <span class="text-xs font-black text-brand-tealDark bg-brand-teal/10 px-2 py-0.5 rounded-full border border-brand-teal/20">
+              <span id="modal-progress-label">0</span>%
+            </span>
           </div>
+          <input type="range" min="0" max="100" id="modal-progress-range" oninput="updateModalProgressLabel(this.value)" class="w-full accent-brand-teal cursor-pointer" />
         </div>
 
         <div>
-          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Descripción del Avance u Hito</label>
-          <textarea
-            id="modal-log-text"
-            required
-            placeholder="Describe detalladamente el logro obtenido, entregable de fase o la resolución de un problema..."
-            rows="3"
-            class="w-full bg-slate-50 border border-slate-250 rounded-lg p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#00b4ac] focus:bg-white resize-none text-slate-800 font-medium"
-          ></textarea>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Nuevo Hito / Avance Alcanzado</label>
+          <textarea id="modal-log-text" rows="3" required placeholder="Describe el hito alcanzado..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-3 font-medium text-slate-800"></textarea>
         </div>
 
-        <div class="flex justify-end gap-2 mt-2">
-          <button
-            type="button"
-            onclick="closeLogModal()"
-            class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            class="px-4 py-2 bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 rounded-lg text-xs font-black transition-all shadow-sm"
-          >
-            Actualizar Datos
-          </button>
+        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+          <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
+            <i data-lucide="save" class="w-3 h-3 text-emerald-500"></i> Se guardará localmente
+          </span>
+          <div class="flex gap-2">
+            <button type="button" onclick="closeLogModal()" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Cancelar</button>
+            <button type="submit" class="px-4 py-2 bg-gradient-to-r from-brand-cyan to-brand-teal text-slate-950 rounded-xl text-xs font-black transition-all shadow-sm">Guardar Avance</button>
+          </div>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Footer Corporativo -->
-  <footer class="bg-[#1c2e40] text-slate-400 py-6 text-center text-xs mt-auto border-t border-slate-800">
-    <p>© <span id="current-year"></span> Comfamiliar Risaralda • Plataforma Corporativa de Iniciativas • Pereira, Colombia</p>
+  <!-- FOOTER -->
+  <footer class="bg-brand-navy text-slate-400 py-6 text-center text-xs mt-auto border-t border-slate-800/80 no-print">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <p class="font-medium">Comfamiliar Risaralda • Subdirección de Desarrollo Humano y Organizacional (SDHO)</p>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] text-slate-500 font-medium">
+        <a href="https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec" target="_blank" class="text-brand-cyan hover:underline flex items-center gap-1">
+          <i data-lucide="cloud" class="w-3 h-3"></i>
+          <span>Versión Google Apps Script</span>
+        </a>
+        <span>•</span>
+        <button onclick="restoreOriginalExcelData()" class="text-slate-400 hover:text-white">Restablecer datos base</button>
+      </div>
+    </div>
   </footer>
 
-  <!-- Lucide Icons CDN para cargar los iconos -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
   <script>
-    // Inicialización del año actual
-    document.getElementById('current-year').innerText = new Date().getFullYear();
-
-    // Dataset del Reporte de Iniciativas
-    let projects = [
+    const INITIAL_PROJECTS = [
+  {
+    "id": "proyectocx",
+    "no": 28,
+    "title": "Proyecto CX (Experiencia del Cliente)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "Propuesta Presentada (40%)",
+    "progress": 40,
+    "priority": "Alto",
+    "priorityReason": "Alineación con la Subdirección de Desarrollo Estratégico para transformar y unificar la experiencia del afiliado en todos los canales.",
+    "difficulty": "Alto",
+    "directPeople": 2,
+    "indirectPeople": 18,
+    "imageUrl": "https://i.imgur.com/cQXIqQ3.jpeg",
+    "assigned": "Subdirección de Desarrollo Estratégico",
+    "squad": [
+      "Equipo de Desarrollo Estratégico",
+      "Líderes de Procesos de Cara al Cliente",
+      "Acompañamiento Consultor Metodológico IZO"
+    ],
+    "description": "Estrategia de transformación integral centrada en el usuario para rediseñar y unificar la interacción con los afiliados de Comfamiliar Risaralda en todos los canales.",
+    "impact": "Propuesta Presentada (40%). Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad. Fase I: Alineación de equipo transversal (18 personas). Pendiente Fase II: Intervención Parque Consota, Crédito Comfamiliar y Cirugía. Instalación Células metodológicas.",
+    "tech": [
+      "Ecosistema omnicanal (físico y digital)",
+      "Sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES)",
+      "Herramientas colaborativas y PC corporativo"
+    ],
+    "investment": "$440.752.000 (2026-2027)",
+    "initialBudget": "Fase I 2026: $161.665.000",
+    "roi": "Mejora en indicadores NPS, CSAT y CES en todos los puntos de contacto.",
+    "targetAreas": "Toda la Caja (Procesos de cara al cliente y canales de atención)",
+    "extrapolateAreas": "Todos los servicios misionales y canales de atención de la Caja",
+    "maintenance": "En fase de propuesta (requiere gobernanza CX continua al implementarse)",
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Documentación Proyecto CX",
+    "highlights": [
+      "Elaboración y formalización del documento de propuesta metodológica de CX.",
+      "Presentación oficial ante la Subdirección de Desarrollo Estratégico para evaluación de viabilidad y asignación de recursos.",
+      "Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad.",
+      "Alineación de equipo transversal con acompañamiento del consultor metodológico IZO."
+    ],
+    "nextPhase": [
+      "Aprobación formal del proyecto por parte de la Subdirección de Desarrollo Estratégico.",
+      "Diagnóstico participativo y mapeo de Arquetipos de Clientes y Customer Journeys prioritarios.",
+      "Establecimiento de la estructura de gobernanza de CX y asignación del Squad multidisciplinario.",
+      "Instalación de Células Metodológicas (Fase II: Parque Consota, Crédito Comfamiliar y Cirugía)."
+    ],
+    "issues": [
+      "Necesidad de unificar la voz del cliente entre los canales físicos y la creciente oferta de canales digitales.",
+      "Requerimiento de un sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES)."
+    ],
+    "interdependencies": [
+      "Subdirección de Desarrollo Estratégico",
+      "Procesos de Cara al Cliente",
+      "SDHO"
+    ],
+    "appsScriptUrl": "https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec"
+  },
+  {
+    "id": "dotacion",
+    "no": 29,
+    "title": "Módulo de Compras (Dotación)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Fase I Entregada (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Optimización operativa, trazabilidad en entregas y eliminación de tarjetas físicas en el proceso de dotación institucional.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "url": "https://dotacion.comfamiliar.com/",
+    "linkText": "Acceder a Módulo de Compras (Dotación)",
+    "assigned": "Angela Cristina Arias Hernández (Acompañamiento Gestión Humana)",
+    "squad": [
+      "Angela Cristina Arias Hernández",
+      "Equipo Proceso de Compras",
+      "Equipo de Sistemas (In-house)"
+    ],
+    "description": "Entrega de Fase I de Módulo de compras en trabajo conjunto con el proceso y sistemas para la automatización integral de dotaciones.",
+    "impact": "Fase I Entregada (100%). Automatización de listados de personal con derecho a dotación, actas de entrega y bonos con código consecutivo eliminando tarjetas físicas. Fase II: Gestión de Firmas Digitales (Proceso End to End Digital).",
+    "tech": [
+      "Aplicación Web Módulo de Compras (Dotación In-house)",
+      "Integración para generación digital de documentos y firmas digitales"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Eliminación de tarjetas físicas y reducción drástica de tiempos de gestión y entrega.",
+    "targetAreas": "Gestión Humana, Compras y todos los procesos con personal con derecho a dotación.",
+    "extrapolateAreas": "Otros procesos de entregas, suministros o activos a colaboradores.",
+    "maintenance": "Activo (en evolución a Fase II con firmas digitales)",
+    "highlights": [
+      "Generación automatizada de listados de personal con derecho a dotación.",
+      "Generación digital de actas de entrega oficiales.",
+      "Incorporación de código consecutivo de tarjetas (bonos dotación) eliminando tarjetas físicas.",
+      "Identificación y mitigación de incidencias entre la compra y el momento de entrega efectiva."
+    ],
+    "nextPhase": [
+      "Fase II: Generación Digital de documentos y custodia.",
+      "Firmas digitales por parte del líder de proceso en la custodia.",
+      "Firma digital por parte del colaborador en la recepción de la dotación (End to End Digital)."
+    ],
+    "issues": [
+      "Incidencias o desfase temporal entre el momento de generación de listados para la compra vs. momento de entrega.",
+      "Gestión del cambio para adopción de la firma digital por líderes y colaboradores."
+    ],
+    "interdependencies": [
+      "Gestión Humana",
+      "Compras",
+      "Sistemas"
+    ]
+  },
+  {
+    "id": "turnos",
+    "no": 30,
+    "title": "Módulo de Gestión de Turnos Clínica Comfamiliar",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "En Pruebas de Usuario (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Necesidad crítica de controlar cambios de turno, mitigar extensiones de jornada hasta de 24 horas y ordenar fechas de pago en la Clínica.",
+    "difficulty": "Alto",
+    "directPeople": 2,
+    "indirectPeople": 30,
+    "url": "https://turnos.comfamiliar.com/login",
+    "linkText": "Acceder al Portal de Turnos Clínica",
+    "assigned": "Proceso de Turnos Clínica / Acompañamiento Gestión Humana",
+    "squad": [
+      "Líderes de Turnos Clínica Comfamiliar",
+      "Gestión Humana / Nómina",
+      "Desarrollo Google Apps Script"
+    ],
+    "description": "Programa iniciado para propiciar la automatización integral de los cuadros de turno en la Clínica Comfamiliar con reglas de negocio y validaciones preventivas.",
+    "impact": "En Pruebas de Usuario (100%). Automatización de la visualización de cuadros de turnos e integración de reglas de negocio para mitigar incidencias.",
+    "tech": [
+      "Plataforma web en Google Apps Script",
+      "Motor de reglas de negocio para validación de cuadros de turnos"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Reducción de errores en nómina y control riguroso de jornadas asistenciales.",
+    "targetAreas": "Clínica Comfamiliar (Salud) y Gestión Humana / Nómina",
+    "extrapolateAreas": "Otras áreas operativas y sedes con programación de turnos rotativos (Parque Consotá, etc.)",
+    "maintenance": "En cierre de pruebas de usuario para soporte continuo",
+    "highlights": [
+      "Automatización de la visualización de cuadros de turnos en fase avanzada de validación.",
+      "Integración de motor de reglas de negocio para mitigar las incidencias reportadas.",
+      "Fase de pruebas con usuarios asistenciales y supervisores."
+    ],
+    "nextPhase": [
+      "Cierre de etapa de pruebas de usuario final.",
+      "Puesta en marcha oficial en la Clínica Comfamiliar.",
+      "Pendiente activación en Parque Consotá."
+    ],
+    "issues": [
+      "Política de cambio de turnos: límite de 6 cambios al mes por colaborador.",
+      "Incapacidades o renuncias que generan la necesidad de extender horarios asistenciales.",
+      "Cambios de turnos informales sin fecha definida para el pago del turno compensatorio."
+    ],
+    "interdependencies": [
+      "Salud (Clínica Comfamiliar)",
+      "Gestión Humana / Nómina"
+    ]
+  },
+  {
+    "id": "conciliacion",
+    "no": 31,
+    "title": "Herramienta de Conciliación Interface Contable",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "En Producción (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Prevención de errores y descuadres contables críticos en el ERP institucional (JDE).",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 10,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Trazabilidad de Conciliación JDE",
+    "assigned": "Sistemas / Contabilidad (Acompañamiento Gestión Humana)",
+    "squad": [
+      "Equipo de Sistemas",
+      "Equipo de Contabilidad",
+      "Gestión Humana"
+    ],
+    "description": "Herramienta preventiva de validación y conciliación de interfaces para detectar inconsistencias antes de subir datos contables al sistema JDE.",
+    "impact": "En producción y funcionando exitosamente (100%). Cumple al 100% el objetivo de prevenir descuadres contables antes del cargue en JDE.",
+    "tech": [
+      "Herramienta de validación y conciliación de interfaces pre-cargue JDE",
+      "Scripts de validación y análisis de consistencia de cuentas"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "100% de prevención de descuadres en cargues a JDE y ahorro sustancial en reprocesos contables.",
+    "targetAreas": "Contabilidad, Nómina / Gestión Humana y Sistemas.",
+    "extrapolateAreas": "Otras interfaces contables y financieras que cargan información a JDE.",
+    "maintenance": "Activo (en producción con refinamientos menores)",
+    "highlights": [
+      "En producción y funcionando exitosamente en los ciclos contables.",
+      "Cumplimiento total en la prevención de descuadres e inconsistencias en JDE.",
+      "Acompañamiento cercano entre áreas técnicas y contables."
+    ],
+    "nextPhase": [
+      "Refinamientos menores de optimización de interfaz y tiempos de respuesta."
+    ],
+    "issues": [
+      "Posibles cambios en estructuras de datos o reglas contables tributarias que requieran actualizar validaciones."
+    ],
+    "interdependencies": [
+      "Sistemas",
+      "Contabilidad",
+      "Nómina / Gestión Humana"
+    ],
+    "appsScriptUrl": "https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec"
+  },
+  {
+    "id": "biometria",
+    "no": 32,
+    "title": "Dispositivos Biométricos y Reconocimiento Facial",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Habilitado (85% - Pendiente Comunicación)",
+    "progress": 85,
+    "priority": "Alto",
+    "priorityReason": "Modernización tecnológica del control de acceso e identificación segura del personal en las sedes de la Caja.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "assigned": "Seguridad / Gestión Humana",
+    "squad": [
+      "Equipo de Seguridad Física",
+      "Gestión Humana",
+      "Infraestructura Tecnológica"
+    ],
+    "description": "Instalación de dispositivos biométricos de alta tecnología y reconocimiento facial en las sedes físicas de la organización para control seguro de acceso.",
+    "impact": "Habilitado al 85% (Pendiente Comunicación). Puntos habilitados de manera física y tecnológica en las sedes organizacionales.",
+    "tech": [
+      "Dispositivos biométricos de reconocimiento facial de última generación",
+      "Red e infraestructura física cableada y Wi-Fi en sedes"
+    ],
+    "investment": "Inversión en dispositivos e infraestructura física",
+    "initialBudget": "Aprobado por Seguridad y Gestión Humana",
+    "roi": "Mayor seguridad en instalaciones, agilidad en marcación y precisión en registro de asistencia.",
+    "targetAreas": "Seguridad, Gestión Humana y todas las sedes con personal Comfamiliar.",
+    "extrapolateAreas": "Nuevas sedes físicas y puntos de atención descentralizados.",
+    "maintenance": "Habilitado técnicamente (mantenimiento preventivo por Seguridad)",
+    "highlights": [
+      "Puntos de reconocimiento facial habilitados de manera física y tecnológica en sedes clave.",
+      "Validaciones de lectura biométrica en condiciones variables de iluminación y afluencia."
+    ],
+    "nextPhase": [
+      "Envío de circular corporativa para la activación del proceso de registro y enrolamiento de empleados.",
+      "Campaña de sensibilización sobre uso adecuado y privacidad de datos biométricos."
+    ],
+    "issues": [
+      "Gestión de comunicación efectiva para lograr el enrolamiento oportuno del personal.",
+      "Ajustes de iluminación ambiental en accesos peatonales exteriores."
+    ],
+    "interdependencies": [
+      "Seguridad Física",
+      "Gestión Humana",
+      "Comunicaciones Institucionales",
+      "Sistemas / Redes"
+    ]
+  },
+  {
+    "id": "culturadigital",
+    "no": 33,
+    "title": "Proyecto Cultura Digital",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Ejecución (75%)",
+    "progress": 75,
+    "priority": "Alto",
+    "priorityReason": "Eje movilizador para la adopción tecnológica, actualización de responsabilidades y democratización de soluciones de IA en la Caja.",
+    "difficulty": "Alto",
+    "directPeople": 4,
+    "indirectPeople": 4,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Directorio de Soluciones Digitales",
+    "assigned": "Squad Gestores de Cambio",
+    "squad": [
+      "Pablo Esteban Sánchez Restrepo",
+      "Wilmer López Colorado",
+      "Diana Carolina Triana Serna",
+      "John Alexander Gil Mazuera"
+    ],
+    "description": "Proyecto estratégico transversal para impulsar el cambio y adopción de herramientas digitales y soluciones de IA generativa dentro de la caja de compensación.",
+    "impact": "En Ejecución (75%). Recomendaciones entregadas para manuales de responsabilidades, primera Gema IA completada y probada, y estructuración de Geeks Digitales.",
+    "tech": [
+      "Herramientas de IA generativa (Gemas de automatización basadas en MAP)",
+      "Directorio de Soluciones Digitales",
+      "Cápsulas de video digital y microaprendizaje"
+    ],
+    "investment": "Recurso interno (Squad Gestores de Cambio)",
+    "initialBudget": "Recurso interno",
+    "roi": "Reducción significativa de tiempos en elaboración de actas e informes, y cultura proactiva de IA.",
+    "targetAreas": "Toda la Caja (áreas administrativas y misionales)",
+    "extrapolateAreas": "Todas las áreas mediante la red de Geeks Digitales",
+    "maintenance": "Activo y en expansión continua",
+    "strategies": [
       {
-        id: 'proyectocx',
-        title: 'Proyecto CX (Experiencia del Cliente)',
-        category: 'cambio',
-        status: 'Propuesta Presentada',
-        progress: 20,
-        imageUrl: 'https://i.imgur.com/cQXIqQ3.jpeg',
-        assigned: 'Subdirección de Desarrollo Estratégico',
-        description: 'Estrategia de transformación integral centrada en el usuario para rediseñar y unificar la interacción con los afiliados de Comfamiliar Risaralda en todos los canales.',
-        highlights: [
-          'Elaboración y formalización del documento de propuesta metodológica de CX.',
-          'Presentación oficial ante la Subdirección de Desarrollo Estratégico para evaluación de viabilidad y asignación de recursos.',
-          'Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad.'
-        ],
-        nextPhase: [
-          'Aprobación formal del proyecto por parte de la Subdirección de Desarrollo Estratégico.',
-          'Diagnóstico participativo y mapeo de Arquetipos de Clientes y Customer Journeys prioritarios.',
-          'Establecimiento de la estructura de gobernanza de CX y asignación del Squad multidisciplinario.'
-        ],
-        squad: [
-          'Equipo de Desarrollo Estratégico',
-          'Líderes de Procesos de Cara al Cliente'
-        ],
-        issues: [
-          'Necesidad de unificar la voz del cliente entre los canales físicos y la creciente oferta de canales digitales.',
-          'Requerimiento de un sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES).'
-        ]
+        "name": "1. Actualización de Manuales de Responsabilidades",
+        "desc": "Reunión realizada con Nancy Toro y Valeria Gómez. Se entregaron recomendaciones de cultura digital y competencias de agilidad para su incorporación formal en el manual institucional."
       },
       {
-        id: 'dotacion',
-        title: 'Módulo de Compras (Dotación)',
-        category: 'gestion',
-        status: 'Fase I Entregada',
-        progress: 70,
-        url: 'https://dotacion.comfamiliar.com/',
-        linkText: 'Acceder al Módulo de Compras (Dotación)',
-        assigned: 'Luisa Osorio (Acompañamiento Gestión Humana)',
-        description: 'Entrega de Fase I de Módulo de compras en trabajo conjunto con el proceso y sistemas para la automatización de dotaciones.',
-        highlights: [
-          'Generación de Listados de personal con derecho a dotación.',
-          'Generación de actas de entrega.',
-          'Incorporación de código consecutivo de tarjetas (Bonos dotación) eliminado tarjetas físicas.',
-          'Identificación de incidencias entre el momento de generación de listados para la compra vs momento de entrega.'
-        ],
-        nextPhase: [
-          'Generación Digital de documentos.',
-          'Firmas digitales por parte del líder de proceso en la custodia.',
-          'Firma digital por parte del colaborador en la recepción de la dotación.'
-        ],
-        squad: [],
-        issues: []
+        "name": "2. Directorio de Soluciones Digitales & Gemas IA",
+        "desc": "Creación y validación de la primera 'Gema' de automatización de actas e informes mediante IA basados en MAP. Producción de video tipo cápsula digital de lanzamiento con Ximena Agudelo Rendón."
       },
       {
-        id: 'turnos',
-        title: 'Módulo de Gestión de Turnos Clínica Comfamiliar',
-        category: 'gestion',
-        status: 'Pruebas de Usuario',
-        progress: 90,
-        url: 'https://script.google.com/macros/s/AKfycbzXGVpPFxhW9OXODj9WHWYBcY3uzI0p8bXTSfrIKRm15lnlCYrPLVk5mtqRWGMTXGzs/exec',
-        linkText: 'Acceder a la Gestión de Turnos (Clínica Comfamiliar)',
-        description: 'Programa iniciado para propiciar la automatización de los cuadros de turno en la Clínica Comfamiliar.',
-        issues: [
-          'Política de cambio de turnos en el los procesos: se permite cambiar 6 veces al mes.',
-          'Incapacidades o Renuncias: Generan en ocasiones la necesidad de extender el horario de una auxiliar hasta 24 horas.',
-          'En algunos casos los turnos son cambiados por las auxiliares sin una fecha definida para el pago del turno.'
-        ],
-        highlights: [
-          'Automatización de la visualización de cuadros de turnos en fase avanzada de validación.',
-          'Integración de reglas de negocio para mitigar las incidencias reportadas.'
-        ],
-        nextPhase: [
-          'Cierre de etapa de pruebas de usuario final.',
-          'Puesta en marcha oficial en la Clínica.'
-        ],
-        squad: [],
-        assigned: 'Proceso de Turnos Clínica'
-      },
-      {
-        id: 'conciliacion',
-        title: 'Herramienta de Conciliación Interface Contable',
-        category: 'gestion',
-        status: 'Refinamientos',
-        progress: 100,
-        description: 'Herramienta de control en producción que cumple el original objetivo de detectar errores contables antes de subir datos a JDE.',
-        highlights: [
-          'En producción y funcionando exitosamente.',
-          'Cumple al 100% el objetivo de prevenir descuadres en JDE.'
-        ],
-        nextPhase: [
-          'Refinamientos menores de optimización de interfaz.'
-        ],
-        squad: [],
-        assigned: 'Sistemas / Contabilidad'
-      },
-      {
-        id: 'certificado220',
-        title: 'Certificado 220 DIAN',
-        category: 'gestion',
-        status: 'Cerrado',
-        progress: 100,
-        description: 'Proceso conciliado y cerrado para la emisión de certificados de ingresos y retenciones de la DIAN.',
-        highlights: [
-          'Conciliado de manera exitosa con el Proceso de Impuestos.',
-          'Se realizaron 13 ajustes críticos de certificados que no incluían viáticos no informados por contabilidad.',
-          'Ajustadas devoluciones de viáticos de tesorería no informadas oportunamente a Nómina.',
-          'Publicación de certificados y lanzamiento de video instructivo para los empleados.'
-        ],
-        nextPhase: [],
-        squad: [],
-        assigned: 'Nómina / Impuestos'
-      },
-      {
-        id: 'biometria',
-        title: 'Dispositivos Biométricos y Reconocimiento Facial',
-        category: 'gestion',
-        status: 'Habilitado - Pendiente Comunicación',
-        progress: 85,
-        description: 'Instalación de dispositivos biométricos de alta tecnología y reconocimiento facial en las sedes físicas de la organización.',
-        highlights: [
-          'Puntos habilitados de manera física y tecnológica en las sedes.'
-        ],
-        nextPhase: [
-          'Envío de circular corporativa para la activación del proceso de registro de empleados.'
-        ],
-        squad: [],
-        assigned: 'Seguridad / Gestión Humana'
-      },
-      {
-        id: 'culturadigital',
-        title: 'Proyecto Cultura Digital',
-        category: 'cambio',
-        status: 'En Ejecución',
-        progress: 75,
-        description: 'Proyecto estratégico para impulsar el cambio y adopción de herramientas digitales dentro de la caja de compensación.',
-        squad: [
-          'Pablo Esteban Sánchez Restrepo',
-          'Wilmer López Colorado',
-          'Diana Carolina Triana Serna',
-          'John Alexander Gil Mazuera'
-        ],
-        strategies: [
-          {
-            name: '1. Actualización de Manuales',
-            desc: 'Reunión realizada con Nancy Toro y Valeria Gómez. Se entregaron recomendaciones de cultura digital para su incorporación en el manual de responsabilidades.'
-          },
-          {
-            name: '2. Directorio de Soluciones Digitales',
-            desc: 'Creación de la primera "Gema" de automatización de actas e informes mediante IA basados en MAP. Producción de video tipo cápsula digital de lanzamiento con Ximena Agudelo Rendón.'
-          },
-          {
-            name: '3. Lanzamiento de Geeks Digitales',
-            desc: 'Identificación y formación de "Geeks Digitales" capaces de generar gemas de automatización de contenidos para nutrir el Directorio Digital.'
-          }
-        ],
-        highlights: [
-          'Primera Gema IA completada y probada.'
-        ],
-        nextPhase: [
-          'Lanzamiento oficial del Directorio Digital.',
-          'Expansión de la red de Geeks Digitales.'
-        ]
-      },
-      {
-        id: 'whatsappflow',
-        title: 'WhatsApp Business Centro Médico Aliado (IA Multimodal)',
-        category: 'cambio',
-        status: 'Pruebas / Flujo Nuevo',
-        progress: 60,
-        url: 'https://www.youtube.com/watch?v=wT-bZe5THu4',
-        linkText: 'Ver Showcase de IA Multimodal en Salud',
-        description: 'Integración de Inteligencia Artificial Multimodal de vanguardia para transformar la experiencia del paciente en WhatsApp Business. Permite la unificación de múltiples canales (telefonía y chat) y formatos (texto, voz y documentos) en una misma conversación contextual.',
-        squad: [
-          'Jhonier Alexander Álvarez Gallo',
-          'Yerly Yurany Oviedo Montealegre',
-          'Juan Camilo Pinto Osorio'
-        ],
-        highlights: [
-          'Despliegue del piloto de IA Multimodal enfocado en la atención integrada del sector salud.',
-          'Capacidad del bot conversacional de continuar por chat de WhatsApp una solicitud o llamada telefónica iniciada previamente, sin perder el contexto de la conversación.',
-          'Comprensión avanzada de formatos mixtos: el paciente puede enviar audios con consultas de salud o fotos de órdenes médicas y recibir respuestas precisas e indicaciones unificadas en texto o correo electrónico.',
-          'Pruebas con casos del sector salud (ej. validación y preparación de exámenes complejos como endoscopias, resolviendo dudas sobre suspensión de medicamentos como anticoagulantes).'
-        ],
-        nextPhase: [
-          'Presentación oficial del prototipo funcional integrado de IA Multimodal en la siguiente semana de seguimiento.'
-        ]
-      },
-      {
-        id: 'aipiweb',
-        title: 'AIPIWEB',
-        category: 'cambio',
-        status: 'Pruebas UX (95%)',
-        progress: 95,
-        url: 'https://aipi.comfamiliar.com/',
-        linkText: 'Visitar Sitio Web Interactivo AIPI (Foniñez)',
-        description: 'Desarrollo de una plataforma web interactiva orientada a las actividades de Foniñez en el programa integral de AIPI.',
-        squad: [
-          'Catalina Pabón',
-          'Juanita Carmona Estrada'
-        ],
-        highlights: [
-          'Plataforma al 95% de desarrollo total.',
-          'Página puesta en marcha en entorno de producción para medir la experiencia de los usuarios reales.'
-        ],
-        nextPhase: [
-          'Análisis de datos de experiencia de usuario.',
-          'Cierre y estabilización final.'
-        ]
-      },
-      {
-        id: 'carnet',
-        title: 'Carnet Digital Interactiva',
-        category: 'cambio',
-        status: 'En Ejecución',
-        progress: 80,
-        description: 'Ecosistema de carnetización interactiva digital que centraliza la identificación, datos familiares y acumulación de Pithcoripuntos.',
-        squad: [
-          'Javier de Jesús Trejos Cruz',
-          'Juanita Carmona Estrada'
-        ],
-        highlights: [
-          'Permite identificación del colaborador y su grupo familiar de forma interactiva.',
-          'Visualización de Pithcoripuntos.'
-        ],
-        nextPhase: [
-          'Implementación de campañas de fidelización para incrementar la entrada de colaboradores al Parque Consota.'
-        ]
-      },
-      {
-        id: 'robotica',
-        title: 'Proyecto Robótica Educativa',
-        category: 'cambio',
-        status: 'Fase Inicial (Maker)',
-        progress: 40,
-        description: 'Laboratorio de innovación basado en cultura maker "Aprender Haciendo" y enfoque STEAM. Comienza en el Instituto Comfamiliar y escala a nivel regional.',
-        squad: [
-          'Walter David Soto Villada'
-        ],
-        requirements: {
-          training: 'Plan de formación docente en plataformas como Arduino, ESP32 o simulación (Tinkercad).',
-          materials: 'Kits de robótica y componentes electrónicos educativos.'
-        },
-        phases: [
-          {
-            phase: 'Fase 1',
-            title: 'Activación y Cimentación',
-            desc: 'Creación del grupo de robótica con estudiantes pioneros del Instituto.'
-          },
-          {
-            phase: 'Fase 2',
-            title: 'Desarrollo y Sistematización',
-            desc: 'Ejecución de proyectos STEAM bajo la filosofía Maker. Creación y carga de evidencias en un Repositorio Web Institucional.'
-          },
-          {
-            phase: 'Fase 3',
-            title: 'Validación y Competencia',
-            desc: 'Gestión y participación de los estudiantes en ferias de ciencia y competencias de robótica interinstitucionales.'
-          },
-          {
-            phase: 'Fase 4',
-            title: 'Liderazgo y Transferencia',
-            desc: 'Oferta de talleres para externos e Institucionalización de la Copa Robótica Comfamiliar (Evento Regional).'
-          }
-        ],
-        highlights: [
-          'Diseño conceptual STEAM sólido.',
-          'Planteamiento de transición de espacio educativo interno hacia polo de innovación regional.'
-        ]
+        "name": "3. Red de Geeks Digitales",
+        "desc": "Identificación, formación y mentoría de 'Geeks Digitales' en distintas dependencias, capaces de diseñar gemas y propagar metodologías ágiles en sus áreas."
       }
-    ];
+    ],
+    "highlights": [
+      "Estrategia 1 (Manuales): Reunión con Nancy Toro y Valeria Gómez; recomendaciones de cultura digital formalmente entregadas.",
+      "Estrategia 2 (Directorio Digital): Creación de la primera 'Gema' de IA para actas e informes (MAP) y cápsula audiovisual lista.",
+      "Estrategia 3 (Geeks Digitales): Mapeo inicial de embajadores digitales y programa formativo."
+    ],
+    "nextPhase": [
+      "Lanzamiento oficial del Directorio Digital institucional.",
+      "Expansión de la red de Geeks Digitales y primeros retos de innovación interna."
+    ],
+    "issues": [
+      "Riesgo de resistencia al cambio en procesos tradicionales o baja adopción inicial sin acompañamiento continuo."
+    ],
+    "interdependencies": [
+      "Gestión Humana (Manuales de responsabilidades)",
+      "Comunicaciones",
+      "Todos los procesos participantes en Geeks Digitales"
+    ],
+    "appsScriptUrl": "https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec"
+  },
+  {
+    "id": "whatsappflow",
+    "no": 34,
+    "title": "WhatsApp Flow Centro Médico Aliado (IA Multimodal)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Pruebas / Piloto (60%)",
+    "progress": 60,
+    "priority": "Alto",
+    "priorityReason": "Innovación en la atención al paciente de Salud, eliminando fricciones entre llamadas y chat y automatizando la validación de órdenes y preparación de exámenes.",
+    "difficulty": "Alto",
+    "directPeople": 3,
+    "indirectPeople": 5,
+    "url": "https://www.youtube.com/watch?v=wT-bZe5THu4",
+    "linkText": "Ver Video Showcase IA Multimodal en Salud",
+    "assigned": "Squad Salud & IA Multimodal",
+    "squad": [
+      "Jhonier Alexander Álvarez Gallo",
+      "Yerly Yurany Oviedo Montealegre",
+      "Juan Camilo Pinto Osorio"
+    ],
+    "description": "Integración de IA Multimodal en WhatsApp Business para transformar la experiencia del paciente en salud, unificando telefonía y mensajería con soporte de texto, audios de voz y documentos.",
+    "impact": "En Pruebas / Flujo Nuevo (60%). Piloto desplegado con continuidad conversacional entre llamada y WhatsApp y comprensión de audios e imágenes de órdenes médicas.",
+    "tech": [
+      "WhatsApp Flow (Business) API",
+      "Modelos de Inteligencia Artificial Multimodal (texto, audio, imagen)",
+      "Integración de telefonía PBX con correo electrónico y chat"
+    ],
+    "investment": "Piloto desarrollado por Squad",
+    "initialBudget": "Por definir para escalamiento en producción",
+    "roi": "Disminución sustancial en tiempos de espera, atención 24/7 y descongestión de canales telefónicos en Salud.",
+    "targetAreas": "Salud Comfamiliar / Centro Médico Aliado y Contact Center / Atención al Usuario.",
+    "extrapolateAreas": "Otros servicios de la Caja con atención omnicanal (Subsidios, Recreación, Crédito, Educación).",
+    "maintenance": "En fase de prototipo / piloto funcional",
+    "highlights": [
+      "Despliegue del piloto de IA Multimodal enfocado en la atención integrada del sector salud.",
+      "Capacidad del bot conversacional de continuar por WhatsApp una llamada telefónica previa sin perder contexto.",
+      "Comprensión avanzada de formatos mixtos: el paciente puede enviar audios con dudas o fotos de órdenes médicas y recibir instrucciones unificadas en texto o correo.",
+      "Pruebas de campo con casos médicos (preparación de endoscopias, suspensión de medicamentos anticoagulantes, etc.)."
+    ],
+    "nextPhase": [
+      "Presentación oficial del prototipo funcional integrado de IA Multimodal en la semana de seguimiento institucional.",
+      "Definición de arquitectura definitiva para migración a producción corporativa con proveedor tecnológico ICONO."
+    ],
+    "issues": [
+      "Complejidad en la validación clínica de consultas médicas diversas y requerimientos estrictos de ciberseguridad y datos sensibles.",
+      "Integración técnica entre la infraestructura PBX de telefonía y WhatsApp Flow."
+    ],
+    "interdependencies": [
+      "Salud Comfamiliar / Centro Médico Aliado",
+      "Sistemas / Contact Center",
+      "ICONO (Proveedor Tecnológico)"
+    ]
+  },
+  {
+    "id": "aipiweb",
+    "no": 35,
+    "title": "AIPIWEB (Atención a la Primera Infancia)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Pruebas UX (100%)",
+    "progress": 100,
+    "priority": "Medio",
+    "priorityReason": "Fortalecimiento digital e interactivo de las actividades pedagógicas del programa Foniñez (AIPI).",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "url": "https://aipi.comfamiliar.com/",
+    "linkText": "Visitar Sitio Web Interactivo AIPI (Foniñez)",
+    "assigned": "Squad Educación & TED + SDHO",
+    "squad": [
+      "Catalina Pabón",
+      "Juanita Carmona Estrada",
+      "Practicante TED + SDHO"
+    ],
+    "description": "Desarrollo de una plataforma web interactiva orientada a las actividades pedagógicas y formativas de Foniñez en el programa integral de Atención Integral a la Primera Infancia (AIPI).",
+    "impact": "En Pruebas UX (100%). Plataforma al 100% de desarrollo, puesta en marcha en entorno de producción para medir la experiencia de los usuarios reales.",
+    "tech": [
+      "Plataforma web interactiva responsiva (https://aipi.comfamiliar.com/)",
+      "Herramientas de analítica y medición de experiencia de usuario (UX)"
+    ],
+    "investment": "Recurso interno (Squad)",
+    "initialBudget": "Recurso interno",
+    "roi": "Mayor alcance pedagógico, interacción digital con familias beneficiarias y modernización del programa.",
+    "targetAreas": "Educación / Foniñez (Programa AIPI)",
+    "extrapolateAreas": "Otros programas educativos, recreativos y culturales de Comfamiliar Risaralda.",
+    "maintenance": "Activo en entorno de producción (en estabilización final)",
+    "highlights": [
+      "Plataforma al 100% de desarrollo y despliegue técnico.",
+      "Página puesta en marcha en entorno real de producción para medir usabilidad con familias y docentes.",
+      "Diseño amigable y adaptado a dispositivos móviles."
+    ],
+    "nextPhase": [
+      "Análisis de métricas de experiencia de usuario (UX).",
+      "Cierre formal y estabilización final del proyecto."
+    ],
+    "issues": [
+      "Ajustes finales de usabilidad derivados de la retroalimentación de usuarios reales en territorio."
+    ],
+    "interdependencies": [
+      "Educación / Programa Foniñez (AIPI)",
+      "Sistemas"
+    ]
+  },
+  {
+    "id": "carnet",
+    "no": 36,
+    "title": "Carnet Digital Interactiva",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Ejecución (90%)",
+    "progress": 90,
+    "priority": "Medio",
+    "priorityReason": "Digitalización de la identificación corporativa y fortalecimiento del bienestar y fidelización de colaboradores y sus familias.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 3,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Plataforma de Carnetización",
+    "assigned": "Squad Bienestar & Identidad Digital",
+    "squad": [
+      "Javier de Jesús Trejos Cruz",
+      "Juanita Carmona Estrada"
+    ],
+    "description": "Ecosistema de carnetización interactiva digital que centraliza la identificación del colaborador, información de su grupo familiar y acumulación/canje de Pithcoripuntos.",
+    "impact": "En Ejecución (90%). Permite la identificación interactiva del colaborador y su grupo familiar, así como la visualización de Pithcoripuntos y control de ingresos al Parque Consotá.",
+    "tech": [
+      "Aplicación / Ecosistema de Carnetización Digital Interactiva",
+      "Módulo de gestión y redención de Pithcoripuntos",
+      "Integración con torniquetes y validación de ingresos en Parque Consotá"
+    ],
+    "investment": "Recurso interno (Squad)",
+    "initialBudget": "Recurso interno",
+    "roi": "Incremento en el uso de servicios recreativos (Consotá), reducción de costos de carnets plásticos y mayor fidelización.",
+    "targetAreas": "Gestión Humana, Parque Consotá y todos los colaboradores con sus grupos familiares.",
+    "extrapolateAreas": "Parque Consotá, Recreación, Deportes y Gerontología.",
+    "maintenance": "En ejecución (pendiente despliegue de campañas de fidelización)",
+    "highlights": [
+      "Permite la identificación del colaborador y su grupo familiar de forma 100% interactiva.",
+      "Visualización en tiempo real de Pithcoripuntos acumulados.",
+      "Habilitación de control de ingresos para colaboradores y familias al Parque Consotá."
+    ],
+    "nextPhase": [
+      "Implementación de campañas de fidelización para incrementar la entrada de colaboradores al Parque Consotá.",
+      "Alineación con eventos institucionales y temporadas vacacionales."
+    ],
+    "issues": [
+      "Adopción continua por parte de los colaboradores y articulación fluida en los puntos de ingreso físico al Parque Consotá."
+    ],
+    "interdependencies": [
+      "Gestión Humana / Bienestar",
+      "Parque Consotá (Recreación)",
+      "Sistemas"
+    ],
+    "appsScriptUrl": "https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec"
+  },
+  {
+    "id": "robotica",
+    "no": 37,
+    "title": "Proyecto Robótica Educativa & STEAM",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "Fase Inicial Maker (40%)",
+    "progress": 40,
+    "priority": "Medio",
+    "priorityReason": "Posicionamiento del Instituto Comfamiliar en innovación educativa STEAM y proyección hacia la Copa Robótica Comfamiliar regional.",
+    "difficulty": "Medio",
+    "directPeople": 1,
+    "indirectPeople": 3,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Plan Pedagógico de Robótica STEAM",
+    "assigned": "Walter David Soto Villada (Instituto Comfamiliar)",
+    "squad": [
+      "Walter David Soto Villada"
+    ],
+    "description": "Laboratorio de innovación basado en la cultura maker 'Aprender Haciendo' y enfoque STEAM. Inicia en el Instituto Comfamiliar y escala como polo regional de ciencia y tecnología.",
+    "impact": "En Fase Inicial Maker (40%). Diseño conceptual STEAM sólido y planteamiento de transición de espacio educativo interno hacia polo de innovación regional estructurado en 4 fases.",
+    "tech": [
+      "Plataformas de prototipado Arduino, ESP32 y simuladores (Tinkercad)",
+      "Kits de robótica y componentes electrónicos educativos",
+      "Repositorio Web Institucional de Proyectos STEAM"
+    ],
+    "investment": "Por definir (Kits de robótica y formación docente)",
+    "initialBudget": "Por aprobar para dotación de kits STEAM",
+    "roi": "Posicionamiento educativo de vanguardia en Risaralda y semillero de talento tecnológico juvenil.",
+    "targetAreas": "Educación (Instituto Comfamiliar)",
+    "extrapolateAreas": "Colegios aliados, programas de Foniñez, recreación y talleres externos en el departamento.",
+    "maintenance": "En desarrollo (Fase 1: Activación y Cimentación)",
+    "phases": [
+      {
+        "phase": "Fase 1",
+        "title": "Activación y Cimentación",
+        "desc": "Conformación del semillero de robótica con estudiantes pioneros, capacitación docente intensiva y prácticas iniciales con simulación (Tinkercad) y kits Arduino."
+      },
+      {
+        "phase": "Fase 2",
+        "title": "Desarrollo y Sistematización",
+        "desc": "Construcción de prototipos funcionales autónomos, apertura del Repositorio Web Institucional y primeros desafíos de robótica aplicada."
+      },
+      {
+        "phase": "Fase 3",
+        "title": "Validación y Competencia",
+        "desc": "Participación del equipo en ferias científicas regionales y organización de la primera edición de la Copa Robótica Comfamiliar."
+      },
+      {
+        "phase": "Fase 4",
+        "title": "Liderazgo y Transferencia",
+        "desc": "Consolidación del Instituto como referente STEAM del Eje Cafetero, transfiriendo metodología y kits a colegios públicos y aliados."
+      }
+    ],
+    "requirements": {
+      "training": "Plan de formación docente en plataformas como Arduino, ESP32 y entorno de simulación (Tinkercad).",
+      "materials": "Dotación de kits de robótica, sensores, actuadores y componentes electrónicos educativos."
+    },
+    "highlights": [
+      "Diseño conceptual STEAM estructurado bajo el principio maker 'Aprender Haciendo'.",
+      "Planteamiento metodológico de transición de aula interna a polo de innovación regional.",
+      "Estructuración detallada del roadmap en 4 fases escalables."
+    ],
+    "nextPhase": [
+      "Ejecución del plan de formación docente en robótica y plataformas digitales.",
+      "Dotación y adquisición de los primeros kits de robótica educativa.",
+      "Convocatoria y selección de estudiantes pioneros para el club de robótica (Fase 1)."
+    ],
+    "issues": [
+      "Disponibilidad presupuestal oportuna para la adquisición de kits físicos.",
+      "Disponibilidad de agenda docente para completar la ruta de capacitación sin afectar clases regulares."
+    ],
+    "interdependencies": [
+      "Educación (Instituto Comfamiliar)",
+      "Compras / Dirección Administrativa"
+    ],
+    "appsScriptUrl": "https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec"
+  },
+  {
+    "id": "certificado220",
+    "no": 38,
+    "title": "Certificado 220 DIAN",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Completado / Cerrado (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Cumplimiento legal y tributario estricto para la emisión oportuna de certificados de retención a colaboradores.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 4,
+    "assigned": "Nómina / Impuestos",
+    "squad": [
+      "Equipo de Nómina",
+      "Proceso de Impuestos y Contabilidad"
+    ],
+    "description": "Proceso automatizado y conciliado con éxito para la emisión de certificados de ingresos y retenciones de la DIAN a los empleados de la organización.",
+    "impact": "Cerrado exitosamente (100%). Proceso conciliado, 13 ajustes críticos implementados y publicación masiva completada con video instructivo.",
+    "tech": [
+      "Módulo de generación DIAN 220",
+      "Video instructivo multimedia para colaboradores"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Cero sanciones tributarias, cumplimiento normativo al 100% y autogestión ágil del certificado por el empleado.",
+    "targetAreas": "Nómina, Contabilidad, Impuestos y todos los empleados.",
+    "extrapolateAreas": "Otros certificados tributarios e institucionales autogestionables.",
+    "maintenance": "Proceso cerrado y estabilizado para el ciclo anual",
+    "highlights": [
+      "Conciliado de manera exitosa con el Proceso de Impuestos.",
+      "Se realizaron 13 ajustes críticos de certificados que no incluían viáticos no informados por contabilidad.",
+      "Ajustadas devoluciones de viáticos de tesorería no informadas oportunamente a Nómina.",
+      "Publicación oficial de certificados y lanzamiento de video instructivo para los empleados."
+    ],
+    "nextPhase": [
+      "Monitoreo estándar durante el próximo calendario tributario anual."
+    ],
+    "issues": [],
+    "interdependencies": [
+      "Nómina",
+      "Impuestos",
+      "Tesorería / Contabilidad"
+    ]
+  }
+];
+    const STORAGE_KEY = 'comfamiliar_proyectos_cultura_v2';
 
-    // Datos estáticos requeridos para la Copa de Robótica
-    const roboticaRequirements = {
-      training: 'Plan de formación docente en plataformas como Arduino, ESP32 o simulación (Tinkercad).',
-      materials: 'Kits de robótica y componentes electrónicos educativos.'
-    };
+    function loadSavedProjects() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(INITIAL_PROJECTS));
+    }
 
-    // Estado de la Aplicación (State)
+    let projects = loadSavedProjects();
+
+    function saveProjects() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+      } catch (e) {}
+    }
+
+    function restoreOriginalExcelData() {
+      if (confirm('¿Deseas restablecer todos los datos del portafolio con la información original del archivo Excel?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        projects = JSON.parse(JSON.stringify(INITIAL_PROJECTS));
+        renderApp();
+      }
+    }
+
     const state = {
+      selectedProjectId: null,
       activeTab: 'all',
+      statusFilter: 'all',
+      priorityFilter: 'all',
       searchQuery: '',
-      selectedStatusFilter: 'all',
-      selectedProjectId: 'proyectocx' // Default seleccionado
+      viewMode: 'cards'
     };
 
-    // Inicializador de las iniciales de avatar
-    function getAvatarInitials(name) {
-      return name
-        .split(' ')
-        .map(word => word[0])
-        .slice(0, 2)
-        .join('')
-        .toUpperCase();
-    }
-
-    // Calcular y renderizar estadísticas superiores (Kpis)
-    function renderStats() {
-      const total = projects.length;
-      const avg = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / total);
-      const completed = projects.filter(p => p.progress === 100).length;
-      
-      const squadSet = new Set();
-      projects.forEach(p => {
-        if (p.squad) p.squad.forEach(m => squadSet.add(m));
-      });
-
-      document.getElementById('stat-total').innerText = `${total} Activas`;
-      document.getElementById('stat-avg').innerText = `${avg}% Global`;
-      document.getElementById('stat-completed').innerText = `${completed} Listos`;
-      document.getElementById('stat-squads').innerText = `${squadSet.size} Asignados`;
-    }
-
-    // Retorna las clases de Tailwind correspondientes al estado de avance de la tarea (Estilo Bitrix24)
     function getStatusBadgeClass(progress) {
-      if (progress === 100) return 'bg-emerald-50 text-emerald-700 border-emerald-200/60';
-      if (progress >= 80) return 'bg-blue-50 text-blue-700 border-blue-200/60';
-      if (progress >= 50) return 'bg-amber-50 text-amber-700 border-amber-200/60';
-      return 'bg-orange-50 text-orange-700 border-orange-200/60';
+      if (progress === 100) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      if (progress >= 70) return 'bg-blue-50 text-blue-700 border-blue-200';
+      if (progress >= 40) return 'bg-amber-50 text-amber-700 border-amber-200';
+      return 'bg-slate-100 text-slate-700 border-slate-200';
     }
 
-    // Obtener los proyectos filtrados según el estado actual
+    function getPriorityBadgeClass(priority) {
+      if (priority === 'Alto') return 'bg-rose-50 text-rose-700 border-rose-200';
+      return 'bg-amber-50 text-amber-700 border-amber-200';
+    }
+
+    function getAvatarInitials(name) {
+      if (!name) return 'EX';
+      const parts = name.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+
     function getFilteredProjects() {
-      return projects.filter(project => {
-        // Tab de Categoría
-        if (state.activeTab !== 'all' && project.category !== state.activeTab) {
-          return false;
-        }
+      return projects.filter(p => {
+        if (state.activeTab !== 'all' && p.category !== state.activeTab) return false;
+        if (state.statusFilter === 'completed' && p.progress !== 100) return false;
+        if (state.statusFilter === 'progress' && (p.progress < 50 || p.progress === 100)) return false;
+        if (state.statusFilter === 'initial' && p.progress >= 50) return false;
+        if (state.priorityFilter !== 'all' && p.priority !== state.priorityFilter) return false;
 
-        // Filtro de Avance/Estado
-        if (state.selectedStatusFilter !== 'all') {
-          if (state.selectedStatusFilter === 'completed' && project.progress < 100) return false;
-          if (state.selectedStatusFilter === 'progress' && (project.progress === 100 || project.progress < 30)) return false;
-          if (state.selectedStatusFilter === 'initial' && project.progress >= 50) return false;
-        }
-
-        // Filtro de Texto
         if (state.searchQuery.trim() !== '') {
-          const query = state.searchQuery.toLowerCase();
-          const matchesTitle = project.title.toLowerCase().includes(query);
-          const matchesDesc = project.description.toLowerCase().includes(query);
-          const matchesAssigned = project.assigned?.toLowerCase().includes(query);
-          const matchesSquad = project.squad?.some(m => m.toLowerCase().includes(query));
-          return matchesTitle || matchesDesc || matchesAssigned || matchesSquad;
+          const q = state.searchQuery.toLowerCase();
+          const matchTitle = (p.title || '').toLowerCase().includes(q);
+          const matchDesc = (p.description || '').toLowerCase().includes(q);
+          const matchAssigned = (p.assigned || '').toLowerCase().includes(q);
+          const matchTech = (p.tech || []).some(t => t.toLowerCase().includes(q));
+          const matchSquad = (p.squad || []).some(m => m.toLowerCase().includes(q));
+          return matchTitle || matchDesc || matchAssigned || matchTech || matchSquad;
         }
-
         return true;
       });
     }
 
-    // Renderizar la Vista Principal (Dinámica)
+    function renderStats() {
+      const total = projects.length;
+      const totalProg = projects.reduce((acc, p) => acc + p.progress, 0);
+      const avg = Math.round(totalProg / (total || 1));
+      const completed = projects.filter(p => p.progress === 100).length;
+      const highPriority = projects.filter(p => p.priority === 'Alto').length;
+
+      let peopleCount = 0;
+      projects.forEach(p => {
+        peopleCount += (p.directPeople || 0) + (p.indirectPeople || 0);
+      });
+
+      document.getElementById('stat-total').innerText = total;
+      document.getElementById('stat-avg').innerText = avg + '%';
+      document.getElementById('stat-completed').innerText = completed;
+      document.getElementById('stat-completed-percent').innerText = `(${Math.round((completed/total)*100)}%)`;
+      document.getElementById('stat-squads').innerText = peopleCount;
+      document.getElementById('stat-high-priority').innerText = highPriority;
+
+      document.getElementById('count-tab-all').innerText = projects.length;
+      document.getElementById('count-tab-cambio').innerText = projects.filter(p => p.category === 'cambio').length;
+      document.getElementById('count-tab-gestion').innerText = projects.filter(p => p.category === 'gestion').length;
+
+      const isFiltered = state.activeTab !== 'all' || state.statusFilter !== 'all' || state.priorityFilter !== 'all' || state.searchQuery !== '';
+      document.getElementById('btn-reset-filters').classList.toggle('hidden', !isFiltered);
+    }
+
+    function setViewMode(mode) {
+      state.viewMode = mode;
+      ['cards', 'table', 'kanban'].forEach(m => {
+        const btn = document.getElementById(`view-btn-${m}`);
+        if (m === mode) {
+          btn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm";
+        } else {
+          btn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white";
+        }
+      });
+      renderApp();
+    }
+
+    function setCategoryTab(tab) {
+      state.activeTab = tab;
+      ['all', 'cambio', 'gestion'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-black transition-all bg-white text-slate-950 shadow-xs whitespace-nowrap";
+        } else {
+          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap";
+        }
+      });
+      renderApp();
+    }
+
+    function setStatusFilter(filter) {
+      state.statusFilter = filter;
+      ['all', 'completed', 'progress', 'initial'].forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (f === filter) {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold border bg-brand-teal/15 border-brand-teal/40 text-brand-tealDark";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+        }
+      });
+      renderApp();
+    }
+
+    function setPriorityFilter(priority) {
+      state.priorityFilter = priority;
+      renderApp();
+    }
+
+    function handleSearch(val) {
+      state.searchQuery = val;
+      document.getElementById('btn-clear-search').classList.toggle('hidden', val.trim() === '');
+      renderApp();
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      handleSearch('');
+    }
+
+    function resetAllFilters() {
+      state.activeTab = 'all';
+      state.statusFilter = 'all';
+      state.priorityFilter = 'all';
+      state.searchQuery = '';
+      document.getElementById('search-input').value = '';
+      document.getElementById('select-priority-filter').value = 'all';
+      setCategoryTab('all');
+      setStatusFilter('all');
+    }
+
+    function selectProject(id) {
+      state.selectedProjectId = id;
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateProject(direction) {
+      const filteredList = getFilteredProjects();
+      const currentIndex = filteredList.findIndex(p => p.id === state.selectedProjectId);
+      const targetIndex = currentIndex + direction;
+      if (targetIndex >= 0 && targetIndex < filteredList.length) {
+        state.selectedProjectId = filteredList[targetIndex].id;
+        renderApp();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function openLogModal(projId = null) {
+      const modalSelect = document.getElementById('modal-select-project');
+      modalSelect.innerHTML = projects.map(p => `
+        <option value="${p.id}" ${(projId || state.selectedProjectId) === p.id ? 'selected' : ''}>
+          #${p.no || ''} ${p.title} (${p.progress}%)
+        </option>
+      `).join('');
+
+      const activeId = projId || state.selectedProjectId || (projects[0] && projects[0].id);
+      syncModalProgress(activeId);
+      document.getElementById('modal-log-text').value = '';
+      document.getElementById('log-modal').classList.remove('hidden');
+    }
+
+    function closeLogModal() {
+      document.getElementById('log-modal').classList.add('hidden');
+    }
+
+    function syncModalProgress(projectId) {
+      const p = projects.find(proj => proj.id === projectId);
+      if (p) {
+        document.getElementById('modal-progress-range').value = p.progress;
+        document.getElementById('modal-progress-label').innerText = p.progress;
+      }
+    }
+
+    function updateModalProgressLabel(val) {
+      document.getElementById('modal-progress-label').innerText = val;
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const projectId = document.getElementById('modal-select-project').value;
+      const progressValue = parseInt(document.getElementById('modal-progress-range').value);
+      const logText = document.getElementById('modal-log-text').value.trim();
+
+      projects = projects.map(p => {
+        if (p.id === projectId) {
+          const updatedHighlights = logText ? [logText, ...(p.highlights || [])] : (p.highlights || []);
+          return {
+            ...p,
+            progress: progressValue,
+            status: progressValue === 100 ? 'En Producción / 100%' : (progressValue >= 50 ? 'En Ejecución' : 'Fase Inicial'),
+            highlights: updatedHighlights
+          };
+        }
+        return p;
+      });
+
+      saveProjects();
+      closeLogModal();
+      renderApp();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!document.getElementById('log-modal').classList.contains('hidden')) {
+          closeLogModal();
+        } else if (state.selectedProjectId) {
+          selectProject(null);
+        }
+      } else if (state.selectedProjectId && document.getElementById('log-modal').classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') navigateProject(-1);
+        if (e.key === 'ArrowRight') navigateProject(1);
+      }
+    });
+
     function renderApp() {
       renderStats();
-      
       const contentArea = document.getElementById('dynamic-content');
       const controlsSection = document.getElementById('controls-section');
+      const headerKpis = document.getElementById('header-kpis');
       const btnShowAll = document.getElementById('btn-show-all');
+      const viewSelector = document.getElementById('view-mode-selector');
 
       if (state.selectedProjectId) {
-        // ==========================================
-        // MODO ENFOCADO: DETALLE EXPANDIDO COMPLETO
-        // ==========================================
         controlsSection.classList.add('hidden');
+        headerKpis.classList.add('hidden');
         btnShowAll.classList.remove('hidden');
+        viewSelector.classList.add('hidden');
 
         const project = projects.find(p => p.id === state.selectedProjectId);
         const filteredList = getFilteredProjects();
-        const currentIndex = filteredList.findIndex(p => p.id === project.id);
+        const currentIndex = filteredList.findIndex(p => p.id === (project ? project.id : ''));
 
         if (!project) {
-          // Si el proyecto seleccionado fue filtrado o borrado, volvemos a la lista
           selectProject(null);
           return;
         }
 
-        // Estructuración de la Ficha Técnica de Detalle
+        const categoryLabel = project.category === 'gestion' ? 'Gestión Humana' : 'Gestores de Cambio';
+        const categoryColor = project.category === 'gestion' ? 'text-brand-accent bg-indigo-50 border-indigo-200' : 'text-amber-700 bg-amber-50 border-amber-200';
+
         let htmlDetail = `
-          <div class="space-y-6 animate-fadeIn">
+          <div class="space-y-6 fade-in print-full">
             
-            <!-- Barra de Navegación del Detalle -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <button
-                onclick="selectProject(null)"
-                class="inline-flex items-center gap-2 text-xs font-black text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-lg transition-all self-start"
-              >
-                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs no-print">
+              <button onclick="selectProject(null)" class="inline-flex items-center gap-2 text-xs font-black text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-xl transition-all self-start shadow-xs">
+                <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
                 <span>Volver al Tablero Principal</span>
               </button>
 
-              <!-- Navegador Secuencial -->
               <div class="flex items-center gap-2 self-end sm:self-auto">
-                <button
-                  onclick="navigateProject(-1)"
-                  ${currentIndex <= 0 ? 'disabled' : ''}
-                  class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 transition-all bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700"
-                >
-                  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                <button onclick="navigateProject(-1)" ${currentIndex <= 0 ? 'disabled' : ''} class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-30 text-slate-700 shadow-xs">
+                  <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
                   <span>Anterior</span>
                 </button>
-                <span class="text-xs font-mono font-bold text-slate-400 px-2">
+                
+                <span class="text-xs font-mono font-bold text-slate-500 px-2 bg-slate-50 py-1 rounded-lg border border-slate-100">
                   ${currentIndex !== -1 ? currentIndex + 1 : '--'} de ${filteredList.length}
                 </span>
-                <button
-                  onclick="navigateProject(1)"
-                  ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''}
-                  class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 transition-all bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700"
-                >
+
+                <button onclick="navigateProject(1)" ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''} class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-30 text-slate-700 shadow-xs">
                   <span>Siguiente</span>
-                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+
+                <button onclick="openLogModal('${project.id}')" class="ml-2 bg-brand-cyan hover:bg-brand-cyanHover text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                  <span>Registrar Hito</span>
                 </button>
               </div>
             </div>
 
-            <!-- Ficha Técnica -->
-            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[70vh] flex flex-col">
+            <!-- Ficha Técnica 360° -->
+            <section class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
               
-              <!-- Cabecera de la Ficha -->
-              <div class="bg-gradient-to-r from-[#1c2e40] via-[#21374d] to-[#1c2e40] text-white p-6 md:p-8 relative">
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                  <span class="bg-white/10 text-slate-200 px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border border-white/10">
-                    ${project.category === 'gestion' ? 'Módulo Gestión Humana' : 'Gestor de Cambio'}
+              <div class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white p-6 sm:p-8 relative">
+                <div class="flex flex-wrap items-center gap-2.5 mb-4">
+                  <span class="text-[11px] font-black px-3 py-1 rounded-lg uppercase tracking-wider border ${categoryColor}">
+                    ${categoryLabel}
                   </span>
-                  <span class="px-3 py-1 rounded-md text-xs font-bold border ${getStatusBadgeClass(project.progress)}">
+                  <span class="text-[11px] font-bold px-3 py-1 rounded-lg border ${getStatusBadgeClass(project.progress)}">
                     ${project.status}
                   </span>
+                  <span class="text-[11px] font-bold px-3 py-1 rounded-lg border ${getPriorityBadgeClass(project.priority)}">
+                    Prioridad ${project.priority}
+                  </span>
+                  ${project.no ? `<span class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 border border-white/15">Iniciativa #${project.no}</span>` : ''}
                 </div>
 
-                <h2 class="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-3">
-                  ${project.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-[#2fc6f6] w-8 h-8 shrink-0"></i>' : ''}
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-3">
+                  ${project.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-brand-cyan w-8 h-8 shrink-0"></i>' : ''}
                   <span>${project.title}</span>
                 </h2>
                 
-                <p class="text-sm text-slate-300 mt-3 leading-relaxed max-w-4xl">
+                <p class="text-sm text-slate-300 mt-3 leading-relaxed max-w-4xl font-normal">
                   ${project.description}
                 </p>
 
-                <!-- Barra de Progreso Interna -->
-                <div class="mt-6 max-w-2xl">
-                  <div class="flex justify-between text-xs font-bold text-slate-300 mb-1.5">
-                    <span>Avance Técnico de la Iniciativa</span>
-                    <span>${project.progress}% Completado</span>
+                <div class="mt-6 max-w-3xl bg-slate-900/60 p-4 rounded-2xl border border-slate-700/60 backdrop-blur-xs">
+                  <div class="flex justify-between items-center text-xs font-bold text-slate-200 mb-2">
+                    <span class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full ${project.progress === 100 ? 'bg-emerald-400' : 'bg-brand-cyan'}"></span>
+                      <span>Avance Técnico Real</span>
+                    </span>
+                    <span class="text-sm font-black text-white">${project.progress}% Completado</span>
                   </div>
-                  <div class="w-full bg-[#1c2e40]/80 rounded-full h-3.5 p-0.5 border border-slate-700/60">
-                    <div 
-                      class="bg-gradient-to-r from-[#2fc6f6] to-[#00b4ac] h-2.5 rounded-full transition-all duration-500"
-                      style="width: ${project.progress}%"
-                    ></div>
+                  <div class="w-full bg-slate-800 rounded-full h-3.5 p-0.5 border border-slate-700">
+                    <div class="h-2.5 rounded-full transition-all duration-500 ${project.progress === 100 ? 'bg-gradient-to-r from-emerald-400 to-teal-400' : 'bg-gradient-to-r from-brand-cyan to-brand-teal'}" style="width: ${project.progress}%"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- Cuerpo de la Ficha Técnica (Dos Columnas) -->
-              <div class="p-6 md:p-8 flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 overflow-y-auto">
+              <!-- Dos Columnas -->
+              <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <!-- Columna Izquierda: Arquitectura / Roles / Retos / Estrategias -->
-                <div class="flex flex-col gap-6">
+                <!-- Columna Izquierda -->
+                <div class="space-y-6">
                   
-                  <!-- Propuesta Visual de CX si tiene imageUrl -->
                   ${project.imageUrl ? `
-                    <div class="rounded-xl overflow-hidden border border-slate-200 shadow-md">
-                      <span class="text-xs font-bold text-[#1c2e40] block p-3 bg-slate-50 border-b border-slate-150 flex items-center justify-between">
-                        <span>Framework Arquitectura CX</span>
-                        <span class="bg-[#2fc6f6] text-slate-950 px-2 py-0.5 rounded text-[10px] font-black">Presentado</span>
-                      </span>
-                      <img 
-                        src="${project.imageUrl}" 
-                        alt="Propuesta de Desarrollo Estratégico CX" 
-                        class="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
-                      />
+                    <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                      <div class="bg-slate-50 p-3.5 border-b border-slate-200 flex items-center justify-between">
+                        <span class="text-xs font-black text-slate-800 flex items-center gap-1.5">
+                          <i data-lucide="image" class="w-4 h-4 text-brand-teal"></i>
+                          <span>Framework de Arquitectura & Cultura CX</span>
+                        </span>
+                        <span class="bg-brand-cyan/20 text-slate-900 px-2 py-0.5 rounded text-[10px] font-black uppercase">Presentado Subdirección</span>
+                      </div>
+                      <img src="${project.imageUrl}" alt="Propuesta CX" class="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-300" />
                     </div>
                   ` : ''}
 
-                  <!-- Enlace de Aplicación (Si Aplica) -->
                   ${project.url ? `
-                    <a 
-                      href="${project.url}" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      class="inline-flex items-center justify-center gap-2.5 w-full bg-[#2fc6f6] hover:bg-[#1fb6e6] text-slate-950 font-black py-3 px-5 rounded-xl text-xs transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 duration-150"
-                    >
-                      <i data-lucide="external-link" class="w-4 h-4"></i>
-                      <span>${project.linkText || 'Visitar Aplicación en Producción'}</span>
+                    <a href="${project.url}" target="_blank" rel="noreferrer" class="flex items-center justify-between p-4 bg-gradient-to-r from-slate-900 to-brand-dark text-white rounded-2xl shadow-sm hover:shadow-md transition-all group">
+                      <div class="flex items-center gap-3">
+                        <div class="p-2.5 bg-brand-cyan/20 text-brand-cyan rounded-xl group-hover:scale-110 transition-transform">
+                          <i data-lucide="external-link" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <p class="text-[10px] text-brand-cyan uppercase font-extrabold tracking-wider">Entorno de Producción / Acceso</p>
+                          <p class="text-xs font-black text-white group-hover:text-brand-cyan transition-colors">${project.linkText || 'Abrir Aplicación'}</p>
+                        </div>
+                      </div>
+                      <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-white transition-colors"></i>
                     </a>
                   ` : ''}
 
-                  <!-- Responsables -->
-                  <div>
-                    <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Responsabilidad & Squad</h3>
+                  <!-- Enlace directo a Google Apps Script Web App -->
+                  <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                      <p class="text-[10px] text-slate-400 font-black uppercase">Gestión Colaborativa en la Nube</p>
+                      <p class="text-xs font-bold text-slate-800 mt-0.5">Google Sheets + Apps Script Activo</p>
+                    </div>
+                    <a href="https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec" target="_blank" class="px-3 py-1.5 bg-brand-teal text-white rounded-xl text-xs font-black hover:opacity-90 transition-all flex items-center gap-1">
+                      <span>Abrir Apps Script</span>
+                      <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+
+                  ${project.priorityReason ? `
+                    <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/60">
+                      <h4 class="text-xs font-black text-amber-900 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <i data-lucide="target" class="w-4 h-4 text-amber-700"></i>
+                        <span>Alineación & Justificación Estratégica</span>
+                      </h4>
+                      <p class="text-xs text-amber-950 leading-relaxed font-medium">${project.priorityReason}</p>
+                    </div>
+                  ` : ''}
+
+                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                    <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                      <i data-lucide="users" class="w-4 h-4 text-slate-700"></i>
+                      <span>Gobernanza, Liderazgo & Squad</span>
+                    </h4>
                     ${project.assigned ? `
-                      <div class="bg-slate-50 p-4 rounded-xl border border-slate-150 mb-3 flex items-center gap-3">
-                        <div class="h-10 w-10 bg-indigo-100 text-indigo-800 rounded-lg flex items-center justify-center font-bold text-sm">
-                          LID
-                        </div>
+                      <div class="bg-white p-3.5 rounded-xl border border-slate-200 mb-3 flex items-center gap-3">
+                        <div class="h-9 w-9 bg-brand-teal/15 text-brand-tealDark rounded-xl flex items-center justify-center font-black text-xs shrink-0">LID</div>
                         <div>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase">Proceso Liderado por:</p>
+                          <p class="text-[10px] text-slate-400 font-bold uppercase">Proceso Liderado por:</p>
                           <p class="text-xs font-black text-slate-800">${project.assigned}</p>
                         </div>
                       </div>
                     ` : ''}
-
-                    <!-- Miembros del Squad -->
                     ${project.squad && project.squad.length > 0 ? `
-                      <div class="space-y-2">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Especialistas Asignados (Squad):</p>
+                      <div class="space-y-2 mt-3">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Integrantes del Squad:</p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          ${project.squad.map(member => `
-                            <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                              <div class="h-6 w-6 rounded-full bg-indigo-100 text-indigo-900 text-[10px] font-extrabold flex items-center justify-center shrink-0">
-                                ${getAvatarInitials(member)}
-                              </div>
-                              <span class="text-xs font-semibold text-slate-700 truncate">${member}</span>
+                          ${project.squad.map(m => `
+                            <div class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                              <div class="h-7 w-7 rounded-lg bg-indigo-100 text-indigo-800 text-[10px] font-black flex items-center justify-center shrink-0">${getAvatarInitials(m)}</div>
+                              <span class="text-xs font-semibold text-slate-800 truncate">${m}</span>
                             </div>
                           `).join('')}
                         </div>
                       </div>
                     ` : ''}
+                    <div class="grid grid-cols-2 gap-2.5 mt-4 pt-3.5 border-t border-slate-200 text-xs">
+                      <div class="bg-white p-2.5 rounded-xl border border-slate-150">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Personas Directas</p>
+                        <p class="text-sm font-black text-slate-900">${project.directPeople || '--'}</p>
+                      </div>
+                      <div class="bg-white p-2.5 rounded-xl border border-slate-150">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Personas Indirectas</p>
+                        <p class="text-sm font-black text-slate-900">${project.indirectPeople || '--'}</p>
+                      </div>
+                    </div>
                   </div>
 
-                  <!-- Retos / Situaciones Identificadas -->
-                  ${project.issues && project.issues.length > 0 ? `
-                    <div>
-                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 text-red-600">
-                        <i data-lucide="alert-circle" class="w-4 h-4"></i> Retos y Situaciones Identificadas
-                      </h3>
-                      <div class="space-y-2">
-                        ${project.issues.map(issue => `
-                          <div class="text-xs text-slate-700 bg-red-50/40 p-3 rounded-lg border border-red-100/50 flex gap-2">
-                            <span class="text-red-500 font-bold">•</span>
-                            <span>${issue}</span>
-                          </div>
-                        `).join('')}
+                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                    <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                      <i data-lucide="badge-dollar-sign" class="w-4 h-4 text-emerald-600"></i>
+                      <span>Inversión & Retorno (ROI)</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Presupuesto</p>
+                        <p class="text-xs font-black text-slate-900 mt-0.5">${project.investment || 'Recurso interno'}</p>
+                      </div>
+                      <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">ROI Meta</p>
+                        <p class="text-xs font-semibold text-slate-800 mt-0.5">${project.roi || 'Optimización operativa'}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  ${project.tech && project.tech.length > 0 ? `
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                      <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                        <i data-lucide="cpu" class="w-4 h-4 text-brand-tealDark"></i>
+                        <span>Pila Tecnológica</span>
+                      </h4>
+                      <div class="flex flex-wrap gap-2">
+                        ${project.tech.map(t => `<span class="bg-white text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">${t}</span>`).join('')}
                       </div>
                     </div>
                   ` : ''}
 
-                  <!-- Estrategias de Cultura Digital -->
-                  ${project.strategies ? `
-                    <div>
-                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Estrategias de Implementación</h3>
-                      <div class="space-y-3">
-                        ${project.strategies.map(strat => `
-                          <div class="p-4.5 bg-amber-50/50 rounded-xl border border-amber-200/50">
-                            <h4 class="text-xs font-black text-amber-900 mb-1">${strat.name}</h4>
-                            <p class="text-xs text-slate-600 leading-relaxed">${strat.desc}</p>
-                          </div>
-                        `).join('')}
-                      </div>
-                    </div>
-                  ` : ''}
                 </div>
 
-                <!-- Columna Derecha: Logros, Planificación, Robótica -->
-                <div class="flex flex-col gap-6">
-                  
-                  <!-- Logros -->
+                <!-- Columna Derecha -->
+                <div class="space-y-6">
                   ${project.highlights && project.highlights.length > 0 ? `
-                    <div>
-                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 text-emerald-600 flex items-center gap-1">
-                        <i data-lucide="check-circle" class="w-4 h-4"></i> Logros Obtenidos (Hitos)
-                      </h3>
-                      <div class="space-y-2">
-                        ${project.highlights.map(item => `
-                          <div class="text-xs text-slate-700 bg-emerald-50/30 p-3 rounded-xl border border-emerald-100 flex gap-2.5 items-start">
-                            <span class="text-emerald-500 font-bold mt-0.5">✓</span>
-                            <span>${item}</span>
+                    <div class="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-200/60">
+                      <h4 class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-3.5 flex items-center gap-1.5">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Hitos Alcanzados</span>
+                      </h4>
+                      <div class="space-y-2.5">
+                        ${project.highlights.map(h => `
+                          <div class="text-xs text-slate-800 bg-white p-3 rounded-xl border border-emerald-100 flex gap-2.5 items-start shadow-2xs">
+                            <span class="text-emerald-600 font-bold text-sm leading-none mt-0.5">✓</span>
+                            <span class="leading-relaxed font-medium">${h}</span>
                           </div>
                         `).join('')}
                       </div>
                     </div>
                   ` : ''}
 
-                  <!-- Planificación Siguiente -->
                   ${project.nextPhase && project.nextPhase.length > 0 ? `
-                    <div>
-                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 text-blue-600 flex items-center gap-1">
-                        <i data-lucide="clock" class="w-4 h-4"></i> Planificación / Próximos Pasos
-                      </h3>
-                      <div class="space-y-2">
+                    <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-200/60">
+                      <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest mb-3.5 flex items-center gap-1.5">
+                        <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i>
+                        <span>Próximas Fases</span>
+                      </h4>
+                      <div class="space-y-2.5">
                         ${project.nextPhase.map(item => `
-                          <div class="text-xs text-slate-700 bg-blue-50/30 p-3 rounded-xl border border-blue-100 flex gap-2.5 items-start">
-                            <span class="text-blue-500 font-bold mt-0.5">→</span>
-                            <span>${item}</span>
+                          <div class="text-xs text-slate-800 bg-white p-3 rounded-xl border border-blue-100 flex gap-2.5 items-start shadow-2xs">
+                            <span class="text-blue-600 font-bold text-sm leading-none mt-0.5">→</span>
+                            <span class="leading-relaxed font-medium">${item}</span>
                           </div>
                         `).join('')}
                       </div>
                     </div>
                   ` : ''}
 
-                  <!-- Renderizado de Fases de la Copa de Robótica -->
-                  ${project.id === 'robotica' ? `
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-150">
-                      <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-1.5">
-                        <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> Fases de la Copa Robótica
-                      </h3>
-
-                      <div class="relative border-l-2 border-indigo-100 ml-2 space-y-6">
-                        ${project.phases.map((phase, idx) => `
-                          <div class="relative pl-6">
-                            <div class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 ${
-                              idx === 0 
-                                ? 'bg-orange-500 border-white ring-2 ring-orange-100' 
-                                : 'bg-white border-slate-300'
-                            }"></div>
-                            <div class="flex items-center gap-2 mb-1">
-                              <span class="bg-orange-100 text-orange-800 text-[10px] font-black px-1.5 py-0.5 rounded uppercase">
-                                ${phase.phase}
-                              </span>
-                              <span class="text-xs font-black text-slate-900">${phase.title}</span>
-                            </div>
-                            <p class="text-[11px] text-slate-500 leading-relaxed">${phase.desc}</p>
+                  ${project.issues && project.issues.length > 0 ? `
+                    <div class="bg-rose-50/50 p-5 rounded-2xl border border-rose-200/60">
+                      <h4 class="text-xs font-black text-rose-900 uppercase tracking-widest mb-3.5 flex items-center gap-1.5">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+                        <span>Riesgos Presentes</span>
+                      </h4>
+                      <div class="space-y-2.5">
+                        ${project.issues.map(issue => `
+                          <div class="text-xs text-slate-800 bg-white p-3 rounded-xl border border-rose-100 flex gap-2.5 items-start shadow-2xs">
+                            <span class="text-rose-600 font-bold text-sm leading-none mt-0.5">!</span>
+                            <span class="leading-relaxed font-medium">${issue}</span>
                           </div>
                         `).join('')}
                       </div>
+                    </div>
+                  ` : ''}
 
-                      <div class="bg-amber-50 rounded-lg p-3 border border-amber-200/50 mt-5 space-y-2.5">
-                        <p class="text-xs font-black text-amber-900">Requerimientos Técnicos:</p>
-                        <p class="text-[11px] text-slate-700"><strong>Capacitación:</strong> ${roboticaRequirements.training}</p>
-                        <p class="text-[11px] text-slate-700"><strong>Materiales:</strong> ${roboticaRequirements.materials}</p>
+                  ${project.strategies ? `
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                      <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-4 h-4 text-brand-teal"></i>
+                        <span>Estrategias de Transformación</span>
+                      </h4>
+                      <div class="space-y-3">
+                        ${project.strategies.map(strat => `
+                          <div class="p-3.5 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                            <h5 class="text-xs font-black text-slate-900 mb-1 flex items-center gap-1.5">
+                              <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+                              <span>${strat.name}</span>
+                            </h5>
+                            <p class="text-xs text-slate-600 leading-relaxed font-normal">${strat.desc}</p>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${project.phases ? `
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                      <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-1.5">
+                        <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i>
+                        <span>Roadmap STEAM: Copa Robótica</span>
+                      </h4>
+                      <div class="relative border-l-2 border-indigo-200 ml-2 space-y-5 my-2">
+                        ${project.phases.map((ph, idx) => `
+                          <div class="relative pl-6">
+                            <div class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 ${idx === 0 ? 'bg-orange-500 border-white ring-2 ring-orange-200' : 'bg-white border-slate-300'}"></div>
+                            <div class="flex items-center gap-2 mb-1">
+                              <span class="bg-orange-100 text-orange-800 text-[9px] font-black px-1.5 py-0.5 rounded uppercase">${ph.phase}</span>
+                              <span class="text-xs font-black text-slate-900">${ph.title}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">${ph.desc}</p>
+                          </div>
+                        `).join('')}
                       </div>
                     </div>
                   ` : ''}
@@ -877,26 +1588,21 @@
                 </div>
               </div>
 
-              <!-- Footer de la Ficha Técnica con Navegadores -->
-              <div class="bg-slate-50 border-t border-slate-200 p-4 flex justify-between items-center">
-                <button
-                  onclick="navigateProject(-1)"
-                  ${currentIndex <= 0 ? 'disabled' : ''}
-                  class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40"
-                >
+              <!-- Footer Ficha -->
+              <div class="bg-slate-50 border-t border-slate-200 p-4 sm:p-5 flex flex-wrap justify-between items-center gap-3 no-print">
+                <button onclick="navigateProject(-1)" ${currentIndex <= 0 ? 'disabled' : ''} class="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-30 shadow-xs">
                   ← Proyecto Anterior
                 </button>
-                <button
-                  onclick="selectProject(null)"
-                  class="text-xs font-bold text-indigo-900 hover:underline"
-                >
-                  Cerrar y volver al inicio
-                </button>
-                <button
-                  onclick="navigateProject(1)"
-                  ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''}
-                  class="px-4 py-2 border rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40"
-                >
+                <div class="flex items-center gap-3">
+                  <button onclick="window.print()" class="px-3.5 py-2 border border-slate-200 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 flex items-center gap-1.5 shadow-xs">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <span>Imprimir Ficha</span>
+                  </button>
+                  <button onclick="selectProject(null)" class="px-4 py-2 bg-brand-navy hover:bg-slate-800 text-white rounded-xl text-xs font-bold shadow-xs">
+                    Cerrar y Volver al Tablero
+                  </button>
+                </div>
+                <button onclick="navigateProject(1)" ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''} class="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-30 shadow-xs">
                   Siguiente Proyecto →
                 </button>
               </div>
@@ -907,236 +1613,181 @@
         contentArea.innerHTML = htmlDetail;
 
       } else {
-        // ==========================================
-        // MODO GRILLA COMPLETA (CRM BITRIX24 STYLE)
-        // ==========================================
         controlsSection.classList.remove('hidden');
+        headerKpis.classList.remove('hidden');
         btnShowAll.classList.add('hidden');
+        viewSelector.classList.remove('hidden');
 
         const filteredList = getFilteredProjects();
 
-        if (filteredList.length > 0) {
-          let htmlCards = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+        if (filteredList.length === 0) {
+          contentArea.innerHTML = `
+            <div class="bg-white rounded-3xl p-12 text-center border border-slate-200 flex flex-col items-center justify-center shadow-xs">
+              <i data-lucide="search-x" class="w-8 h-8 text-slate-400 mb-2"></i>
+              <h4 class="font-black text-slate-800 text-base">No se encontraron proyectos</h4>
+              <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 bg-brand-cyan text-slate-950 font-black text-xs rounded-xl shadow-xs hover:bg-brand-cyanHover transition-all">
+                Restablecer filtros
+              </button>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
 
+        // VISTA 1: TARJETAS
+        if (state.viewMode === 'cards') {
+          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
           filteredList.forEach(p => {
             const hasSquad = p.squad && p.squad.length > 0;
-            const leftBorderColor = p.category === 'gestion' ? 'bg-[#4a5fcf]' : 'bg-[#f7a700]';
-            const categoryBadgeColor = p.category === 'gestion' 
-              ? 'bg-indigo-50/70 text-[#4a5fcf] border-indigo-150' 
-              : 'bg-amber-50/70 text-[#c28400] border-amber-150';
-            const categoryLabel = p.category === 'gestion' ? 'Gestión Humana' : 'Gestores de Cambio';
+            const leftBorderColor = p.category === 'gestion' ? 'bg-brand-accent' : 'bg-amber-500';
+            const categoryBadgeColor = p.category === 'gestion' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+            const categoryLabel = p.category === 'gestion' ? 'Gestión Humana' : 'Gestor de Cambio';
 
-            htmlCards += `
-              <div
-                onclick="selectProject('${p.id}')"
-                class="bg-white rounded-xl shadow-xs border border-slate-200/80 hover:border-slate-350 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col group overflow-hidden relative"
-              >
-                <!-- Banda lateral Bitrix24 -->
+            html += `
+              <div onclick="selectProject('${p.id}')" class="bg-white rounded-2xl shadow-xs border border-slate-200 hover:border-slate-350 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col group overflow-hidden relative">
                 <div class="absolute left-0 top-0 bottom-0 w-[5px] ${leftBorderColor}"></div>
-
-                <!-- Contenido de la Tarjeta -->
                 <div class="p-5 pl-6 flex-1 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between gap-2 mb-3">
-                      <span class="text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider border ${categoryBadgeColor}">
-                        ${categoryLabel}
-                      </span>
-                      <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider border ${getStatusBadgeClass(p.progress)}">
-                        ${p.status}
-                      </span>
+                      <div class="flex items-center gap-1.5">
+                        ${p.no ? `<span class="text-[9px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">#${p.no}</span>` : ''}
+                        <span class="text-[9px] px-2 py-0.5 rounded-md font-black uppercase tracking-wider border ${categoryBadgeColor}">${categoryLabel}</span>
+                      </div>
+                      <span class="px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border ${getStatusBadgeClass(p.progress)}">${p.status}</span>
                     </div>
 
-                    <h3 class="font-extrabold text-slate-900 text-[15px] leading-snug group-hover:text-[#4a5fcf] transition-colors flex items-center gap-2">
-                      ${p.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-[#f7a700] w-4.5 h-4.5 shrink-0"></i>' : ''}
+                    <h3 class="font-extrabold text-slate-900 text-sm leading-snug group-hover:text-brand-accent transition-colors flex items-center gap-1.5">
+                      ${p.id === 'proyectocx' ? '<i data-lucide="heart-handshake" class="text-amber-500 w-4 h-4 shrink-0"></i>' : ''}
                       <span>${p.title}</span>
                     </h3>
 
-                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">
-                      ${p.description}
-                    </p>
+                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">${p.description}</p>
 
-                    <!-- Tabla CRM de Atributos -->
-                    <div class="mt-4.5 space-y-2 border-t border-slate-100 pt-3.5">
-                      <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-400 font-medium">Responsable:</span>
-                        <span class="font-bold text-slate-700 truncate max-w-[150px]">
-                          ${p.assigned || 'Squad Multidisciplinario'}
-                        </span>
+                    <div class="mt-4 space-y-2 border-t border-slate-100 pt-3 text-xs">
+                      <div class="flex items-center justify-between">
+                        <span class="text-slate-400 font-medium">Líder:</span>
+                        <span class="font-bold text-slate-700 truncate max-w-[170px]">${p.assigned || 'Squad'}</span>
                       </div>
-
-                      ${hasSquad ? `
-                        <div class="flex items-center justify-between text-xs">
-                          <span class="text-slate-400 font-medium">Colaboradores:</span>
-                          <div class="flex items-center gap-1.5">
-                            <div class="flex -space-x-1.5 overflow-hidden">
-                              ${p.squad.slice(0, 3).map(m => `
-                                <div class="inline-block h-5 w-5 rounded-full ring-2 ring-white bg-[#00b4ac] text-white flex items-center justify-center text-[7px] font-black">
-                                  ${getAvatarInitials(m)}
-                                </div>
-                              `).join('')}
-                            </div>
-                            <span class="text-[10px] text-slate-500 font-bold">+${p.squad.length}</span>
-                          </div>
-                        </div>
-                      ` : ''}
+                      <div class="flex items-center justify-between">
+                        <span class="text-slate-400 font-medium">Prioridad:</span>
+                        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border ${getPriorityBadgeClass(p.priority)}">${p.priority}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <!-- Footer con KPI de avance -->
-                  <div class="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
-                    <div class="flex items-center gap-2 flex-1 max-w-[60%]">
+                  <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-2 flex-1 max-w-[65%]">
                       <span class="text-xs font-black text-slate-900">${p.progress}%</span>
-                      <div class="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden border border-slate-200/50">
-                        <div class="h-full ${p.progress === 100 ? 'bg-[#00c853]' : 'bg-[#2fc6f6]'}" style="width: ${p.progress}%"></div>
+                      <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
+                        <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-brand-cyan to-brand-teal'}" style="width: ${p.progress}%"></div>
                       </div>
                     </div>
-
-                    <!-- Indicadores de Recursos Externos -->
-                    <div class="flex items-center gap-2 text-slate-400">
-                      ${p.url ? '<i data-lucide="link-2" class="text-[#00b4ac] w-3.5 h-3.5" title="Enlace web disponible"></i>' : ''}
-                      ${p.issues && p.issues.length > 0 ? '<i data-lucide="alert-triangle" class="text-orange-500 w-3.5 h-3.5" title="Retos identificados"></i>' : ''}
-                      <span class="text-[10px] text-[#4a5fcf] font-bold group-hover:underline flex items-center gap-0.5">
-                        Ficha <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                      </span>
-                    </div>
+                    <span class="text-[11px] text-brand-accent font-bold group-hover:underline flex items-center">
+                      Ficha <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                    </span>
                   </div>
                 </div>
               </div>
             `;
           });
+          html += `</div>`;
+          contentArea.innerHTML = html;
 
-          htmlCards += '</div>';
-          contentArea.innerHTML = htmlCards;
-
-        } else {
-          contentArea.innerHTML = `
-            <div class="bg-white rounded-2xl p-10 text-center border border-slate-200 flex flex-col items-center justify-center">
-              <i data-lucide="alert-circle" class="text-slate-300 w-11 h-11 mb-2"></i>
-              <h4 class="font-bold text-slate-800">No se encontraron proyectos</h4>
-              <p class="text-xs text-slate-400 mt-1">Intenta con otros filtros de búsqueda.</p>
-            </div>
+        // VISTA 2: TABLA
+        } else if (state.viewMode === 'table') {
+          let html = `
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-black uppercase tracking-wider text-[10px]">
+                  <tr>
+                    <th class="py-3.5 px-4 w-12 text-center">N°</th>
+                    <th class="py-3.5 px-4">Iniciativa / Proyecto</th>
+                    <th class="py-3.5 px-4">Área / Categoría</th>
+                    <th class="py-3.5 px-4 w-36">Avance Real</th>
+                    <th class="py-3.5 px-4">Prioridad</th>
+                    <th class="py-3.5 px-4">Responsable / Squad</th>
+                    <th class="py-3.5 px-4 text-center">Acción</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
           `;
+          filteredList.forEach(p => {
+            const categoryLabel = p.category === 'gestion' ? 'Gestión Humana' : 'Gestor de Cambio';
+            html += `
+              <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer group" onclick="selectProject('${p.id}')">
+                <td class="py-3.5 px-4 text-center font-mono font-bold text-slate-400">#${p.no || '--'}</td>
+                <td class="py-3.5 px-4">
+                  <p class="font-extrabold text-slate-900 group-hover:text-brand-accent transition-colors">${p.title}</p>
+                </td>
+                <td class="py-3.5 px-4"><span class="text-[9px] px-2 py-0.5 rounded font-black uppercase bg-slate-100 text-slate-700">${categoryLabel}</span></td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2">
+                    <span class="font-black text-slate-900 w-8">${p.progress}%</span>
+                    <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/60">
+                      <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4"><span class="text-[9px] font-bold px-2 py-0.5 rounded border ${getPriorityBadgeClass(p.priority)}">${p.priority}</span></td>
+                <td class="py-3.5 px-4 font-bold text-slate-800">${p.assigned || 'Squad'}</td>
+                <td class="py-3.5 px-4 text-center">
+                  <button onclick="event.stopPropagation(); selectProject('${p.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-brand-cyan hover:text-slate-950 text-slate-700 rounded-lg text-xs font-bold transition-all">Ver Ficha</button>
+                </td>
+              </tr>
+            `;
+          });
+          html += `</tbody></table></div>`;
+          contentArea.innerHTML = html;
+
+        // VISTA 3: PIPELINE
+        } else if (state.viewMode === 'kanban') {
+          const columns = [
+            { id: 'c1', title: 'Fase Inicial / Propuesta', filter: p => p.progress < 50, color: 'border-amber-400' },
+            { id: 'c2', title: 'En Desarrollo / Ejecución', filter: p => p.progress >= 50 && p.progress < 85, color: 'border-blue-400' },
+            { id: 'c3', title: 'Pruebas & Validación UX', filter: p => p.progress >= 85 && p.progress < 100, color: 'border-cyan-400' },
+            { id: 'c4', title: 'En Producción / Listos', filter: p => p.progress === 100, color: 'border-emerald-400' }
+          ];
+
+          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">`;
+          columns.forEach(col => {
+            const colProjects = filteredList.filter(col.filter);
+            html += `
+              <div class="bg-slate-100/70 rounded-2xl p-3.5 border border-slate-200">
+                <div class="flex items-center justify-between mb-3 px-1">
+                  <h4 class="font-extrabold text-xs text-slate-800">${col.title}</h4>
+                  <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-600 rounded-full border border-slate-200">${colProjects.length}</span>
+                </div>
+                <div class="space-y-3">
+                  ${colProjects.map(p => `
+                    <div onclick="selectProject('${p.id}')" class="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-350 hover:shadow-sm transition-all cursor-pointer group">
+                      <div class="flex items-center justify-between text-[9px] mb-1.5">
+                        <span class="font-mono font-bold text-slate-400">#${p.no || ''}</span>
+                        <span class="font-bold px-1.5 py-0.2 rounded border ${getPriorityBadgeClass(p.priority)}">${p.priority}</span>
+                      </div>
+                      <h5 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">${p.title}</h5>
+                      <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[10px]">
+                        <span class="font-bold text-slate-700">${p.progress}%</span>
+                        <div class="w-20 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                          <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
+                        </div>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+          contentArea.innerHTML = html;
         }
       }
 
-      // Re-inicializa todos los iconos renderizados dinámicamente con Lucide
       lucide.createIcons();
     }
 
-    // Funciones del Controlador de Estado
-    function selectProject(id) {
-      state.selectedProjectId = id;
+    window.addEventListener('DOMContentLoaded', () => {
       renderApp();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Lógica de navegación secuencial
-    function navigateProject(direction) {
-      const filteredList = getFilteredProjects();
-      const currentIndex = filteredList.findIndex(p => p.id === state.selectedProjectId);
-      const targetIndex = currentIndex + direction;
-
-      if (targetIndex >= 0 && targetIndex < filteredList.length) {
-        state.selectedProjectId = filteredList[targetIndex].id;
-        renderApp();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    function setCategoryTab(tab) {
-      state.activeTab = tab;
-      
-      // Actualizar estilos activos de los Tabs
-      ['all', 'gestion', 'cambio'].forEach(t => {
-        const btn = document.getElementById(`tab-${t}`);
-        if (t === tab) {
-          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all bg-white text-slate-950 shadow-sm whitespace-nowrap";
-        } else {
-          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-extrabold transition-all text-slate-600 hover:text-slate-900 whitespace-nowrap";
-        }
-      });
-
-      renderApp();
-    }
-
-    function setStatusFilter(filter) {
-      state.selectedStatusFilter = filter;
-
-      // Actualizar estilos activos de los filtros secundarios
-      ['all', 'completed', 'progress', 'initial'].forEach(f => {
-        const btn = document.getElementById(`filter-${f}`);
-        if (f === filter) {
-          btn.className = "px-3 py-1 rounded-md text-xs font-bold border bg-[#e2f7f6] border-[#00b4ac]/30 text-[#008d87]";
-        } else {
-          btn.className = "px-3 py-1 rounded-md text-xs font-bold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
-        }
-      });
-
-      renderApp();
-    }
-
-    function handleSearch(val) {
-      state.searchQuery = val;
-      renderApp();
-    }
-
-    // Funciones del Modal y Simulación de Escritura de Bitácora
-    function openLogModal() {
-      const modalSelect = document.getElementById('modal-select-project');
-      modalSelect.innerHTML = projects.map(p => `
-        <option value="${p.id}" ${state.selectedProjectId === p.id ? 'selected' : ''}>${p.title}</option>
-      `).join('');
-
-      // Sincronizar el slider inicial con el proyecto enfocado si lo hay
-      if (state.selectedProjectId) {
-        const p = projects.find(proj => proj.id === state.selectedProjectId);
-        document.getElementById('modal-progress-range').value = p.progress;
-        document.getElementById('modal-progress-label').innerText = p.progress;
-      } else {
-        document.getElementById('modal-progress-range').value = 50;
-        document.getElementById('modal-progress-label').innerText = 50;
-      }
-
-      document.getElementById('modal-log-text').value = '';
-      document.getElementById('log-modal').classList.remove('hidden');
-    }
-
-    function closeLogModal() {
-      document.getElementById('log-modal').classList.add('hidden');
-    }
-
-    function updateModalProgressLabel(val) {
-      document.getElementById('modal-progress-label').innerText = val;
-    }
-
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      
-      const projectId = document.getElementById('modal-select-project').value;
-      const progressValue = parseInt(document.getElementById('modal-progress-range').value);
-      const logText = document.getElementById('modal-log-text').value;
-
-      // Actualizar la base de datos temporal en memoria
-      projects = projects.map(p => {
-        if (p.id === projectId) {
-          return {
-            ...p,
-            progress: progressValue,
-            highlights: [logText, ...(p.highlights || [])]
-          };
-        }
-        return p;
-      });
-
-      // Cerrar el modal y refrescar la aplicación
-      closeLogModal();
-      renderApp();
-    }
-
-    // Inicialización al cargar el documento
-    window.onload = function() {
-      renderApp();
-    }
+    });
   </script>
 </body>
 </html>
