@@ -1477,8 +1477,11 @@
     const isAppsScript = typeof google !== 'undefined' && google.script && google.script.run;
 
     
+    const APPS_SCRIPT_WEBAPP_URL = 'https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec';
+
     function initCloudConnection() {
       if (isAppsScript) {
+        // En entorno Google Apps Script: carga directa de Sheets
         google.script.run
           .withSuccessHandler((response) => {
             if (response) {
@@ -1492,7 +1495,26 @@
           })
           .getInitialData();
       } else {
+        // En entorno GitHub / Local: renderiza primero local y consulta en vivo a Apps Script
         renderApp();
+
+        fetch(`${APPS_SCRIPT_WEBAPP_URL}?action=getData`)
+          .then(res => res.json())
+          .then(response => {
+            if (response && response.projects && response.projects.length > 0) {
+              projects = response.projects;
+              archivedProjects = response.archivedProjects || [];
+              bitacoraLogs = response.bitacora || [];
+              const userDisplay = document.getElementById('current-user-display');
+              if (userDisplay) userDisplay.innerText = 'En vivo (Google Sheets)';
+              renderApp();
+              showToast('Sincronizado', 'Datos y portadas actualizados en vivo desde Google Sheets.');
+            }
+          })
+          .catch(err => {
+            // Si la política corporativa de Google Workspace bloquea el fetch anónimo por CORS
+            console.log('GitHub usando datos locales sincronizados:', err);
+          });
       }
     }
     
