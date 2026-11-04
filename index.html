@@ -1,21 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="es" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comfamiliar Risaralda • Portafolio de Iniciativas (Kanban & PMO)</title>
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio de Proyectos SDHO | Comfamiliar Risaralda</title>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -24,164 +15,139 @@
             brand: {
               navy: '#0f1e2e',
               dark: '#1c2e40',
-              surface: '#243b53',
-              teal: '#00b4ac',
-              tealDark: '#008d87',
               cyan: '#2fc6f6',
-              cyanHover: '#1fb6e6',
-              accent: '#4a5fcf'
+              teal: '#00b4ac',
+              tealDark: '#008b84',
+              accent: '#f26522',
+              accentLight: '#ff8547',
+              grayBg: '#f8fafc',
+              border: '#e2e8f0',
+              cardBg: '#ffffff'
             }
           },
+          boxShadow: {
+            'subtle': '0 2px 10px rgba(15, 30, 46, 0.05)',
+            'elevated': '0 10px 25px -5px rgba(15, 30, 46, 0.1), 0 8px 10px -6px rgba(15, 30, 46, 0.05)',
+            'glow-cyan': '0 0 20px -3px rgba(47, 198, 246, 0.35)',
+            'glow-teal': '0 0 20px -3px rgba(0, 180, 172, 0.35)'
+          },
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Plus Jakarta Sans', 'sans-serif']
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
           }
         }
       }
     }
   </script>
 
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .fade-in { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Kanban Drag & Drop Effects */
-    .kanban-card[draggable="true"] { cursor: grab; }
-    .kanban-card[draggable="true"]:active { cursor: grabbing; }
-    .kanban-card.dragging { opacity: 0.35; transform: scale(0.97); }
-    .kanban-column.drag-over {
-      background-color: #e0f2fe !important;
-      border: 2px dashed #0284c7 !important;
-    }
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
 
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .kanban-column {
+      min-height: calc(100vh - 290px);
+    }
+    .kanban-card.dragging {
+      opacity: 0.4;
+      transform: scale(0.96);
+    }
+    .kanban-dropzone.drag-over {
+      background-color: rgba(47, 198, 246, 0.08);
+      border-color: #2fc6f6;
+    }
     @media print {
-      header, #cloud-banner, #controls-section, #header-kpis, .no-print, #view-mode-selector {
-        display: none !important;
-      }
-      body { background: white !important; color: black !important; }
-      .print-modal {
-        display: block !important;
-        position: static !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-      }
+      .no-print { display: none !important; }
+      .print-modal { box-shadow: none !important; border: none !important; }
     }
   </style>
 </head>
-<body class="bg-[#f0f4f8] min-h-screen text-slate-800 flex flex-col antialiased selection:bg-[#00b4ac]/20 selection:text-[#008d87]">
+<body class="min-h-full flex flex-col bg-slate-50 text-slate-800">
 
-  <!-- TOAST FLOTANTE -->
-  <div id="toast-notification" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 transition-all transform translate-y-2 opacity-0">
-    <div id="toast-icon" class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg">
-      <i data-lucide="check" class="w-4 h-4"></i>
-    </div>
-    <div>
-      <p id="toast-title" class="text-xs font-black">Actualización exitosa</p>
-      <p id="toast-message" class="text-[11px] text-slate-300">Datos sincronizados con Google Sheets.</p>
-    </div>
-  </div>
-
-  
-
-  <!-- HEADER CORPORATIVO OFICIAL -->
-  <header class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white shadow-md sticky top-0 z-40 border-b border-slate-700/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+  <!-- HEADER INSTITUCIONAL -->
+  <header class="bg-gradient-to-r from-brand-navy via-[#14283c] to-brand-dark text-white border-b border-slate-700/80 sticky top-0 z-40 shadow-elevated">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
       
       <!-- Logo y Título -->
-      <div class="flex items-center gap-4">
-        <div class="flex items-center justify-center p-1 bg-white/5 rounded-xl border border-white/10 shadow-inner">
-          <img 
-            src="https://i.imgur.com/yyI6FWO.png" 
-            alt="Comfamiliar Risaralda" 
-            class="h-11 w-auto object-contain filter drop-shadow"
-            onerror="this.onerror=null; this.src='https://placehold.co/140x44/1c2e40/ffffff?text=Comfamiliar';"
-          />
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
-              <span>Portafolio de Iniciativas</span>
-              <span id="badge-cloud-status" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Kanban Móvil • SDHO</span>
-              </span>
-            </h1>
+      <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-cyan to-brand-teal flex items-center justify-center font-black text-slate-950 text-lg shadow-glow-cyan">
+            C
           </div>
-          <p class="text-xs text-brand-teal font-bold tracking-wide uppercase flex items-center gap-1.5 mt-0.5">
-            <span>Cultura, Productividad & Gestión del Cambio</span>
-            <span class="text-slate-500">•</span>
-            <span id="current-user-display" class="text-slate-400 font-normal normal-case">Subdirección de Desarrollo Humano</span>
-          </p>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base sm:text-lg font-black tracking-tight text-white leading-tight">
+                Tablero de Iniciativas y Proyectos SDHO
+              </h1>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">
+                2026-2027
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 font-medium">
+              Subdirección de Desarrollo Humano y Organizacional · Comfamiliar Risaralda
+            </p>
+          </div>
         </div>
+
+        <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-300 hover:text-white">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
       </div>
 
       <!-- Barra de Acciones Globales -->
-      <div class="flex items-center flex-wrap gap-2.5 self-start md:self-auto">
+      <div class="flex items-center gap-2.5 flex-wrap w-full md:w-auto justify-end">
         
-        <!-- Botón Volver al Tablero -->
-        <button id="btn-show-all" class="hidden bg-slate-800/90 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border border-slate-600 flex items-center gap-1.5 shadow-sm" onclick="selectProject(null)">
-          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-          <span>Volver al Tablero</span>
-        </button>
-
-        <!-- Selector de Vista: Kanban activo por defecto -->
-        <div id="view-mode-selector" class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700">
-          <button 
-            id="view-btn-kanban" 
-            onclick="setViewMode('kanban')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm"
-            title="Tablero Kanban por Etapas"
-          >
-            <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
+        <!-- Switch de Vistas -->
+        <div id="view-mode-selector" class="bg-slate-900/80 p-1 rounded-xl border border-slate-700/80 flex items-center shadow-inner">
+          <button id="view-btn-kanban" onclick="setViewMode('kanban')" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-xs" title="Vista Tablero Kanban">
+            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
             <span>Kanban</span>
           </button>
-          <button 
-            id="view-btn-cards" 
-            onclick="setViewMode('cards')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
-            title="Vista de Tarjetas"
-          >
-            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <button id="view-btn-cards" onclick="setViewMode('cards')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white" title="Vista Fichas">
+            <i data-lucide="grid" class="w-3.5 h-3.5"></i>
             <span class="hidden sm:inline">Tarjetas</span>
           </button>
-          <button 
-            id="view-btn-table" 
-            onclick="setViewMode('table')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
-            title="Vista Matriz PMO"
-          >
-            <i data-lucide="table" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">Matriz PMO</span>
+          <button id="view-btn-matrix" onclick="setViewMode('matrix')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white" title="Matriz Prioridad vs Dificultad">
+            <i data-lucide="crosshair" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Matriz</span>
           </button>
-          <button 
-            id="view-btn-gantt" 
-            onclick="setViewMode('gantt')" 
-            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white"
-            title="Roadmap Trimestral 2026"
-          >
-            <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">Gantt</span>
+          <button id="view-btn-gantt" onclick="setViewMode('gantt')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white" title="Roadmap y Cronograma de Fechas">
+            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Cronograma</span>
           </button>
         </div>
+
+        <!-- Botón + Nuevo Proyecto -->
+        <button class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-1.5 hover:scale-[1.02]" onclick="openNewProjectModal()" title="Crear nueva iniciativa en el portafolio">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>+ Nuevo Proyecto</span>
+        </button>
 
         <!-- Botón Reporte Comité -->
         <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-1.5" onclick="openExecutiveReportModal()" title="Generar One-Pager para Dirección">
           <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
           <span class="hidden sm:inline">Reporte Comité</span>
-        </button>
-
-        <!-- Botón Nuevo Proyecto -->
-        <button class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-1.5 hover:scale-[1.02]" onclick="openNewProjectModal()" title="Crear nueva iniciativa en el portafolio">
-          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-          <span>+ Nuevo Proyecto</span>
         </button>
 
         <!-- Botón Documentar Avance -->
@@ -218,59 +184,58 @@
         <div>
           <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Avance Global</p>
           <div class="flex items-baseline gap-1">
-            <h4 id="stat-avg" class="text-base font-black text-slate-950">--%</h4>
-            <span class="text-[9px] text-emerald-600 font-bold">en meta</span>
+            <h4 id="stat-avg" class="text-base font-black text-brand-tealDark">--%</h4>
           </div>
         </div>
       </div>
 
-      <div onclick="setHealthFilter('en_tiempo')" class="flex items-center gap-3 p-3 rounded-xl bg-emerald-50/50 border border-emerald-100 cursor-pointer hover:bg-emerald-50 transition-colors">
-        <div class="p-2.5 bg-emerald-100 text-emerald-700 rounded-xl shadow-xs">
-          <i data-lucide="check-circle" class="w-4.5 h-4.5"></i>
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl shadow-xs">
+          <i data-lucide="check-circle-2" class="w-4.5 h-4.5"></i>
         </div>
         <div>
-          <p class="text-[9px] text-emerald-700 font-extrabold uppercase tracking-wider">A Tiempo (RAG)</p>
+          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">En Tiempo</p>
           <div class="flex items-baseline gap-1">
-            <h4 id="stat-health-green" class="text-base font-black text-emerald-950">--</h4>
-            <span class="text-[9px] text-emerald-600 font-bold">en meta</span>
+            <h4 id="stat-ontime" class="text-base font-black text-emerald-600">--</h4>
+            <span class="text-[9px] text-emerald-600/70 font-semibold">🟢 RAG</span>
           </div>
         </div>
       </div>
 
-      <div onclick="setHealthFilter('en_riesgo')" class="flex items-center gap-3 p-3 rounded-xl bg-amber-50/50 border border-amber-100 cursor-pointer hover:bg-amber-50 transition-colors">
-        <div class="p-2.5 bg-amber-100 text-amber-700 rounded-xl shadow-xs">
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-amber-50 text-amber-600 rounded-xl shadow-xs">
           <i data-lucide="alert-triangle" class="w-4.5 h-4.5"></i>
         </div>
         <div>
-          <p class="text-[9px] text-amber-700 font-extrabold uppercase tracking-wider">En Riesgo (RAG)</p>
+          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">En Riesgo</p>
           <div class="flex items-baseline gap-1">
-            <h4 id="stat-health-amber" class="text-base font-black text-amber-950">--</h4>
-            <span class="text-[9px] text-amber-600 font-bold">atención</span>
+            <h4 id="stat-atrisk" class="text-base font-black text-amber-600">--</h4>
+            <span class="text-[9px] text-amber-600/70 font-semibold">🟡 RAG</span>
           </div>
         </div>
       </div>
 
-      <div onclick="setHealthFilter('bloqueado')" class="flex items-center gap-3 p-3 rounded-xl bg-rose-50/50 border border-rose-100 cursor-pointer hover:bg-rose-50 transition-colors">
-        <div class="p-2.5 bg-rose-100 text-rose-700 rounded-xl shadow-xs">
-          <i data-lucide="octagon-alert" class="w-4.5 h-4.5"></i>
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-rose-50 text-rose-600 rounded-xl shadow-xs">
+          <i data-lucide="alert-octagon" class="w-4.5 h-4.5"></i>
         </div>
         <div>
-          <p class="text-[9px] text-rose-700 font-extrabold uppercase tracking-wider">Bloqueados (RAG)</p>
+          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Bloqueados</p>
           <div class="flex items-baseline gap-1">
-            <h4 id="stat-health-red" class="text-base font-black text-rose-950">--</h4>
-            <span class="text-[9px] text-rose-600 font-bold">destrabe</span>
+            <h4 id="stat-blocked" class="text-base font-black text-rose-600">--</h4>
+            <span class="text-[9px] text-rose-600/70 font-semibold">🔴 RAG</span>
           </div>
         </div>
       </div>
 
-      <div class="col-span-2 lg:col-span-1 flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
-        <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl shadow-xs">
-          <i data-lucide="badge-dollar-sign" class="w-4.5 h-4.5"></i>
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-100">
+        <div class="p-2.5 bg-purple-50 text-purple-600 rounded-xl shadow-xs">
+          <i data-lucide="wallet" class="w-4.5 h-4.5"></i>
         </div>
         <div>
-          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Inversión Aprobada</p>
+          <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Presupuesto</p>
           <div class="flex items-baseline gap-1">
-            <h4 class="text-base font-black text-slate-950">$440.7M</h4>
+            <h4 id="stat-budget" class="text-base font-black text-purple-700">--</h4>
           </div>
         </div>
       </div>
@@ -278,91 +243,66 @@
     </div>
   </section>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 w-full">
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
     
-    <!-- CONTROLES, PESTAÑAS Y BÚSQUEDA -->
-    <div id="controls-section" class="space-y-4 mb-6">
+    <!-- BARRA DE FILTROS Y BÚSQUEDA -->
+    <section id="controls-section" class="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-subtle">
       
-      <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+      <!-- Búsqueda -->
+      <div class="relative flex-1">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Buscar por iniciativa, líder, squad o tecnología..." 
+          oninput="handleSearch(this.value)"
+          class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-teal focus:bg-white transition-all"
+        />
+      </div>
+
+      <!-- Filtros Rápidos -->
+      <div class="flex items-center gap-2 flex-wrap">
         
-        <div class="flex bg-slate-100/90 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar gap-1">
-          <button id="tab-all" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-black transition-all bg-white text-slate-950 shadow-xs whitespace-nowrap" onclick="setCategoryTab('all')">
-            Todas las Iniciativas (<span id="count-tab-all">0</span>)
-          </button>
-          <button id="tab-cambio" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap" onclick="setCategoryTab('cambio')">
-            Gestores de Cambio (<span id="count-tab-cambio">0</span>)
-          </button>
-          <button id="tab-gestion" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap" onclick="setCategoryTab('gestion')">
-            Gestión Humana (<span id="count-tab-gestion">0</span>)
-          </button>
-          <button id="tab-archivados" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap flex items-center gap-1.5" onclick="setCategoryTab('archivados')">
-            <i data-lucide="archive" class="w-3.5 h-3.5"></i>
-            <span>Archivadas (<span id="count-tab-archivados">0</span>)</span>
-          </button>
-        </div>
+        <!-- Filtro RAG -->
+        <select id="filter-health" onchange="handleHealthFilter(this.value)" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+          <option value="all">Semáforo: Todos</option>
+          <option value="en_tiempo">🟢 En Tiempo</option>
+          <option value="en_riesgo">🟡 En Riesgo</option>
+          <option value="bloqueado">🔴 Bloqueado</option>
+        </select>
 
-        <div class="flex items-center gap-2 w-full md:w-auto">
-          <button 
-            id="btn-my-projects"
-            onclick="toggleMyProjectsFilter()"
-            class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap"
-            title="Filtrar por mis iniciativas asignadas"
-          >
-            <i data-lucide="user" class="w-3.5 h-3.5"></i>
-            <span>Mis Proyectos</span>
-          </button>
+        <!-- Filtro Eje Estratégico -->
+        <select id="filter-category" onchange="handleCategoryFilter(this.value)" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+          <option value="all">Eje: Todos</option>
+          <option value="cambio">Cultura y Gestión del Cambio</option>
+          <option value="digital">Transformación Digital</option>
+          <option value="gestion">Gestión del Talento Humano</option>
+        </select>
 
-          <div class="relative w-full md:w-72">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-              <i data-lucide="search" class="w-4 h-4"></i>
-            </span>
-            <input
-              id="search-input"
-              type="text"
-              placeholder="Buscar por proyecto, squad, tecnología..."
-              oninput="handleSearch(this.value)"
-              class="w-full pl-10 pr-9 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-teal focus:bg-white font-semibold"
-            />
-          </div>
-        </div>
+        <!-- Filtro de Estado -->
+        <select id="filter-status" onchange="handleStatusFilter(this.value)" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+          <option value="all">Estado: Todos</option>
+          <option value="Fase Inicial">Fase Inicial</option>
+          <option value="En Ejecución">En Ejecución</option>
+          <option value="Terminado">Terminado</option>
+        </select>
 
       </div>
+    </section>
 
-      <!-- Filtros rápidos de Semáforo RAG -->
-      <div class="flex flex-wrap gap-2.5 items-center justify-between text-xs">
-        <div class="flex flex-wrap items-center gap-1.5">
-          <span class="text-[10px] text-slate-400 font-black uppercase tracking-wider flex items-center gap-1 mr-1">
-            <i data-lucide="activity" class="w-3 h-3"></i> Filtro RAG:
-          </span>
-          <button id="health-filter-all" class="px-2.5 py-1 rounded-lg text-xs font-bold border bg-brand-teal/15 border-brand-teal/40 text-brand-tealDark" onclick="setHealthFilter('all')">Todos</button>
-          <button id="health-filter-en_tiempo" class="px-2.5 py-1 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-emerald-700 hover:bg-emerald-50 flex items-center gap-1" onclick="setHealthFilter('en_tiempo')">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> <span>A Tiempo</span>
-          </button>
-          <button id="health-filter-en_riesgo" class="px-2.5 py-1 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-amber-700 hover:bg-amber-50 flex items-center gap-1" onclick="setHealthFilter('en_riesgo')">
-            <span class="w-2 h-2 rounded-full bg-amber-500"></span> <span>En Riesgo</span>
-          </button>
-          <button id="health-filter-bloqueado" class="px-2.5 py-1 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-rose-700 hover:bg-rose-50 flex items-center gap-1" onclick="setHealthFilter('bloqueado')">
-            <span class="w-2 h-2 rounded-full bg-rose-500"></span> <span>Bloqueados</span>
-          </button>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1.5 text-slate-400 text-[11px] font-semibold bg-slate-100 px-3 py-1 rounded-xl">
-            <i data-lucide="move" class="w-3.5 h-3.5 text-brand-teal"></i>
-            <span>Arrastra tarjetas entre las etapas del Kanban</span>
-          </div>
-
-          <button id="btn-reset-filters" onclick="resetAllFilters()" class="hidden text-[11px] font-bold text-rose-600 hover:underline px-2 py-1 flex items-center gap-1">
-            <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Limpiar
-          </button>
-        </div>
-      </div>
-
+    <!-- ÁREA DE CONTENIDO DINÁMICO -->
+    <div id="dynamic-content" class="min-h-[400px]">
+      <!-- Se inyecta por JS: Kanban, Cards, Matriz o Gantt -->
     </div>
 
-    <!-- ÁREA DINÁMICA DE CONTENIDO -->
-    <div id="dynamic-content" class="fade-in"></div>
+    <!-- BOTÓN VOLVER (Oculto por defecto en vistas estándar) -->
+    <div id="btn-show-all" class="hidden my-4 text-center">
+      <button onclick="selectProject(null)" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-navy text-white text-xs font-bold rounded-xl shadow-xs hover:bg-brand-dark transition-all">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Volver al Tablero Principal</span>
+      </button>
+    </div>
 
   </main>
 
@@ -383,21 +323,21 @@
           <select id="modal-select-project" required onchange="syncModalProgress(this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal"></select>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3 items-center">
           <div>
-            <div class="flex justify-between items-center mb-1">
-              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Avance Real</label>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Porcentaje</label>
               <span class="text-xs font-black text-brand-tealDark bg-brand-teal/10 px-2 py-0.5 rounded-full"><span id="modal-progress-label">0</span>%</span>
             </div>
             <input type="range" min="0" max="100" id="modal-progress-range" oninput="updateModalProgressLabel(this.value)" class="w-full accent-brand-teal cursor-pointer" />
           </div>
 
           <div>
-            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Salud RAG</label>
+            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Semáforo RAG</label>
             <select id="modal-select-health" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800">
-              <option value="en_tiempo">🟢 En Tiempo (En meta)</option>
-              <option value="en_riesgo">🟡 En Riesgo (Atención)</option>
-              <option value="bloqueado">🔴 Bloqueado (Detenido)</option>
+              <option value="en_tiempo">🟢 En Tiempo</option>
+              <option value="en_riesgo">🟡 En Riesgo</option>
+              <option value="bloqueado">🔴 Bloqueado</option>
             </select>
           </div>
         </div>
@@ -408,28 +348,26 @@
             <option value="inicial">1. Fase Inicial / Propuesta</option>
             <option value="ejecucion">2. En Desarrollo / Ejecución</option>
             <option value="pruebas">3. Pruebas & Validación UX</option>
-            <option value="produccion">4. En Producción / Listo</option>
+            <option value="produccion">4. En Producción / Listos</option>
           </select>
         </div>
 
         <div>
-          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Hito Alcanzado / Detalle de Avance *</label>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Logro / Hito Alcanzado *</label>
           <textarea id="modal-log-text" rows="3" required placeholder="Describe el avance técnico, resultado o acuerdo con líderes de proceso..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-3 font-medium text-slate-800 leading-relaxed"></textarea>
         </div>
 
         <div>
-          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Próximos Pasos (Opcional)</label>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Próximos Pasos Inmediatos</label>
           <input type="text" id="modal-next-steps" placeholder="Próxima actividad o entrega..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800" />
         </div>
 
-        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-          <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
-            <i data-lucide="cloud" class="w-3.5 h-3.5 text-brand-teal"></i> Se audita en Google Sheets
-          </span>
-          <div class="flex gap-2">
-            <button type="button" onclick="closeLogModal()" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Cancelar</button>
-            <button type="submit" id="btn-submit-log" class="px-4 py-2 bg-gradient-to-r from-brand-cyan to-brand-teal text-slate-950 rounded-xl text-xs font-black shadow-sm">Guardar Avance</button>
-          </div>
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeLogModal()" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="bg-gradient-to-r from-brand-cyan to-brand-teal text-slate-950 px-5 py-2 rounded-xl text-xs font-black shadow-sm flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Guardar en Bitácora</span>
+          </button>
         </div>
       </form>
     </div>
@@ -438,32 +376,32 @@
   <!-- MODAL: REPORTAR BLOQUEO -->
   <div id="blockage-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
     <div class="bg-white rounded-2xl shadow-2xl border border-rose-200 w-full max-w-md overflow-hidden">
-      <div class="bg-rose-600 text-white p-5 flex items-center justify-between">
+      <div class="bg-rose-600 text-white p-4 flex items-center justify-between">
         <h3 class="font-extrabold text-sm flex items-center gap-2">
-          <i data-lucide="alert-octagon" class="w-5 h-5 text-white"></i>
-          <span>Reportar Bloqueo / Solicitar Apoyo</span>
+          <i data-lucide="alert-octagon" class="w-4.5 h-4.5"></i>
+          <span>Reportar Cuello de Botella o Bloqueo</span>
         </h3>
         <button class="text-white/80 hover:text-white text-xl" onclick="closeBlockageModal()">&times;</button>
       </div>
 
-      <form id="blockage-form" onsubmit="handleBlockageSubmit(event)" class="p-6 space-y-4">
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Esto marcará la iniciativa con semáforo <strong>🔴 Bloqueado</strong> para alertar la necesidad de intervención de la Subdirección o áreas transversales (Compras, Sistemas, etc.).
-        </p>
+      <form id="blockage-form" onsubmit="handleBlockageSubmit(event)" class="p-5 flex flex-col gap-3">
+        <input type="hidden" id="blockage-project-id" />
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Proyecto Afectado</label>
+          <p id="blockage-project-title" class="text-xs font-bold text-slate-900 bg-slate-50 p-2 rounded-xl border border-slate-200"></p>
+        </div>
 
         <div>
           <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Motivo del Bloqueo *</label>
-          <textarea id="blockage-reason" required rows="2" placeholder="Ej. Aprobación presupuestal pendiente, falta cotización de compras..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800"></textarea>
+          <textarea id="blockage-reason" rows="3" required placeholder="Describe qué impide el avance (ej: falta de permisos de TI, insumos del líder, etc.)..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800"></textarea>
         </div>
 
-        <div>
-          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">Acción Requerida para Desbloquear *</label>
-          <input type="text" id="blockage-action" required placeholder="Ej. Autorización de desembolso para kits de robótica..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800" />
-        </div>
-
-        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
           <button type="button" onclick="closeBlockageModal()" class="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-sm">Reportar a Dirección</button>
+          <button type="submit" class="bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-black shadow-sm flex items-center gap-1.5">
+            <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+            <span>Marcar como Bloqueado</span>
+          </button>
         </div>
       </form>
     </div>
@@ -476,25 +414,26 @@
         <div class="flex items-center gap-2.5">
           <i data-lucide="file-text" class="w-5 h-5 text-brand-cyan"></i>
           <div>
-            <h3 class="font-extrabold text-sm">One-Pager Ejecutivo • Resumen para Comité Directivo</h3>
+            <h3 class="font-extrabold text-sm">One-Pager Ejecutivo · Resumen para Comité Directivo</h3>
             <p class="text-[11px] text-brand-teal">Subdirección de Desarrollo Humano y Organizacional</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="px-3 py-1.5 bg-brand-cyan text-slate-950 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm hover:opacity-90">
+          <button onclick="window.print()" class="px-3 py-1.5 bg-brand-cyan text-slate-950 font-black rounded-xl text-xs flex items-center gap-1.5 shadow-sm">
             <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-            <span>Imprimir / Guardar PDF</span>
+            <span>Imprimir PDF</span>
           </button>
           <button class="text-white/70 hover:text-white text-xl p-1" onclick="closeExecutiveReportModal()">&times;</button>
         </div>
       </div>
 
-      <div id="executive-report-content" class="p-8 overflow-y-auto space-y-6 text-slate-800 print-modal"></div>
+      <div id="executive-report-body" class="p-8 overflow-y-auto print-modal">
+        <!-- Render dinámico del One-Pager -->
+      </div>
     </div>
   </div>
 
-
-  <!-- MODAL: CREAR NUEVO PROYECTO -->
+  <!-- MODAL: CREAR NUEVO PROYECTO (CON FECHAS EXACTAS Y PORTADAS TRELLO) -->
   <div id="new-project-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn overflow-y-auto">
     <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
       <div class="bg-gradient-to-r from-brand-navy to-brand-dark text-white p-5 flex items-center justify-between border-b border-slate-700">
@@ -571,27 +510,68 @@
           </div>
         </div>
 
-        <!-- Trimestres Inicio y Fin -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- AJUSTE 1: FECHA DE INICIO Y FECHA FINAL (DATES EN VEZ DE TRIMESTRES) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
           <div>
-            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Trimestre Inicio</label>
-            <select id="new-proj-qstart" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
-              <option value="Q1 2026">Q1 2026</option>
-              <option value="Q2 2026" selected>Q2 2026</option>
-              <option value="Q3 2026">Q3 2026</option>
-              <option value="Q4 2026">Q4 2026</option>
-              <option value="Q1 2027">Q1 2027</option>
-            </select>
+            <label class="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider flex items-center gap-1 mb-1">
+              <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-brand-teal"></i>
+              <span>Fecha de Inicio *</span>
+            </label>
+            <input type="date" id="new-proj-start-date" required value="2026-04-01" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
           </div>
           <div>
-            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Trimestre Cierre Estimado</label>
-            <select id="new-proj-qend" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
-              <option value="Q2 2026">Q2 2026</option>
-              <option value="Q3 2026">Q3 2026</option>
-              <option value="Q4 2026" selected>Q4 2026</option>
-              <option value="Q1 2027">Q1 2027</option>
-              <option value="Q2 2027">Q2 2027</option>
-            </select>
+            <label class="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider flex items-center gap-1 mb-1">
+              <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Fecha Final Estimada *</span>
+            </label>
+            <input type="date" id="new-proj-end-date" required value="2026-11-30" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
+          </div>
+        </div>
+
+        <!-- AJUSTE 2: PORTADA DE LA TARJETA (ESTILO TRELLO) -->
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="image" class="w-3.5 h-3.5 text-indigo-500"></i>
+              <span>Portada de la Tarjeta (Estilo Trello)</span>
+            </label>
+            <span class="text-[9px] text-slate-400 font-semibold">Elige una miniatura o escribe tu URL</span>
+          </div>
+
+          <!-- Galería de Presets Corporativos SDHO -->
+          <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 mb-2.5" id="cover-presets-grid">
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Cultura & Equipo">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="UX & Experiencia">
+              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Software & TI">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Salud & Atención">
+              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Robótica & RPA">
+              <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Biometría & Accesos">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Móvil & WhatsApp">
+              <img src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+            <button type="button" onclick="selectPresetCover('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80')" class="group relative rounded-lg overflow-hidden h-12 border-2 border-transparent hover:border-brand-teal focus:border-brand-teal transition-all" title="Finanzas & Procesos">
+              <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+            </button>
+          </div>
+
+          <!-- Input URL de imagen personalizada -->
+          <div class="flex items-center gap-2">
+            <input type="url" id="new-proj-cover-url" oninput="previewCoverImage(this.value)" placeholder="O pega un enlace de imagen (SharePoint, Drive, Intranet, Unsplash)..." class="flex-1 bg-white border border-slate-200 rounded-xl p-2 font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
+            <div id="new-proj-cover-preview" class="w-10 h-8 rounded-lg overflow-hidden bg-slate-200 border border-slate-300 shrink-0 hidden">
+              <img id="preview-img-tag" src="" class="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
 
@@ -630,19 +610,80 @@
     </div>
   </div>
 
+  <!-- MODAL: CAMBIAR PORTADA RÁPIDA -->
+  <div id="change-cover-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
+      <div class="bg-brand-navy text-white p-4 flex items-center justify-between">
+        <h3 class="font-extrabold text-sm flex items-center gap-2">
+          <i data-lucide="image" class="w-4 h-4 text-brand-cyan"></i>
+          <span>Personalizar Portada de Tarjeta</span>
+        </h3>
+        <button class="text-white/70 hover:text-white text-xl" onclick="closeChangeCoverModal()">&times;</button>
+      </div>
+      <div class="p-5 flex flex-col gap-3">
+        <input type="hidden" id="change-cover-project-id" />
+        <p class="text-xs text-slate-600 font-medium">Selecciona un banner prediseñado o escribe el enlace directo de una foto:</p>
+        
+        <div class="grid grid-cols-4 gap-2 mb-1">
+          <button type="button" onclick="applyQuickCover('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80')" class="rounded-lg overflow-hidden h-12 border-2 hover:border-brand-teal transition-all">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+          </button>
+          <button type="button" onclick="applyQuickCover('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80')" class="rounded-lg overflow-hidden h-12 border-2 hover:border-brand-teal transition-all">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+          </button>
+          <button type="button" onclick="applyQuickCover('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80')" class="rounded-lg overflow-hidden h-12 border-2 hover:border-brand-teal transition-all">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+          </button>
+          <button type="button" onclick="applyQuickCover('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80')" class="rounded-lg overflow-hidden h-12 border-2 hover:border-brand-teal transition-all">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=120&q=60" class="w-full h-full object-cover" />
+          </button>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block mb-1">URL de Imagen</label>
+          <input type="url" id="quick-cover-url-input" placeholder="https://..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2 font-medium text-slate-800" />
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeChangeCoverModal()" class="px-3 py-1.5 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Cancelar</button>
+          <button type="button" onclick="applyCustomCoverInput()" class="bg-brand-navy hover:bg-brand-dark text-white px-4 py-1.5 rounded-xl text-xs font-bold">Guardar Portada</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="bg-brand-navy text-slate-400 py-6 text-center text-xs mt-auto border-t border-slate-800/80 no-print">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <p class="font-medium">Comfamiliar Risaralda • Subdirección de Desarrollo Humano y Organizacional (SDHO)</p>
+        <span class="text-slate-300 font-semibold">Portafolio SDHO Sincronizado</span>
+        <span class="text-slate-500">· Usuario: <strong id="current-user-display" class="text-slate-300 font-mono">Invitado</strong></span>
       </div>
-      <p class="text-slate-500 text-[11px]">Tablero Kanban por Etapas • Semáforo RAG & Roadmap 2026</p>
+      <p class="text-[11px] text-slate-400">
+        Comfamiliar Risaralda &copy; 2026 · Subdirección de Desarrollo Humano y Organizacional
+      </p>
     </div>
   </footer>
 
+  <!-- NOTIFICACIÓN TOAST -->
+  <div id="toast-notification" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3 transition-all transform translate-y-2 opacity-0">
+    <div class="p-1.5 bg-brand-cyan/20 text-brand-cyan rounded-xl">
+      <i data-lucide="check" class="w-4 h-4"></i>
+    </div>
+    <div>
+      <h5 id="toast-title" class="text-xs font-black">Notificación</h5>
+      <p id="toast-message" class="text-[11px] text-slate-300">Acción completada</p>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT PRINCIPAL -->
   <script>
-    const BASELINE_DATA = [
+    // ==========================================
+    // ESTADO GLOBAL Y DATOS
+    // ==========================================
+    
+    let projects = [
   {
     "id": "proyectocx",
     "no": 28,
@@ -656,7 +697,7 @@
     "difficulty": "Alto",
     "directPeople": 2,
     "indirectPeople": 18,
-    "imageUrl": "https://i.imgur.com/cQXIqQ3.jpeg",
+    "imageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80",
     "assigned": "Subdirección de Desarrollo Estratégico",
     "squad": [
       "Equipo de Desarrollo Estratégico",
@@ -709,7 +750,10 @@
     "budgetType": "Aprobado",
     "budgetNumeric": 440752000,
     "blockage": null,
-    "kanbanStage": "inicial"
+    "kanbanStage": "inicial",
+    "startDate": "2026-03-01",
+    "endDate": "2026-11-30",
+    "coverImage": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "dotacion",
@@ -774,7 +818,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "produccion"
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-05-30",
+    "coverImage": "https://images.unsplash.com/photo-1556742049-0a67e55722ee?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67e55722ee?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "turnos",
@@ -838,7 +886,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "produccion"
+    "kanbanStage": "produccion",
+    "startDate": "2026-02-01",
+    "endDate": "2026-08-31",
+    "coverImage": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "conciliacion",
@@ -899,7 +951,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "produccion"
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-06-30",
+    "coverImage": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "biometria",
@@ -960,7 +1016,11 @@
     "budgetType": "Aprobado",
     "budgetNumeric": 35000000,
     "blockage": "Requiere emisión de circular institucional por Dirección y Gestión Humana para iniciar registro masivo de personal.",
-    "kanbanStage": "pruebas"
+    "kanbanStage": "pruebas",
+    "startDate": "2026-04-01",
+    "endDate": "2026-10-31",
+    "coverImage": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "culturadigital",
@@ -1038,7 +1098,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "ejecucion"
+    "kanbanStage": "ejecucion",
+    "startDate": "2026-03-15",
+    "endDate": "2026-12-15",
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "whatsappflow",
@@ -1103,7 +1167,11 @@
     "budgetType": "Por Definir",
     "budgetNumeric": 0,
     "blockage": "Complejidad técnica de integración entre telefonía PBX e infraestructura del proveedor tecnológico ICONO.",
-    "kanbanStage": "pruebas"
+    "kanbanStage": "pruebas",
+    "startDate": "2026-05-01",
+    "endDate": "2026-11-30",
+    "coverImage": "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "aipiweb",
@@ -1164,7 +1232,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "produccion"
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-07-31",
+    "coverImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "carnet",
@@ -1226,7 +1298,11 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "ejecucion"
+    "kanbanStage": "ejecucion",
+    "startDate": "2026-04-15",
+    "endDate": "2026-10-31",
+    "coverImage": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "robotica",
@@ -1314,7 +1390,11 @@
     "budgetType": "Por Aprobar",
     "budgetNumeric": 28000000,
     "blockage": "Detenido por falta de aprobación presupuestal para kits Arduino/ESP32 y asignación formal de horas docentes en el Instituto.",
-    "kanbanStage": "inicial"
+    "kanbanStage": "inicial",
+    "startDate": "2026-06-01",
+    "endDate": "2027-02-28",
+    "coverImage": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80"
   },
   {
     "id": "certificado220",
@@ -1371,31 +1451,32 @@
     "budgetType": "In-house",
     "budgetNumeric": 0,
     "blockage": null,
-    "kanbanStage": "produccion"
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-04-30",
+    "coverImage": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=700&q=80"
   }
 ];
-    const STORAGE_KEY = 'comfamiliar_proyectos_cultura_v2';
-
-    let projects = JSON.parse(JSON.stringify(BASELINE_DATA));
     let archivedProjects = [];
     let bitacoraLogs = [];
-    let currentUser = 'usuario.comfamiliar@comfamiliar.com';
-    let currentBlockageProjectId = null;
-    let draggedProjectId = null;
+    let currentUser = 'Invitado SDHO';
+    
 
-    // KANBAN ES LA VISTA POR DEFECTO
-    const state = {
+    let state = {
       selectedProjectId: null,
       activeTab: 'all',
       statusFilter: 'all',
       healthFilter: 'all',
       searchQuery: '',
-      viewMode: 'kanban', // <--- KANBAN POR DEFECTO
+      viewMode: 'kanban', // <--- VISTA POR DEFECTO: KANBAN
       onlyMyProjects: false
     };
 
+    let draggedProjectId = null;
     const isAppsScript = typeof google !== 'undefined' && google.script && google.script.run;
 
+    
     function initCloudConnection() {
       if (isAppsScript) {
         google.script.run
@@ -1414,7 +1495,64 @@
         renderApp();
       }
     }
+    
 
+    // ==========================================
+    // UTILIDADES DE FECHAS EN ESPAÑOL
+    // ==========================================
+    function formatDateSpanish(dateStr) {
+      if (!dateStr) return 'Por definir';
+      try {
+        const parts = String(dateStr).split('-');
+        if (parts.length === 3) {
+          const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+          const day = parseInt(parts[2]);
+          const month = months[parseInt(parts[1]) - 1] || parts[1];
+          const year = parts[0];
+          return `${day} ${month} ${year}`;
+        }
+        return dateStr;
+      } catch(e) {
+        return dateStr;
+      }
+    }
+
+    function formatDateShort(dateStr) {
+      if (!dateStr) return '';
+      try {
+        const parts = String(dateStr).split('-');
+        if (parts.length === 3) {
+          const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+          return `${parseInt(parts[2])} ${months[parseInt(parts[1]) - 1]} ${parts[0].slice(2)}`;
+        }
+        return dateStr;
+      } catch(e) {
+        return dateStr;
+      }
+    }
+
+    // Cálculo dinámico para la barra de Gantt / Cronograma
+    function getTimelineCoords(startDateStr, endDateStr) {
+      const minDate = new Date('2026-01-01').getTime();
+      const maxDate = new Date('2027-06-30').getTime();
+      const totalSpan = maxDate - minDate;
+
+      const s = new Date(startDateStr || '2026-03-01').getTime();
+      const e = new Date(endDateStr || '2026-11-30').getTime();
+
+      const leftPct = Math.max(0, Math.min(100, ((s - minDate) / totalSpan) * 100));
+      const rightPct = Math.max(0, Math.min(100, ((e - minDate) / totalSpan) * 100));
+      const widthPct = Math.max(7, rightPct - leftPct);
+
+      return {
+        left: leftPct.toFixed(1),
+        width: widthPct.toFixed(1)
+      };
+    }
+
+    // ==========================================
+    // TOASTS Y BADGES RAG
+    // ==========================================
     function showToast(title, message) {
       const toast = document.getElementById('toast-notification');
       document.getElementById('toast-title').innerText = title;
@@ -1427,17 +1565,10 @@
       }, 3500);
     }
 
-    // BADGES RAG
     function getHealthBadgeClass(health) {
       if (health === 'bloqueado') return 'bg-rose-100 text-rose-800 border-rose-300';
       if (health === 'en_riesgo') return 'bg-amber-100 text-amber-800 border-amber-300';
       return 'bg-emerald-100 text-emerald-800 border-emerald-300';
-    }
-
-    function getHealthDotClass(health) {
-      if (health === 'bloqueado') return 'bg-rose-500';
-      if (health === 'en_riesgo') return 'bg-amber-500';
-      return 'bg-emerald-500';
     }
 
     function getHealthLabel(health) {
@@ -1446,147 +1577,30 @@
       return '🟢 En Tiempo';
     }
 
-    function getStatusBadgeClass(progress) {
-      if (progress === 100) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      if (progress >= 70) return 'bg-blue-50 text-blue-700 border-blue-200';
-      if (progress >= 40) return 'bg-amber-50 text-amber-700 border-amber-200';
-      return 'bg-slate-100 text-slate-700 border-slate-200';
-    }
-
-    function getPriorityBadgeClass(priority) {
-      if (priority === 'Alto') return 'bg-rose-50 text-rose-700 border-rose-200';
-      return 'bg-amber-50 text-amber-700 border-amber-200';
-    }
-
-    function getAvatarInitials(name) {
-      if (!name) return 'EX';
-      const parts = name.trim().split(/\s+/);
-      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-
-    function getCurrentDataset() {
-      return state.activeTab === 'archivados' ? archivedProjects : projects;
-    }
-
-    function getFilteredProjects() {
-      const dataset = getCurrentDataset();
-      return dataset.filter(p => {
-        if (state.activeTab !== 'all' && state.activeTab !== 'archivados' && p.category !== state.activeTab) return false;
-        if (state.statusFilter === 'completed' && p.progress !== 100) return false;
-        if (state.statusFilter === 'progress' && (p.progress < 50 || p.progress === 100)) return false;
-        if (state.statusFilter === 'initial' && p.progress >= 50) return false;
-        if (state.healthFilter !== 'all' && p.health !== state.healthFilter) return false;
-
-        if (state.onlyMyProjects) {
-          const u = (currentUser || '').toLowerCase().split('@')[0];
-          const assigned = (p.assigned || '').toLowerCase();
-          const squad = (p.squad || []).map(m => m.toLowerCase());
-          const isMine = assigned.includes(u) || squad.some(m => m.includes(u));
-          if (!isMine) return false;
-        }
-
-        if (state.searchQuery.trim() !== '') {
-          const q = state.searchQuery.toLowerCase();
-          const matchTitle = (p.title || '').toLowerCase().includes(q);
-          const matchDesc = (p.description || '').toLowerCase().includes(q);
-          const matchAssigned = (p.assigned || '').toLowerCase().includes(q);
-          return matchTitle || matchDesc || matchAssigned;
-        }
-        return true;
-      });
-    }
-
-    function renderStats() {
-      const activeCount = projects.length;
-      const totalProg = projects.reduce((acc, p) => acc + p.progress, 0);
-      const avg = Math.round(totalProg / (activeCount || 1));
-      
-      const countGreen = projects.filter(p => (p.health || 'en_tiempo') === 'en_tiempo').length;
-      const countAmber = projects.filter(p => p.health === 'en_riesgo').length;
-      const countRed = projects.filter(p => p.health === 'bloqueado').length;
-
-      document.getElementById('stat-total').innerText = activeCount;
-      document.getElementById('stat-avg').innerText = avg + '%';
-      document.getElementById('stat-health-green').innerText = countGreen;
-      document.getElementById('stat-health-amber').innerText = countAmber;
-      document.getElementById('stat-health-red').innerText = countRed;
-
-      document.getElementById('count-tab-all').innerText = projects.length;
-      document.getElementById('count-tab-cambio').innerText = projects.filter(p => p.category === 'cambio').length;
-      document.getElementById('count-tab-gestion').innerText = projects.filter(p => p.category === 'gestion').length;
-      document.getElementById('count-tab-archivados').innerText = archivedProjects.length;
-
-      const isFiltered = state.activeTab !== 'all' || state.statusFilter !== 'all' || state.healthFilter !== 'all' || state.searchQuery !== '' || state.onlyMyProjects;
-      document.getElementById('btn-reset-filters').classList.toggle('hidden', !isFiltered);
-    }
-
+    // ==========================================
+    // NAVEGACIÓN Y SELECCIÓN DE VISTA
+    // ==========================================
     function setViewMode(mode) {
       state.viewMode = mode;
-      ['kanban', 'cards', 'table', 'gantt'].forEach(m => {
-        const btn = document.getElementById(`view-btn-${m}`);
-        if (m === mode) {
-          btn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-sm";
-        } else {
-          btn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white";
+      state.selectedProjectId = null;
+
+      const btns = {
+        kanban: document.getElementById('view-btn-kanban'),
+        cards: document.getElementById('view-btn-cards'),
+        matrix: document.getElementById('view-btn-matrix'),
+        gantt: document.getElementById('view-btn-gantt')
+      };
+
+      Object.keys(btns).forEach(key => {
+        if (btns[key]) {
+          if (key === mode) {
+            btns[key].className = 'px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 bg-brand-cyan text-slate-950 shadow-xs';
+          } else {
+            btns[key].className = 'px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white';
+          }
         }
       });
-      renderApp();
-    }
 
-    function setCategoryTab(tab) {
-      state.activeTab = tab;
-      ['all', 'cambio', 'gestion', 'archivados'].forEach(t => {
-        const btn = document.getElementById(`tab-${t}`);
-        if (t === tab) {
-          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-black transition-all bg-white text-slate-950 shadow-xs whitespace-nowrap";
-        } else {
-          btn.className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-950 whitespace-nowrap";
-        }
-      });
-      renderApp();
-    }
-
-    function setHealthFilter(health) {
-      state.healthFilter = health;
-      ['all', 'en_tiempo', 'en_riesgo', 'bloqueado'].forEach(h => {
-        const btn = document.getElementById(`health-filter-${h}`);
-        if (h === health) {
-          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border bg-brand-teal/15 border-brand-teal/40 text-brand-tealDark";
-        } else {
-          btn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold border bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
-        }
-      });
-      renderApp();
-    }
-
-    function toggleMyProjectsFilter() {
-      state.onlyMyProjects = !state.onlyMyProjects;
-      const btn = document.getElementById('btn-my-projects');
-      if (state.onlyMyProjects) {
-        btn.className = "px-3 py-2 bg-brand-cyan text-slate-950 text-xs font-black rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs";
-      } else {
-        btn.className = "px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap";
-      }
-      renderApp();
-    }
-
-    function handleSearch(val) {
-      state.searchQuery = val;
-      renderApp();
-    }
-
-    function resetAllFilters() {
-      state.activeTab = 'all';
-      state.statusFilter = 'all';
-      state.healthFilter = 'all';
-      state.searchQuery = '';
-      state.onlyMyProjects = false;
-      document.getElementById('search-input').value = '';
-      setCategoryTab('all');
-      setHealthFilter('all');
-      const btn = document.getElementById('btn-my-projects');
-      btn.className = "px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap";
       renderApp();
     }
 
@@ -1596,19 +1610,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function navigateProject(direction) {
-      const filteredList = getFilteredProjects();
-      const currentIndex = filteredList.findIndex(p => p.id === state.selectedProjectId);
-      const targetIndex = currentIndex + direction;
-      if (targetIndex >= 0 && targetIndex < filteredList.length) {
-        state.selectedProjectId = filteredList[targetIndex].id;
-        renderApp();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
     // ==========================================
-    // KANBAN DRAG & DROP POR ETAPAS EXPLÍCITAS
+    // KANBAN DRAG & DROP
     // ==========================================
     function handleDragStart(e, id) {
       draggedProjectId = id;
@@ -1622,13 +1625,13 @@
     function handleDragEnd(id) {
       const el = document.getElementById(`kanban-card-${id}`);
       if (el) el.classList.remove('dragging');
-      document.querySelectorAll('.kanban-column').forEach(col => col.classList.remove('drag-over'));
+      document.querySelectorAll('.kanban-dropzone').forEach(dz => dz.classList.remove('drag-over'));
+      draggedProjectId = null;
     }
 
     function handleDragOver(e) {
       e.preventDefault();
-      const col = e.currentTarget;
-      if (!col.classList.contains('drag-over')) col.classList.add('drag-over');
+      e.currentTarget.classList.add('drag-over');
     }
 
     function handleDragLeave(e) {
@@ -1642,234 +1645,16 @@
       if (!projId) return;
 
       const project = projects.find(p => p.id === projId);
-      if (!project) return;
-
-      // Asignar etapa explícita
-      project.kanbanStage = targetPhase;
-
-      let newProg = project.progress;
-      let phaseName = '';
-
-      if (targetPhase === 'inicial') {
-        phaseName = 'Fase Inicial / Propuesta';
-        if (newProg >= 50) newProg = 40;
-      } else if (targetPhase === 'ejecucion') {
-        phaseName = 'En Desarrollo / Ejecución';
-        if (newProg < 50 || newProg >= 85) newProg = 65;
-      } else if (targetPhase === 'pruebas') {
-        phaseName = 'Pruebas & Validación UX';
-        if (newProg < 85) newProg = 85;
-      } else if (targetPhase === 'produccion') {
-        phaseName = 'En Producción / Listo';
-        newProg = 100;
-        project.health = 'en_tiempo';
-      }
-
-      project.progress = newProg;
-      project.status = phaseName;
-
-      renderApp();
-      showToast('Etapa Actualizada', `Movido a "${phaseName}" (${newProg}%).`);
-
-      if (isAppsScript) {
-        google.script.run.moverFaseKanban({
-          projectId: projId,
-          targetPhase: targetPhase,
-          newProgress: newProg
-        });
-      }
-    }
-
-    // ==========================================
-    // BLOQUEOS
-    // ==========================================
-    function openBlockageModal(id) {
-      currentBlockageProjectId = id;
-      document.getElementById('blockage-reason').value = '';
-      document.getElementById('blockage-action').value = '';
-      document.getElementById('blockage-modal').classList.remove('hidden');
-    }
-
-    function closeBlockageModal() {
-      document.getElementById('blockage-modal').classList.add('hidden');
-      currentBlockageProjectId = null;
-    }
-
-    function handleBlockageSubmit(e) {
-      e.preventDefault();
-      const projId = currentBlockageProjectId;
-      const motivo = document.getElementById('blockage-reason').value.trim();
-      const accion = document.getElementById('blockage-action').value.trim();
-
-      const p = projects.find(proj => proj.id === projId);
-      if (p) {
-        p.health = 'bloqueado';
-        p.healthReason = motivo;
-        p.blockage = `${motivo} (Acción: ${accion})`;
-      }
-
-      closeBlockageModal();
-      showToast('Bloqueo Notificado', 'Semáforo rojo registrado y auditado.');
-      renderApp();
-
-      if (isAppsScript) {
-        google.script.run.reportarBloqueo({
-          projectId: projId,
-          motivo: motivo,
-          accion: accion
-        });
-      }
-    }
-
-    function resolveBlockageDirect(id) {
-      const p = projects.find(proj => proj.id === id);
-      if (!p) return;
-      if (confirm(`¿Confirmas que el bloqueo de "${p.title}" ha sido resuelto?`)) {
-        p.health = 'en_tiempo';
-        p.healthReason = 'Bloqueo resuelto.';
-        p.blockage = null;
-        showToast('Bloqueo Resuelto', 'Semáforo restaurado a 🟢 En Tiempo.');
+      if (project && project.kanbanStage !== targetPhase) {
+        project.kanbanStage = targetPhase;
+        showToast('Fase Actualizada', `"${project.title}" movido a ${targetPhase.toUpperCase()}`);
         renderApp();
 
         if (isAppsScript) {
-          google.script.run.resolverBloqueo({ projectId: id, solucion: 'Resuelto por Subdirección' });
+          google.script.run.moverFaseKanban({ projectId: projId, nuevaFase: targetPhase });
         }
       }
     }
-
-    // ==========================================
-    // ONE-PAGER EJECUTIVO
-    // ==========================================
-    function openExecutiveReportModal() {
-      const activeList = projects;
-      const total = activeList.length;
-      const avg = Math.round(activeList.reduce((acc, p) => acc + p.progress, 0) / (total || 1));
-      const green = activeList.filter(p => (p.health || 'en_tiempo') === 'en_tiempo').length;
-      const amber = activeList.filter(p => p.health === 'en_riesgo');
-      const red = activeList.filter(p => p.health === 'bloqueado');
-      const completed = activeList.filter(p => p.progress === 100);
-
-      const html = `
-        <div class="space-y-6">
-          <div class="border-b-2 border-slate-900 pb-4 flex items-center justify-between">
-            <div>
-              <p class="text-[10px] font-black uppercase text-brand-teal tracking-widest">Informe de Estado de Portafolio</p>
-              <h2 class="text-xl font-black text-slate-950">Comité Directivo • Cultura, Productividad & Gestión del Cambio</h2>
-              <p class="text-xs text-slate-500 mt-0.5">Subdirección de Desarrollo Humano y Organizacional • Comfamiliar Risaralda</p>
-            </div>
-            <div class="text-right">
-              <span class="text-xs font-bold px-3 py-1 bg-slate-100 rounded-lg text-slate-700">Ciclo 2026</span>
-              <p class="text-[10px] text-slate-400 mt-1">${new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-4 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
-            <div class="text-center border-r border-slate-200">
-              <p class="text-[10px] font-bold text-slate-400 uppercase">Iniciativas Totales</p>
-              <p class="text-xl font-black text-slate-900 mt-0.5">${total}</p>
-            </div>
-            <div class="text-center border-r border-slate-200">
-              <p class="text-[10px] font-bold text-slate-400 uppercase">Avance Promedio</p>
-              <p class="text-xl font-black text-brand-tealDark mt-0.5">${avg}%</p>
-            </div>
-            <div class="text-center border-r border-slate-200">
-              <p class="text-[10px] font-bold text-slate-400 uppercase">En Producción (100%)</p>
-              <p class="text-xl font-black text-emerald-600 mt-0.5">${completed.length}</p>
-            </div>
-            <div class="text-center">
-              <p class="text-[10px] font-bold text-slate-400 uppercase">Semáforo RAG</p>
-              <p class="text-sm font-black mt-0.5">
-                <span class="text-emerald-600">🟢 ${green}</span> • 
-                <span class="text-amber-600">🟡 ${amber.length}</span> • 
-                <span class="text-rose-600">🔴 ${red.length}</span>
-              </p>
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-xs font-black uppercase tracking-wider text-rose-800 flex items-center gap-1.5 border-b border-rose-200 pb-1.5">
-              <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-600"></i>
-              <span>Puntos de Decisión & Desbloqueos Requeridos de la Dirección</span>
-            </h3>
-
-            <div class="space-y-2.5">
-              ${[...red, ...amber].map(p => `
-                <div class="p-3.5 rounded-xl border ${p.health === 'bloqueado' ? 'bg-rose-50/60 border-rose-200' : 'bg-amber-50/60 border-amber-200'} text-xs">
-                  <div class="flex items-center justify-between mb-1">
-                    <span class="font-extrabold text-slate-900">${p.title} (${p.progress}%)</span>
-                    <span class="font-black px-2 py-0.5 rounded text-[10px] ${p.health === 'bloqueado' ? 'bg-rose-200 text-rose-900' : 'bg-amber-200 text-amber-900'}">
-                      ${p.health === 'bloqueado' ? '🔴 BLOQUEADO' : '🟡 EN RIESGO'}
-                    </span>
-                  </div>
-                  <p class="text-slate-700"><strong>Situación:</strong> ${p.blockage || p.healthReason || 'Desfase en cronograma'}</p>
-                  <p class="text-slate-900 font-bold mt-1"><strong>Líder responsable:</strong> ${p.assigned || 'Squad'}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 border-b border-emerald-200 pb-1.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-              <span>Iniciativas en Producción (100% Entregadas)</span>
-            </h3>
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              ${completed.map(p => `
-                <div class="p-3 bg-emerald-50/30 rounded-xl border border-emerald-100">
-                  <p class="font-black text-emerald-950">${p.title}</p>
-                  <p class="text-slate-600 mt-1 line-clamp-2">${p.highlights && p.highlights[0] ? p.highlights[0] : p.description}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('executive-report-content').innerHTML = html;
-      document.getElementById('executive-report-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeExecutiveReportModal() {
-      document.getElementById('executive-report-modal').classList.add('hidden');
-    }
-
-    // ==========================================
-    // REGISTRO DE AVANCE
-    // ==========================================
-    function openLogModal(projId = null) {
-      const select = document.getElementById('modal-select-project');
-      select.innerHTML = projects.map(p => `
-        <option value="${p.id}" ${(projId || state.selectedProjectId) === p.id ? 'selected' : ''}>
-          #${p.no || ''} ${p.title} (${p.progress}%)
-        </option>
-      `).join('');
-
-      const activeId = projId || state.selectedProjectId || (projects[0] && projects[0].id);
-      syncModalProgress(activeId);
-      document.getElementById('modal-log-text').value = '';
-      document.getElementById('modal-next-steps').value = '';
-      document.getElementById('log-modal').classList.remove('hidden');
-    }
-
-    function closeLogModal() {
-      document.getElementById('log-modal').classList.add('hidden');
-    }
-
-    function syncModalProgress(projectId) {
-      const p = projects.find(proj => proj.id === projectId);
-      if (p) {
-        document.getElementById('modal-progress-range').value = p.progress;
-        document.getElementById('modal-progress-label').innerText = p.progress;
-        document.getElementById('modal-select-health').value = p.health || 'en_tiempo';
-        document.getElementById('modal-select-stage').value = p.kanbanStage || 'ejecucion';
-      }
-    }
-
-    function updateModalProgressLabel(val) {
-      document.getElementById('modal-progress-label').innerText = val;
-    }
-
 
     // ==========================================
     // CREAR Y ARCHIVAR PROYECTOS
@@ -1888,9 +1673,13 @@
       if (progLabel) progLabel.innerText = defaultProg;
 
       const leaderInput = document.getElementById('new-proj-leader');
-      if (leaderInput && currentUser && currentUser !== 'Invitado') {
+      if (leaderInput && currentUser && currentUser !== 'Invitado' && currentUser !== 'Invitado SDHO') {
         leaderInput.value = currentUser.split('@')[0];
       }
+
+      // Reset preview de portada
+      document.getElementById('new-proj-cover-url').value = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80';
+      previewCoverImage('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80');
 
       document.getElementById('new-project-modal').classList.remove('hidden');
       if (window.lucide) lucide.createIcons();
@@ -1898,6 +1687,22 @@
 
     function closeNewProjectModal() {
       document.getElementById('new-project-modal').classList.add('hidden');
+    }
+
+    function selectPresetCover(url) {
+      document.getElementById('new-proj-cover-url').value = url;
+      previewCoverImage(url);
+    }
+
+    function previewCoverImage(url) {
+      const preview = document.getElementById('new-proj-cover-preview');
+      const img = document.getElementById('preview-img-tag');
+      if (url && url.trim().length > 10) {
+        img.src = url.trim();
+        preview.classList.remove('hidden');
+      } else {
+        preview.classList.add('hidden');
+      }
     }
 
     function handleNewProjectSubmit(e) {
@@ -1909,8 +1714,14 @@
       const category = document.getElementById('new-proj-category').value || 'cambio';
       const priority = document.getElementById('new-proj-priority').value || 'Media';
       const progress = parseInt(document.getElementById('new-proj-progress').value) || 10;
-      const qStart = document.getElementById('new-proj-qstart').value || 'Q2 2026';
-      const qEnd = document.getElementById('new-proj-qend').value || 'Q4 2026';
+      
+      // Fechas exactas en vez de trimestres
+      const startDate = document.getElementById('new-proj-start-date').value || '2026-04-01';
+      const endDate = document.getElementById('new-proj-end-date').value || '2026-11-30';
+      
+      // Portada Trello
+      const coverImage = document.getElementById('new-proj-cover-url').value.trim() || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80';
+
       const tech = document.getElementById('new-proj-tech').value.trim() || 'Power Apps';
       const budget = document.getElementById('new-proj-budget').value.trim() || 'Recurso interno';
       const desc = document.getElementById('new-proj-desc').value.trim();
@@ -1939,9 +1750,11 @@
         blockage: null,
         investment: budget,
         tech: tech,
-        quarterStart: qStart,
-        quarterEnd: qEnd,
-        timeline: `${qStart} - ${qEnd}`,
+        startDate: startDate,
+        endDate: endDate,
+        coverImage: coverImage,
+        imageUrl: coverImage,
+        timeline: `${formatDateSpanish(startDate)} - ${formatDateSpanish(endDate)}`,
         description: desc,
         highlights: [milestone],
         nextPhase: ['Definición de requerimientos y coordinación de Squad'],
@@ -1970,8 +1783,9 @@
             category: category,
             priority: priority,
             progress: progress,
-            quarterStart: qStart,
-            quarterEnd: qEnd,
+            startDate: startDate,
+            endDate: endDate,
+            coverImage: coverImage,
             tech: tech,
             investment: budget,
             description: desc,
@@ -1983,7 +1797,7 @@
     function archivarProyectoAction(projId) {
       const p = projects.find(x => x.id === projId);
       if (!p) return;
-      if (!confirm(`¿Confirmas que deseas archivar el proyecto "${p.title}"? Se moverá al histórico.`)) return;
+      if (!confirm(`¿Confirmas que deseas archivar el proyecto "${p.title}"? Se moverá al histórico de archivados.`)) return;
 
       projects = projects.filter(x => x.id !== projId);
       archivedProjects.unshift(p);
@@ -1998,6 +1812,82 @@
           })
           .archivarProyecto({ id: projId, reason: 'Archivado desde el tablero de control' });
       }
+    }
+
+    // ==========================================
+    // CAMBIO RÁPIDO DE PORTADA ESTILO TRELLO
+    // ==========================================
+    function openChangeCoverModal(projId) {
+      document.getElementById('change-cover-project-id').value = projId;
+      document.getElementById('quick-cover-url-input').value = '';
+      document.getElementById('change-cover-modal').classList.remove('hidden');
+    }
+
+    function closeChangeCoverModal() {
+      document.getElementById('change-cover-modal').classList.add('hidden');
+    }
+
+    function applyQuickCover(url) {
+      const projId = document.getElementById('change-cover-project-id').value;
+      saveCoverImageForProject(projId, url);
+    }
+
+    function applyCustomCoverInput() {
+      const projId = document.getElementById('change-cover-project-id').value;
+      const url = document.getElementById('quick-cover-url-input').value.trim();
+      if (!url) return;
+      saveCoverImageForProject(projId, url);
+    }
+
+    function saveCoverImageForProject(projId, url) {
+      const p = projects.find(x => x.id === projId);
+      if (p) {
+        p.coverImage = url;
+        p.imageUrl = url;
+      }
+      closeChangeCoverModal();
+      showToast('Portada Actualizada', 'Nueva imagen asignada estilo Trello.');
+      renderApp();
+
+      if (isAppsScript) {
+        google.script.run.actualizarPortadaProyecto({ projectId: projId, coverImage: url });
+      }
+    }
+
+    // ==========================================
+    // MODALES DE AVANCE Y BLOQUEO
+    // ==========================================
+    function openLogModal(projId = null) {
+      const select = document.getElementById('modal-select-project');
+      select.innerHTML = projects.map(p => `
+        <option value="${p.id}" ${ (projId || state.selectedProjectId) === p.id ? 'selected' : '' }>
+          #${p.no || ''} ${p.title} (${p.progress}%)
+        </option>
+      `).join('');
+
+      const activeId = projId || state.selectedProjectId || (projects[0] && projects[0].id);
+      syncModalProgress(activeId);
+      document.getElementById('modal-log-text').value = '';
+      document.getElementById('modal-next-steps').value = '';
+      document.getElementById('log-modal').classList.remove('hidden');
+    }
+
+    function closeLogModal() {
+      document.getElementById('log-modal').classList.add('hidden');
+    }
+
+    function syncModalProgress(projectId) {
+      const p = projects.find(proj => proj.id === projectId);
+      if (p) {
+        document.getElementById('modal-progress-range').value = p.progress;
+        document.getElementById('modal-progress-label').innerText = p.progress;
+        document.getElementById('modal-select-health').value = p.health || 'en_tiempo';
+        document.getElementById('modal-select-stage').value = p.kanbanStage || 'ejecucion';
+      }
+    }
+
+    function updateModalProgressLabel(val) {
+      document.getElementById('modal-progress-label').innerText = val;
     }
 
     function handleFormSubmit(e) {
@@ -2034,6 +1924,160 @@
       }
     }
 
+    function openBlockageModal(projId) {
+      const p = projects.find(proj => proj.id === projId);
+      if (!p) return;
+      document.getElementById('blockage-project-id').value = projId;
+      document.getElementById('blockage-project-title').innerText = `#${p.no || ''} ${p.title}`;
+      document.getElementById('blockage-reason').value = p.blockage || '';
+      document.getElementById('blockage-modal').classList.remove('hidden');
+    }
+
+    function closeBlockageModal() {
+      document.getElementById('blockage-modal').classList.add('hidden');
+    }
+
+    function handleBlockageSubmit(e) {
+      e.preventDefault();
+      const projId = document.getElementById('blockage-project-id').value;
+      const reason = document.getElementById('blockage-reason').value.trim();
+
+      const p = projects.find(proj => proj.id === projId);
+      if (p) {
+        p.health = 'bloqueado';
+        p.blockage = reason;
+      }
+
+      closeBlockageModal();
+      showToast('Bloqueo Registrado', 'Iniciativa marcada en semáforo rojo.');
+      renderApp();
+
+      if (isAppsScript) {
+        google.script.run.reportarBloqueo({ projectId: projId, motivo: reason });
+      }
+    }
+
+    // ==========================================
+    // REPORTE COMITÉ DIRECTIVO
+    // ==========================================
+    function openExecutiveReportModal() {
+      const modal = document.getElementById('executive-report-modal');
+      const body = document.getElementById('executive-report-body');
+
+      const onTime = projects.filter(p => p.health === 'en_tiempo').length;
+      const atRisk = projects.filter(p => p.health === 'en_riesgo').length;
+      const blocked = projects.filter(p => p.health === 'bloqueado').length;
+      const avgProg = projects.length ? Math.round(projects.reduce((a, b) => a + (b.progress || 0), 0) / projects.length) : 0;
+
+      body.innerHTML = `
+        <div class="space-y-6">
+          <div class="border-b border-slate-200 pb-4">
+            <h2 class="text-xl font-black text-slate-900">Estado Estratégico del Portafolio SDHO</h2>
+            <p class="text-xs text-slate-500 mt-1">Corte ejecutivo a fecha actual · Comfamiliar Risaralda</p>
+          </div>
+
+          <div class="grid grid-cols-4 gap-3 text-center">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span class="text-[10px] font-extrabold text-slate-400 uppercase">Total Iniciativas</span>
+              <p class="text-xl font-black text-slate-900 mt-1">${projects.length}</p>
+            </div>
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800">
+              <span class="text-[10px] font-extrabold uppercase">🟢 En Tiempo</span>
+              <p class="text-xl font-black mt-1">${onTime}</p>
+            </div>
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-800">
+              <span class="text-[10px] font-extrabold uppercase">🟡 En Riesgo</span>
+              <p class="text-xl font-black mt-1">${atRisk}</p>
+            </div>
+            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 text-rose-800">
+              <span class="text-[10px] font-extrabold uppercase">🔴 Bloqueados</span>
+              <p class="text-xl font-black mt-1">${blocked}</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-extrabold text-xs text-slate-800 uppercase tracking-wider mb-3">Matriz Resumida de Cumplimiento y Cronograma</h4>
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                  <tr>
+                    <th class="p-3">#</th>
+                    <th class="p-3">Iniciativa</th>
+                    <th class="p-3">Líder / Squad</th>
+                    <th class="p-3">Cronograma</th>
+                    <th class="p-3">Avance</th>
+                    <th class="p-3">Salud RAG</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${projects.map(p => `
+                    <tr>
+                      <td class="p-3 font-mono font-bold text-slate-400">#${p.no || ''}</td>
+                      <td class="p-3 font-bold text-slate-900">${p.title}</td>
+                      <td class="p-3 text-slate-600">${p.assigned || 'Squad'}</td>
+                      <td class="p-3 text-slate-500">${formatDateShort(p.startDate)} - ${formatDateShort(p.endDate)}</td>
+                      <td class="p-3 font-black text-brand-tealDark">${p.progress}%</td>
+                      <td class="p-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-black ${getHealthBadgeClass(p.health)}">
+                          ${getHealthLabel(p.health)}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeExecutiveReportModal() {
+      document.getElementById('executive-report-modal').classList.add('hidden');
+    }
+
+    // ==========================================
+    // FILTROS Y BÚSQUEDA
+    // ==========================================
+    function handleSearch(val) {
+      state.searchQuery = val.toLowerCase().trim();
+      renderApp();
+    }
+
+    function handleHealthFilter(val) {
+      state.healthFilter = val;
+      renderApp();
+    }
+
+    function handleCategoryFilter(val) {
+      state.activeTab = val;
+      renderApp();
+    }
+
+    function handleStatusFilter(val) {
+      state.statusFilter = val;
+      renderApp();
+    }
+
+    function getFilteredProjects() {
+      return projects.filter(p => {
+        if (state.activeTab !== 'all' && p.category !== state.activeTab) return false;
+        if (state.statusFilter !== 'all' && p.status !== state.statusFilter) return false;
+        if (state.healthFilter !== 'all' && p.health !== state.healthFilter) return false;
+        if (state.searchQuery) {
+          const matchTitle = (p.title || '').toLowerCase().includes(state.searchQuery);
+          const matchLeader = (p.assigned || '').toLowerCase().includes(state.searchQuery);
+          const matchSquad = (p.squad || '').toString().toLowerCase().includes(state.searchQuery);
+          const matchTech = (p.tech || '').toString().toLowerCase().includes(state.searchQuery);
+          if (!matchTitle && !matchLeader && !matchSquad && !matchTech) return false;
+        }
+        return true;
+      });
+    }
+
     // ==========================================
     // RENDERIZADO PRINCIPAL
     // ==========================================
@@ -2053,439 +2097,548 @@
 
         const allList = [...projects, ...archivedProjects];
         const project = allList.find(p => p.id === state.selectedProjectId);
-        const filteredList = getFilteredProjects();
-        const currentIndex = filteredList.findIndex(p => p.id === (project ? project.id : ''));
-
         if (!project) { selectProject(null); return; }
 
-        const categoryLabel = project.category === 'gestion' ? 'Gestión Humana' : 'Gestor de Cambio';
         const projectLogs = bitacoraLogs.filter(l => l.projectId === project.id);
 
         let htmlDetail = `
           <div class="space-y-6 fade-in print-full">
+            
+            <!-- Barra Superior de Navegación del Detalle -->
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs no-print">
-              <button onclick="selectProject(null)" class="inline-flex items-center gap-2 text-xs font-black text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-xl">
+              <button onclick="selectProject(null)" class="inline-flex items-center gap-2 text-xs font-black text-slate-700 hover:text-brand-accent transition-colors">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                <span>Volver al Tablero</span>
+                <span>Volver al Tablero Kanban</span>
               </button>
 
               <div class="flex items-center gap-2">
-                <button onclick="navigateProject(-1)" ${currentIndex <= 0 ? 'disabled' : ''} class="px-3 py-2 border rounded-xl bg-white hover:bg-slate-50 disabled:opacity-30 text-xs font-bold">← Ant.</button>
-                <span class="text-xs font-mono font-bold text-slate-400 px-2">${currentIndex !== -1 ? currentIndex + 1 : '--'} de ${filteredList.length}</span>
-                <button onclick="navigateProject(1)" ${currentIndex === -1 || currentIndex === filteredList.length - 1 ? 'disabled' : ''} class="px-3 py-2 border rounded-xl bg-white hover:bg-slate-50 disabled:opacity-30 text-xs font-bold">Sig. →</button>
-
-                ${project.blockage ? `
-                  <button onclick="resolveBlockageDirect('${project.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                    <span>Resolver Bloqueo</span>
-                  </button>
-                ` : `
-                  <button onclick="openBlockageModal('${project.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5">
-                    <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i>
-                    <span>Reportar Bloqueo</span>
-                  </button>
-                `}
-
-                <button onclick="openLogModal('${project.id}')" class="bg-brand-cyan hover:bg-brand-cyanHover text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs">
-                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <button onclick="openChangeCoverModal('${project.id}')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="Cambiar la imagen de portada estilo Trello">
+                  <i data-lucide="image" class="w-3.5 h-3.5 text-indigo-500"></i>
+                  <span>Cambiar Portada</span>
+                </button>
+                <button onclick="archivarProyectoAction('${project.id}')" class="px-3 py-1.5 bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="Mover proyecto al histórico de archivados">
+                  <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+                  <span class="hidden sm:inline">Archivar</span>
+                </button>
+                <button onclick="openBlockageModal('${project.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+                  <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i>
+                  <span class="hidden sm:inline">Reportar Bloqueo</span>
+                </button>
+                <button onclick="openLogModal('${project.id}')" class="px-3 py-1.5 bg-brand-cyan hover:bg-brand-cyan/80 text-slate-950 rounded-xl text-xs font-black transition-all flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                   <span>Documentar Avance</span>
                 </button>
               </div>
             </div>
 
-            <!-- Ficha Técnica -->
-            <section class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-              <div class="bg-gradient-to-r from-brand-navy via-brand-dark to-brand-navy text-white p-6 sm:p-8">
-                <div class="flex flex-wrap items-center gap-2 mb-3">
-                  <span class="text-[11px] font-black px-3 py-1 rounded-lg uppercase tracking-wider bg-white/10 text-brand-cyan border border-white/15">${categoryLabel}</span>
-                  <span class="text-[11px] font-bold px-3 py-1 rounded-lg border ${getStatusBadgeClass(project.progress)}">${project.status}</span>
-                  <span class="text-[11px] font-black px-3 py-1 rounded-lg border ${getHealthBadgeClass(project.health)}">${getHealthLabel(project.health)}</span>
-                  <span class="text-[11px] font-bold px-3 py-1 rounded-lg border ${getPriorityBadgeClass(project.priority)}">Prioridad ${project.priority}</span>
+            <!-- Hero Banner con Portada Estilo Trello -->
+            <div class="relative rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-brand-navy">
+              ${project.coverImage ? `
+                <div class="h-44 sm:h-52 w-full relative">
+                  <img src="${project.coverImage}" alt="${project.title}" class="w-full h-full object-cover" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"></div>
+                </div>
+              ` : `
+                <div class="h-28 bg-gradient-to-r from-brand-navy to-brand-dark"></div>
+              `}
+
+              <div class="absolute bottom-4 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3 text-white">
+                <div>
+                  <div class="flex items-center gap-2 mb-1.5">
+                    <span class="font-mono font-bold text-xs bg-slate-950/70 px-2 py-0.5 rounded backdrop-blur-xs text-brand-cyan">#${project.no || ''}</span>
+                    <span class="text-xs font-black px-2 py-0.5 rounded border ${getHealthBadgeClass(project.health)} backdrop-blur-xs">${getHealthLabel(project.health)}</span>
+                    <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded backdrop-blur-xs">${project.status}</span>
+                  </div>
+                  <h2 class="text-lg sm:text-2xl font-black text-white leading-tight drop-shadow-sm">${project.title}</h2>
+                  <p class="text-xs text-slate-300 font-medium mt-0.5">${project.area || 'SDHO'} · Responsable: <strong class="text-white">${project.assigned || 'Líder SDHO'}</strong></p>
                 </div>
 
-                <h2 class="text-2xl sm:text-3xl font-black text-white">${project.title}</h2>
-                <p class="text-sm text-slate-300 mt-2.5 max-w-4xl">${project.description}</p>
+                <div class="bg-slate-950/80 backdrop-blur-md p-3 rounded-2xl border border-white/10 text-right shrink-0">
+                  <p class="text-[9px] font-extrabold uppercase text-slate-400">Avance de Proyecto</p>
+                  <p class="text-2xl font-black text-brand-cyan">${project.progress}%</p>
+                </div>
+              </div>
+            </div>
 
-                <div class="mt-5 max-w-2xl bg-slate-900/60 p-4 rounded-2xl border border-slate-700/60">
-                  <div class="flex justify-between items-center text-xs font-bold text-slate-200 mb-1.5">
-                    <span class="flex items-center gap-1.5">
-                      <span class="w-2.5 h-2.5 rounded-full ${getHealthDotClass(project.health)}"></span>
-                      <span>Avance Técnico Real</span>
-                    </span>
-                    <span class="font-black text-white">${project.progress}%</span>
+            <!-- Ficha Técnica con Cronograma de Fechas -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              
+              <!-- Tarjeta de Fechas -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                <div class="flex items-center gap-2.5 mb-2">
+                  <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
                   </div>
-                  <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                    <div class="h-full ${project.progress === 100 ? 'bg-emerald-400' : 'bg-gradient-to-r from-brand-cyan to-brand-teal'}" style="width: ${project.progress}%"></div>
+                  <h4 class="font-extrabold text-xs text-slate-900">Cronograma de Ejecución</h4>
+                </div>
+                <div class="space-y-1.5 text-xs">
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold block">Fecha de Inicio</span>
+                    <span class="font-black text-slate-800">${formatDateSpanish(project.startDate)}</span>
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold block">Fecha Estimada de Entrega</span>
+                    <span class="font-black text-emerald-700">${formatDateSpanish(project.endDate)}</span>
                   </div>
                 </div>
               </div>
 
-              ${project.blockage ? `
-                <div class="p-4 bg-rose-50 border-b border-rose-200 flex items-center justify-between text-xs text-rose-900">
-                  <div class="flex items-center gap-2.5">
-                    <div class="p-1.5 bg-rose-200 text-rose-900 rounded-lg"><i data-lucide="alert-octagon" class="w-5 h-5"></i></div>
-                    <div>
-                      <p class="font-black uppercase text-[10px] text-rose-800">Bloqueo Activo en este Proyecto</p>
-                      <p class="font-medium">${project.blockage}</p>
-                    </div>
+              <!-- Tarjeta de Squad -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                <div class="flex items-center gap-2.5 mb-2">
+                  <div class="p-2 bg-blue-50 text-blue-600 rounded-xl">
+                    <i data-lucide="users" class="w-4 h-4"></i>
                   </div>
-                  <button onclick="resolveBlockageDirect('${project.id}')" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl shrink-0 shadow-xs">
-                    Marcar como Resuelto
-                  </button>
+                  <h4 class="font-extrabold text-xs text-slate-900">Equipo & Squad</h4>
                 </div>
-              ` : ''}
-
-              <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                    <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Liderazgo & Squad</h4>
-                    <p class="text-xs text-slate-800 font-bold">Líder: ${project.assigned || 'Sin asignar'}</p>
-                    ${project.squad && project.squad.length > 0 ? `
-                      <div class="flex flex-wrap gap-1.5 mt-2.5">
-                        ${project.squad.map(m => `<span class="bg-white text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200 text-xs font-semibold">${m}</span>`).join('')}
-                      </div>
-                    ` : ''}
-                  </div>
-
-                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                    <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Presupuesto & Horizonte</h4>
-                    <div class="grid grid-cols-2 gap-3 text-xs mt-2">
-                      <div class="bg-white p-3 rounded-xl border border-slate-200">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Presupuesto</p>
-                        <p class="font-black text-slate-900 mt-0.5">${project.investment || 'Recurso interno'}</p>
-                      </div>
-                      <div class="bg-white p-3 rounded-xl border border-slate-200">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Horizonte</p>
-                        <p class="font-black text-slate-900 mt-0.5">${project.quarterStart || 'Q1 2026'} → ${project.quarterEnd || 'Q4 2026'}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  ${project.url ? `
-                    <a href="${project.url}" target="_blank" class="flex items-center justify-between p-4 bg-slate-900 text-white rounded-2xl hover:bg-brand-dark transition-all">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="external-link" class="w-5 h-5 text-brand-cyan"></i>
-                        <div>
-                          <p class="text-[10px] text-brand-cyan uppercase font-extrabold">Entorno en Vivo</p>
-                          <p class="text-xs font-black text-white">${project.linkText || 'Abrir Aplicación'}</p>
-                        </div>
-                      </div>
-                      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-400"></i>
-                    </a>
-                  ` : ''}
-                </div>
-
-                <div class="space-y-6">
-                  <div class="bg-emerald-50/40 p-5 rounded-2xl border border-emerald-200/60">
-                    <h4 class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-4 flex items-center justify-between">
-                      <span class="flex items-center gap-1.5"><i data-lucide="history" class="w-4 h-4 text-emerald-600"></i><span>Bitácora de Avances</span></span>
-                      <span class="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full">${projectLogs.length > 0 ? projectLogs.length : (project.highlights ? project.highlights.length : 0)} hitos</span>
-                    </h4>
-
-                    <div class="relative border-l-2 border-emerald-200 ml-2 space-y-3.5">
-                      ${projectLogs.length > 0 ? projectLogs.map(log => `
-                        <div class="relative pl-5 text-xs">
-                          <div class="absolute -left-[7px] top-1 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white"></div>
-                          <div class="bg-white p-3 rounded-xl border border-emerald-100 shadow-2xs space-y-1">
-                            <div class="flex items-center justify-between text-[10px] text-slate-400">
-                              <span>${log.timestamp}</span>
-                              <span class="text-emerald-700 font-black">${log.progress}% avance</span>
-                            </div>
-                            <p class="font-semibold text-slate-800">${log.hito}</p>
-                            ${log.proximosPasos ? `<p class="text-[11px] text-blue-600 font-medium">→ ${log.proximosPasos}</p>` : ''}
-                          </div>
-                        </div>
-                      `).join('') : (project.highlights || []).map(h => `
-                        <div class="relative pl-5 text-xs">
-                          <div class="absolute -left-[7px] top-1 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white"></div>
-                          <div class="bg-white p-3 rounded-xl border border-emerald-100 font-medium text-slate-800">${h}</div>
-                        </div>
-                      `).join('')}
-                    </div>
-                  </div>
-                </div>
+                <p class="text-xs font-bold text-slate-800">${project.squad || 'Squad Cultura & TI'}</p>
+                <p class="text-[11px] text-slate-500 mt-1">Líder: ${project.assigned || 'Por definir'}</p>
               </div>
-            </section>
+
+              <!-- Tarjeta de Tecnologías -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                <div class="flex items-center gap-2.5 mb-2">
+                  <div class="p-2 bg-cyan-50 text-cyan-600 rounded-xl">
+                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                  </div>
+                  <h4 class="font-extrabold text-xs text-slate-900">Stack Tecnológico</h4>
+                </div>
+                <p class="text-xs font-bold text-slate-800">${project.tech || 'Tecnología Interna'}</p>
+              </div>
+
+              <!-- Tarjeta de Presupuesto -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                <div class="flex items-center gap-2.5 mb-2">
+                  <div class="p-2 bg-purple-50 text-purple-600 rounded-xl">
+                    <i data-lucide="wallet" class="w-4 h-4"></i>
+                  </div>
+                  <h4 class="font-extrabold text-xs text-slate-900">Inversión / Recursos</h4>
+                </div>
+                <p class="text-xs font-black text-purple-800">${project.investment || 'Recurso interno'}</p>
+              </div>
+
+            </div>
+
+            <!-- Bloque de Descripción y Hitos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+                <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                  <i data-lucide="target" class="w-4 h-4 text-brand-teal"></i>
+                  <span>Objetivo y Alcance</span>
+                </h4>
+                <p class="text-xs text-slate-600 font-medium leading-relaxed">${project.description || 'Sin descripción detallada.'}</p>
+              </div>
+
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+                <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                  <i data-lucide="flag" class="w-4 h-4 text-emerald-600"></i>
+                  <span>Hitos Clave & Próximos Pasos</span>
+                </h4>
+                <ul class="text-xs text-slate-600 space-y-2 font-medium">
+                  ${(project.highlights || ['Iniciativa formalmente radicada']).map(h => `
+                    <li class="flex items-start gap-2">
+                      <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5"></i>
+                      <span>${h}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+
+            </div>
+
           </div>
         `;
+
         contentArea.innerHTML = htmlDetail;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
 
-      } else {
-        controlsSection.classList.remove('hidden');
-        headerKpis.classList.remove('hidden');
-        btnShowAll.classList.add('hidden');
-        viewSelector.classList.remove('hidden');
+      // Vistas Estándar
+      controlsSection.classList.remove('hidden');
+      headerKpis.classList.remove('hidden');
+      btnShowAll.classList.add('hidden');
+      viewSelector.classList.remove('hidden');
 
-        const filteredList = getFilteredProjects();
+      const filteredList = getFilteredProjects();
 
-        if (filteredList.length === 0) {
-          contentArea.innerHTML = `
-            <div class="bg-white rounded-3xl p-12 text-center border border-slate-200">
-              <i data-lucide="search-x" class="w-8 h-8 mx-auto text-slate-400 mb-2"></i>
-              <h4 class="font-black text-slate-800">No se encontraron proyectos</h4>
-              <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 bg-brand-cyan text-slate-950 font-black text-xs rounded-xl">Restablecer filtros</button>
-            </div>
-          `;
-          lucide.createIcons();
-          return;
-        }
+      // ==========================================
+      // VISTA 1: TABLERO KANBAN CON PORTADAS TRELLO
+      // ==========================================
+      if (state.viewMode === 'kanban') {
+        const columns = [
+          { 
+            id: 'inicial', 
+            title: '1. Fase Inicial / Propuesta', 
+            subtitle: 'Concepción & Diagnóstico', 
+            color: 'bg-amber-500', 
+            borderAccent: 'border-t-4 border-amber-500',
+            filter: p => (p.kanbanStage || (p.progress < 50 ? 'inicial' : 'ejecucion')) === 'inicial' 
+          },
+          { 
+            id: 'ejecucion', 
+            title: '2. En Desarrollo / Ejecución', 
+            subtitle: 'Construcción & Despliegue', 
+            color: 'bg-brand-cyan', 
+            borderAccent: 'border-t-4 border-brand-cyan',
+            filter: p => (p.kanbanStage || 'ejecucion') === 'ejecucion' 
+          },
+          { 
+            id: 'pruebas', 
+            title: '3. Pruebas & Validación UX', 
+            subtitle: 'Piloto con Usuarios Reales', 
+            color: 'bg-blue-500', 
+            borderAccent: 'border-t-4 border-blue-500',
+            filter: p => (p.kanbanStage || 'pruebas') === 'pruebas' 
+          },
+          { 
+            id: 'produccion', 
+            title: '4. En Producción / Listos', 
+            subtitle: 'Operativo & Estabilizado', 
+            color: 'bg-emerald-500', 
+            borderAccent: 'border-t-4 border-emerald-500',
+            filter: p => (p.kanbanStage || (p.progress === 100 ? 'produccion' : 'ejecucion')) === 'produccion' 
+          }
+        ];
 
-        // ==========================================
-        // VISTA PRINCIPAL: KANBAN POR ETAPAS (4 ETAPAS CLARAS)
-        // ==========================================
-        if (state.viewMode === 'kanban') {
-          const columns = [
-            { 
-              id: 'inicial', 
-              title: '1. Fase Inicial / Propuesta', 
-              subtitle: 'Concepción & Diagnóstico', 
-              color: 'bg-amber-500', 
-              borderAccent: 'border-t-4 border-amber-500',
-              filter: p => (p.kanbanStage || (p.progress < 50 ? 'inicial' : 'ejecucion')) === 'inicial' 
-            },
-            { 
-              id: 'ejecucion', 
-              title: '2. En Desarrollo / Ejecución', 
-              subtitle: 'Construcción & Despliegue', 
-              color: 'bg-brand-cyan', 
-              borderAccent: 'border-t-4 border-brand-cyan',
-              filter: p => (p.kanbanStage || 'ejecucion') === 'ejecucion' 
-            },
-            { 
-              id: 'pruebas', 
-              title: '3. Pruebas & Validación UX', 
-              subtitle: 'Piloto con Usuarios Reales', 
-              color: 'bg-blue-500', 
-              borderAccent: 'border-t-4 border-blue-500',
-              filter: p => (p.kanbanStage || 'pruebas') === 'pruebas' 
-            },
-            { 
-              id: 'produccion', 
-              title: '4. En Producción / Listos', 
-              subtitle: 'Operativo & Estabilizado', 
-              color: 'bg-emerald-500', 
-              borderAccent: 'border-t-4 border-emerald-500',
-              filter: p => (p.kanbanStage || (p.progress === 100 ? 'produccion' : 'ejecucion')) === 'produccion' 
-            }
-          ];
+        let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">`;
+        
+        columns.forEach(col => {
+          const colProjects = filteredList.filter(col.filter);
 
-          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">`;
-          
-          columns.forEach(col => {
-            const colProjects = filteredList.filter(col.filter);
-
-            html += `
-              <div 
-                class="kanban-column bg-slate-100/90 rounded-2xl p-3.5 border border-slate-200/90 ${col.borderAccent} transition-all min-h-[440px] shadow-2xs"
-                ondragover="handleDragOver(event)"
-                ondragleave="handleDragLeave(event)"
-                ondrop="handleDrop(event, '${col.id}')"
-              >
-                <!-- Cabecera de la Etapa -->
-                <div class="mb-3 px-1 pb-2.5 border-b border-slate-200">
-                  <div class="flex items-center justify-between">
-                    <h4 class="font-black text-xs text-slate-900 flex items-center gap-1.5">
-                      <span class="w-2.5 h-2.5 rounded-full ${col.color}"></span>
-                      <span>${col.title}</span>
-                    </h4>
-                    <div class="flex items-center gap-1">
-                      <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-700 rounded-full border border-slate-200 shadow-2xs">
-                        ${colProjects.length}
-                      </span>
-                      <button onclick="openNewProjectModal('${col.id}')" class="p-1 hover:bg-white text-slate-500 hover:text-emerald-600 rounded-lg text-xs transition-colors shadow-2xs" title="Crear iniciativa en esta etapa">
-                        <i data-lucide="plus" class="w-3 h-3"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <p class="text-[10px] text-slate-400 font-medium mt-0.5 pl-4">${col.subtitle}</p>
+          html += `
+            <div 
+              class="kanban-column bg-slate-100/90 rounded-2xl p-3 border border-slate-200/90 ${col.borderAccent} flex flex-col shadow-xs"
+              ondragover="handleDragOver(event)"
+              ondragleave="handleDragLeave(event)"
+              ondrop="handleDrop(event, '${col.id}')"
+            >
+              <!-- Cabecera de Columna -->
+              <div class="flex items-center justify-between mb-3 px-1">
+                <div>
+                  <h4 class="font-extrabold text-xs text-slate-800 flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full ${col.color}"></span>
+                    <span>${col.title}</span>
+                  </h4>
+                  <p class="text-[10px] text-slate-500 font-semibold">${col.subtitle}</p>
                 </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-700 rounded-full border border-slate-200 shadow-2xs">
+                    ${colProjects.length}
+                  </span>
+                  <button onclick="event.stopPropagation(); openNewProjectModal('${col.id}')" class="p-1 hover:bg-white text-slate-500 hover:text-emerald-600 rounded-lg text-xs transition-colors shadow-2xs" title="Crear iniciativa en esta etapa">
+                    <i data-lucide="plus" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
 
-                <!-- Tarjetas de la Etapa -->
-                <div class="space-y-3">
-                  ${colProjects.map(p => `
-                    <div 
-                      id="kanban-card-${p.id}"
-                      draggable="true"
-                      ondragstart="handleDragStart(event, '${p.id}')"
-                      ondragend="handleDragEnd('${p.id}')"
-                      onclick="selectProject('${p.id}')"
-                      class="kanban-card bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-350 hover:shadow-sm transition-all cursor-grab active:cursor-grabbing group relative select-none"
-                    >
-                      <!-- Badges Superiores -->
-                      <div class="flex items-center justify-between text-[9px] mb-1.5">
+              <!-- Zona de Tarjetas -->
+              <div class="kanban-dropzone space-y-3 flex-1 min-h-[160px] p-1 rounded-xl transition-all">
+                ${colProjects.map(p => `
+                  <div 
+                    id="kanban-card-${p.id}"
+                    draggable="true"
+                    ondragstart="handleDragStart(event, '${p.id}')"
+                    ondragend="handleDragEnd('${p.id}')"
+                    onclick="selectProject('${p.id}')"
+                    class="kanban-card bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-slate-350 hover:shadow-md transition-all cursor-grab active:cursor-grabbing group relative select-none overflow-hidden"
+                  >
+                    <!-- Portada Estilo Trello -->
+                    ${p.coverImage ? `
+                      <div class="h-28 w-full -mx-3.5 -mt-3.5 mb-2.5 overflow-hidden rounded-t-2xl bg-slate-100 relative group/cover">
+                        <img src="${p.coverImage}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="this.parentElement.style.display='none'" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[9px] text-white">
+                          <span class="font-mono font-bold bg-slate-950/75 px-1.5 py-0.5 rounded backdrop-blur-xs text-brand-cyan">#${p.no || ''}</span>
+                          <span class="font-black px-1.5 py-0.5 rounded ${getHealthBadgeClass(p.health)} backdrop-blur-xs">${getHealthLabel(p.health)}</span>
+                        </div>
+                      </div>
+                    ` : `
+                      <!-- Badges Estándar si no hay portada -->
+                      <div class="flex items-center justify-between text-[9px] mb-2">
                         <span class="font-mono font-bold text-slate-400">#${p.no || ''}</span>
                         <span class="font-black px-1.5 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
                       </div>
+                    `}
 
-                      <h5 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">
-                        ${p.title}
-                      </h5>
+                    <h5 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">
+                      ${p.title}
+                    </h5>
 
-                      <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal">
-                        ${p.description}
-                      </p>
-                      
-                      ${p.blockage ? `
-                        <div class="mt-2 p-1.5 bg-rose-50 border border-rose-200 rounded-lg text-[9px] text-rose-700 font-bold flex items-center gap-1 line-clamp-1">
-                          <i data-lucide="alert-octagon" class="w-3 h-3 text-rose-600 shrink-0"></i>
-                          <span>${p.blockage}</span>
-                        </div>
-                      ` : ''}
-
-                      <!-- Barra de Progreso y Líder -->
-                      <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[10px]">
-                        <div class="flex items-center gap-1.5">
-                          <span class="font-black text-slate-900">${p.progress}%</span>
-                          <div class="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                            <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
-                          </div>
-                        </div>
-
-                        <span class="text-slate-400 font-medium truncate max-w-[90px]">${p.assigned || 'Squad'}</span>
+                    <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal">
+                      ${p.description}
+                    </p>
+                    
+                    ${p.blockage ? `
+                      <div class="mt-2 p-1.5 bg-rose-50 border border-rose-200 rounded-lg text-[9px] text-rose-700 font-bold flex items-center gap-1 line-clamp-1">
+                        <i data-lucide="alert-octagon" class="w-3 h-3 text-rose-600 shrink-0"></i>
+                        <span>${p.blockage}</span>
                       </div>
+                    ` : ''}
+
+                    <!-- Fechas de Ejecución -->
+                    <div class="flex items-center gap-1 text-[9px] text-slate-500 mt-2 font-medium bg-slate-50 px-2 py-1 rounded-lg border border-slate-100">
+                      <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                      <span class="truncate">${formatDateShort(p.startDate)} → ${formatDateShort(p.endDate)}</span>
+                    </div>
+
+                    <!-- Barra de Progreso y Responsable -->
+                    <div class="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-black text-slate-900">${p.progress}%</span>
+                        <div class="w-14 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                          <div class="h-full ${p.progress === 100 ? 'bg-emerald-500' : 'bg-brand-cyan'}" style="width: ${p.progress}%"></div>
+                        </div>
+                      </div>
+
+                      <span class="text-slate-400 font-medium truncate max-w-[85px]">${p.assigned || 'Squad'}</span>
+                    </div>
+                  </div>
+                `).join('')}
+
+                ${colProjects.length === 0 ? `
+                  <div class="text-center py-12 text-slate-400 text-xs font-medium border-2 border-dashed border-slate-200 rounded-xl bg-white/40">
+                    Arrastra una iniciativa aquí
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        contentArea.innerHTML = html;
+      }
+
+      // ==========================================
+      // VISTA 2: TARJETAS EN CUADRÍCULA
+      // ==========================================
+      else if (state.viewMode === 'cards') {
+        let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">`;
+        filteredList.forEach(p => {
+          html += `
+            <div onclick="selectProject('${p.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col overflow-hidden">
+              ${p.coverImage ? `
+                <div class="h-32 w-full -mx-4 -mt-4 mb-3 overflow-hidden rounded-t-2xl bg-slate-100 relative">
+                  <img src="${p.coverImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                  <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[9px] text-white">
+                    <span class="font-mono font-bold text-brand-cyan bg-slate-950/70 px-1.5 py-0.5 rounded">#${p.no || ''}</span>
+                    <span class="font-black px-1.5 py-0.5 rounded ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
+                  </div>
+                </div>
+              ` : `
+                <div class="flex items-center justify-between text-[9px] mb-2">
+                  <span class="font-mono font-bold text-slate-400">#${p.no || ''}</span>
+                  <span class="font-black px-1.5 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
+                </div>
+              `}
+
+              <h4 class="font-extrabold text-xs text-slate-900 group-hover:text-brand-accent transition-colors leading-snug">${p.title}</h4>
+              <p class="text-[11px] text-slate-500 line-clamp-2 mt-1.5 leading-normal">${p.description}</p>
+
+              <div class="mt-3 flex items-center gap-1.5 text-[10px] text-slate-500 font-medium">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>${formatDateSpanish(p.startDate)} → ${formatDateSpanish(p.endDate)}</span>
+              </div>
+
+              <div class="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <span class="text-[10px] text-slate-500 font-medium">${p.assigned || 'Squad'}</span>
+                <span class="font-black text-brand-tealDark">${p.progress}%</span>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        contentArea.innerHTML = html;
+      }
+
+      // ==========================================
+      // VISTA 3: MATRIZ PRIORIDAD VS DIFICULTAD
+      // ==========================================
+      else if (state.viewMode === 'matrix') {
+        contentArea.innerHTML = `
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="mb-4 text-center">
+              <h3 class="font-black text-sm text-slate-900">Matriz Estratégica: Prioridad vs Dificultad Técnica</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Identificación de Quick Wins, Proyectos Mayores y Tareas Tácticas</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 min-h-[420px]">
+              
+              <!-- Cuadrante 1: Quick Wins -->
+              <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200/80 flex flex-col">
+                <div class="flex items-center justify-between border-b border-emerald-200/60 pb-2 mb-2">
+                  <span class="font-black text-xs text-emerald-900 flex items-center gap-1.5">
+                    <i data-lucide="zap" class="w-4 h-4 text-emerald-600"></i>
+                    <span>Victorias Tempranas (Quick Wins)</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-bold">Alta Prioridad · Baja/Media Dificultad</span>
+                </div>
+                <div class="space-y-2 flex-1 overflow-y-auto">
+                  ${filteredList.filter(p => (p.priority === 'Alta' || p.priority === 'Alto') && (p.difficulty === 'Baja' || p.difficulty === 'Bajo' || p.difficulty === 'Media')).map(p => `
+                    <div onclick="selectProject('${p.id}')" class="p-2.5 bg-white rounded-lg border border-emerald-100 shadow-2xs hover:border-emerald-300 cursor-pointer text-xs">
+                      <p class="font-bold text-slate-900">#${p.no || ''} ${p.title}</p>
+                      <p class="text-[10px] text-slate-500 mt-0.5">${formatDateShort(p.startDate)} - ${formatDateShort(p.endDate)} · ${p.progress}%</p>
                     </div>
                   `).join('')}
+                </div>
+              </div>
 
-                  ${colProjects.length === 0 ? `
-                    <div class="text-center py-12 text-slate-400 text-xs font-medium border-2 border-dashed border-slate-200 rounded-xl bg-white/40">
-                      Arrastra una iniciativa aquí
+              <!-- Cuadrante 2: Proyectos Estratégicos Mayores -->
+              <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200/80 flex flex-col">
+                <div class="flex items-center justify-between border-b border-blue-200/60 pb-2 mb-2">
+                  <span class="font-black text-xs text-blue-900 flex items-center gap-1.5">
+                    <i data-lucide="crown" class="w-4 h-4 text-blue-600"></i>
+                    <span>Grandes Apuestas Estratégicas</span>
+                  </span>
+                  <span class="text-[10px] text-blue-700 font-bold">Alta Prioridad · Alta Dificultad</span>
+                </div>
+                <div class="space-y-2 flex-1 overflow-y-auto">
+                  ${filteredList.filter(p => (p.priority === 'Alta' || p.priority === 'Alto') && (p.difficulty === 'Alta' || p.difficulty === 'Alto')).map(p => `
+                    <div onclick="selectProject('${p.id}')" class="p-2.5 bg-white rounded-lg border border-blue-100 shadow-2xs hover:border-blue-300 cursor-pointer text-xs">
+                      <p class="font-bold text-slate-900">#${p.no || ''} ${p.title}</p>
+                      <p class="text-[10px] text-slate-500 mt-0.5">${formatDateShort(p.startDate)} - ${formatDateShort(p.endDate)} · ${p.progress}%</p>
                     </div>
-                  ` : ''}
+                  `).join('')}
                 </div>
               </div>
-            `;
-          });
-          html += `</div>`;
-          contentArea.innerHTML = html;
 
-        // VISTA TARJETAS
-        } else if (state.viewMode === 'cards') {
-          let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-          filteredList.forEach(p => {
-            const leftBorderColor = p.category === 'gestion' ? 'bg-brand-accent' : 'bg-amber-500';
-            html += `
-              <div onclick="selectProject('${p.id}')" class="bg-white rounded-2xl shadow-xs border border-slate-200 hover:border-slate-350 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group overflow-hidden relative">
-                <div class="absolute left-0 top-0 bottom-0 w-[5px] ${leftBorderColor}"></div>
-                <div class="p-5 pl-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between gap-1.5 mb-2.5">
-                      <span class="text-[9px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">#${p.no || ''}</span>
-                      <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span>
+              <!-- Cuadrante 3: Tácticos / Operativos -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
+                  <span class="font-black text-xs text-slate-800 flex items-center gap-1.5">
+                    <i data-lucide="wrench" class="w-4 h-4 text-slate-600"></i>
+                    <span>Iniciativas Tácticas y Mantenimiento</span>
+                  </span>
+                  <span class="text-[10px] text-slate-500 font-bold">Media/Baja Prioridad · Baja Dificultad</span>
+                </div>
+                <div class="space-y-2 flex-1 overflow-y-auto">
+                  ${filteredList.filter(p => (p.priority !== 'Alta' && p.priority !== 'Alto') && (p.difficulty === 'Baja' || p.difficulty === 'Bajo' || p.difficulty === 'Media')).map(p => `
+                    <div onclick="selectProject('${p.id}')" class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-2xs hover:border-slate-300 cursor-pointer text-xs">
+                      <p class="font-bold text-slate-900">#${p.no || ''} ${p.title}</p>
+                      <p class="text-[10px] text-slate-500 mt-0.5">${formatDateShort(p.startDate)} - ${formatDateShort(p.endDate)} · ${p.progress}%</p>
                     </div>
-                    <h3 class="font-extrabold text-slate-900 text-sm group-hover:text-brand-accent transition-colors">${p.title}</h3>
-                    <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">${p.description}</p>
-                  </div>
-                  <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-xs font-black text-slate-900">${p.progress}%</span>
-                    <span class="text-[11px] text-brand-accent font-bold group-hover:underline">Ver Ficha →</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-          html += `</div>`;
-          contentArea.innerHTML = html;
-
-        // VISTA TABLA
-        } else if (state.viewMode === 'table') {
-          let html = `
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-              <table class="w-full text-left text-xs">
-                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-black uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th class="py-3 px-3.5 text-center">N°</th>
-                    <th class="py-3 px-3.5">Iniciativa / Proyecto</th>
-                    <th class="py-3 px-3.5">Salud RAG</th>
-                    <th class="py-3 px-3.5 w-32">Avance</th>
-                    <th class="py-3 px-3.5">Líder / Squad</th>
-                    <th class="py-3 px-3.5 text-center">Acción</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-          `;
-          filteredList.forEach(p => {
-            html += `
-              <tr class="hover:bg-slate-50/80 cursor-pointer group" onclick="selectProject('${p.id}')">
-                <td class="py-3 px-3.5 text-center font-mono text-slate-400 font-bold">#${p.no || '--'}</td>
-                <td class="py-3 px-3.5 font-extrabold text-slate-900 group-hover:text-brand-accent">${p.title}</td>
-                <td class="py-3 px-3.5"><span class="text-[9px] font-black px-2 py-0.5 rounded border ${getHealthBadgeClass(p.health)}">${getHealthLabel(p.health)}</span></td>
-                <td class="py-3 px-3.5 font-black">${p.progress}%</td>
-                <td class="py-3 px-3.5 font-bold text-slate-800">${p.assigned || 'Squad'}</td>
-                <td class="py-3 px-3.5 text-center"><button class="px-2.5 py-1 bg-slate-100 hover:bg-brand-cyan text-slate-800 rounded-lg text-xs font-bold">Ver Ficha</button></td>
-              </tr>
-            `;
-          });
-          html += `</tbody></table></div>`;
-          contentArea.innerHTML = html;
-
-        // VISTA GANTT
-        } else if (state.viewMode === 'gantt') {
-          let html = `
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 space-y-6">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-                <div>
-                  <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
-                    <i data-lucide="calendar-range" class="w-5 h-5 text-brand-teal"></i>
-                    <span>Cronograma & Roadmap Estratégico (Horizonte 2026 - 2027)</span>
-                  </h3>
-                  <p class="text-xs text-slate-500 mt-0.5">Seguimiento temporal por trimestres con avance real y estado de salud</p>
+                  `).join('')}
                 </div>
               </div>
 
-              <div class="grid grid-cols-12 gap-2 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-200 pb-2">
-                <div class="col-span-4">Iniciativa / Responsable</div>
-                <div class="col-span-8 grid grid-cols-5 text-center">
-                  <div class="p-1 bg-slate-50 rounded-lg">Q1 2026</div>
-                  <div class="p-1 bg-slate-50 rounded-lg">Q2 2026</div>
-                  <div class="p-1 bg-slate-50 rounded-lg">Q3 2026</div>
-                  <div class="p-1 bg-slate-50 rounded-lg">Q4 2026</div>
-                  <div class="p-1 bg-slate-100 rounded-lg text-indigo-900 font-black">2027+</div>
+              <!-- Cuadrante 4: Evaluar / Despriorizar -->
+              <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200/80 flex flex-col">
+                <div class="flex items-center justify-between border-b border-amber-200/60 pb-2 mb-2">
+                  <span class="font-black text-xs text-amber-900 flex items-center gap-1.5">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-amber-600"></i>
+                    <span>Por Reevaluar</span>
+                  </span>
+                  <span class="text-[10px] text-amber-700 font-bold">Baja Prioridad · Alta Dificultad</span>
+                </div>
+                <div class="space-y-2 flex-1 overflow-y-auto">
+                  ${filteredList.filter(p => (p.priority !== 'Alta' && p.priority !== 'Alto') && (p.difficulty === 'Alta' || p.difficulty === 'Alto')).map(p => `
+                    <div onclick="selectProject('${p.id}')" class="p-2.5 bg-white rounded-lg border border-amber-100 shadow-2xs hover:border-amber-300 cursor-pointer text-xs">
+                      <p class="font-bold text-slate-900">#${p.no || ''} ${p.title}</p>
+                      <p class="text-[10px] text-slate-500 mt-0.5">${formatDateShort(p.startDate)} - ${formatDateShort(p.endDate)} · ${p.progress}%</p>
+                    </div>
+                  `).join('')}
                 </div>
               </div>
 
-              <div class="space-y-4">
+            </div>
+          </div>
+        `;
+      }
+
+      // ==========================================
+      // VISTA 4: CRONOGRAMA / ROADMAP DE FECHAS
+      // ==========================================
+      else if (state.viewMode === 'gantt') {
+        let ganttHtml = `
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div>
+                <h3 class="font-black text-sm text-slate-900">Cronograma de Ejecución Real (Fechas 2026 - 2027)</h3>
+                <p class="text-xs text-slate-500">Línea de tiempo basada en fecha de inicio y fecha estimada de entrega</p>
+              </div>
+              <div class="text-[10px] text-slate-500 font-mono bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                Escala: Ene 2026 a Jun 2027
+              </div>
+            </div>
+
+            <!-- Ejes de Meses / Trimestres -->
+            <div class="relative pt-6">
+              <div class="grid grid-cols-6 text-[10px] font-bold text-slate-400 border-b border-slate-200 pb-2 text-center">
+                <span>Q1 2026 (Ene-Mar)</span>
+                <span>Q2 2026 (Abr-Jun)</span>
+                <span>Q3 2026 (Jul-Sep)</span>
+                <span>Q4 2026 (Oct-Dic)</span>
+                <span>Q1 2027 (Ene-Mar)</span>
+                <span>Q2 2027 (Abr-Jun)</span>
+              </div>
+
+              <!-- Barras de Proyectos -->
+              <div class="space-y-3.5 mt-4">
                 ${filteredList.map(p => {
-                  let barBg = 'bg-gradient-to-r from-emerald-500 to-teal-500';
-                  if (p.health === 'en_riesgo') barBg = 'bg-gradient-to-r from-amber-400 to-amber-600';
-                  if (p.health === 'bloqueado') barBg = 'bg-gradient-to-r from-rose-500 to-rose-700';
-
-                  const startPct = p.timelineStartPct || 0;
-                  const widthPct = Math.max(p.timelineWidthPct || 30, 20);
-
+                  const coords = getTimelineCoords(p.startDate, p.endDate);
                   return `
-                    <div onclick="selectProject('${p.id}')" class="grid grid-cols-12 gap-2 items-center hover:bg-slate-50 p-2 rounded-2xl transition-colors cursor-pointer group">
-                      <div class="col-span-4 pr-3">
-                        <div class="flex items-center gap-1.5">
-                          <span class="w-2 h-2 rounded-full ${getHealthDotClass(p.health)}"></span>
-                          <h5 class="text-xs font-black text-slate-900 group-hover:text-brand-accent transition-colors truncate">${p.title}</h5>
+                    <div onclick="selectProject('${p.id}')" class="group cursor-pointer hover:bg-slate-50 p-2 rounded-xl transition-all">
+                      <div class="flex items-center justify-between text-xs mb-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-mono font-bold text-slate-400 text-[10px]">#${p.no || ''}</span>
+                          <span class="font-bold text-slate-900 group-hover:text-brand-accent">${p.title}</span>
                         </div>
-                        <p class="text-[10px] text-slate-400 truncate pl-3.5">${p.assigned || 'Squad'} • ${p.quarterStart || 'Q1'} a ${p.quarterEnd || 'Q4'}</p>
+                        <span class="text-[10px] font-semibold text-slate-500">${formatDateShort(p.startDate)} → ${formatDateShort(p.endDate)} (${p.progress}%)</span>
                       </div>
 
-                      <div class="col-span-8 relative h-8 bg-slate-100/70 rounded-xl overflow-hidden flex items-center p-1 border border-slate-200/60">
+                      <div class="w-full bg-slate-100 h-3 rounded-full relative overflow-hidden">
                         <div 
-                          class="absolute h-6 rounded-lg ${barBg} text-white text-[10px] font-black flex items-center justify-between px-2.5 shadow-sm transition-all"
-                          style="left: ${startPct}%; width: ${widthPct}%;"
-                        >
-                          <span class="truncate">${p.status}</span>
-                          <span>${p.progress}%</span>
-                        </div>
+                          class="absolute h-full rounded-full transition-all duration-500 ${p.progress === 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-brand-cyan to-brand-teal'}"
+                          style="left: ${coords.left}%; width: ${coords.width}%;"
+                        ></div>
                       </div>
                     </div>
                   `;
                 }).join('')}
               </div>
             </div>
-          `;
-          contentArea.innerHTML = html;
-        }
+          </div>
+        `;
+        contentArea.innerHTML = ganttHtml;
       }
 
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
+    // ==========================================
+    // RENDERIZADO DE ESTADÍSTICAS KPIS
+    // ==========================================
+    function renderStats() {
+      const total = projects.length;
+      const onTime = projects.filter(p => p.health === 'en_tiempo').length;
+      const atRisk = projects.filter(p => p.health === 'en_riesgo').length;
+      const blocked = projects.filter(p => p.health === 'bloqueado').length;
+      const avg = total > 0 ? Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / total) : 0;
+
+      const elTotal = document.getElementById('stat-total');
+      const elAvg = document.getElementById('stat-avg');
+      const elOnTime = document.getElementById('stat-ontime');
+      const elAtRisk = document.getElementById('stat-atrisk');
+      const elBlocked = document.getElementById('stat-blocked');
+      const elBudget = document.getElementById('stat-budget');
+
+      if (elTotal) elTotal.innerText = total;
+      if (elAvg) elAvg.innerText = `${avg}%`;
+      if (elOnTime) elOnTime.innerText = onTime;
+      if (elAtRisk) elAtRisk.innerText = atRisk;
+      if (elBlocked) elBlocked.innerText = blocked;
+      if (elBudget) elBudget.innerText = 'SDHO 2026';
+    }
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
     window.addEventListener('DOMContentLoaded', () => {
       initCloudConnection();
+      if (window.lucide) lucide.createIcons();
     });
   </script>
 </body>
