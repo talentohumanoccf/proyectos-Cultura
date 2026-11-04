@@ -178,6 +178,12 @@
           <span class="hidden sm:inline">Reporte Comité</span>
         </button>
 
+        <!-- Botón Nuevo Proyecto -->
+        <button class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-1.5 hover:scale-[1.02]" onclick="openNewProjectModal()" title="Crear nueva iniciativa en el portafolio">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>+ Nuevo Proyecto</span>
+        </button>
+
         <!-- Botón Documentar Avance -->
         <button class="bg-gradient-to-r from-brand-cyan to-brand-teal hover:opacity-90 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-2 hover:scale-[1.02]" onclick="openLogModal()">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
@@ -484,6 +490,143 @@
       </div>
 
       <div id="executive-report-content" class="p-8 overflow-y-auto space-y-6 text-slate-800 print-modal"></div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: CREAR NUEVO PROYECTO -->
+  <div id="new-project-modal" class="hidden fixed inset-0 bg-[#0f1e2e]/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs animate-fadeIn overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
+      <div class="bg-gradient-to-r from-brand-navy to-brand-dark text-white p-5 flex items-center justify-between border-b border-slate-700">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
+            <i data-lucide="folder-plus" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-sm text-white">Crear Nueva Iniciativa / Proyecto</h3>
+            <p class="text-[11px] text-brand-teal">Portafolio SDHO · Comfamiliar Risaralda</p>
+          </div>
+        </div>
+        <button class="text-white/70 hover:text-white text-xl p-1 leading-none" onclick="closeNewProjectModal()">&times;</button>
+      </div>
+
+      <form id="new-project-form" onsubmit="handleNewProjectSubmit(event)" class="p-6 overflow-y-auto flex flex-col gap-4 text-xs">
+        
+        <!-- Título -->
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Título del Proyecto *</label>
+          <input type="text" id="new-proj-title" required placeholder="Ej: Implementación de Portal de Autogestión" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
+        </div>
+
+        <!-- Líder y Squad -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Líder / Responsable *</label>
+            <input type="text" id="new-proj-leader" required placeholder="Nombre y Apellido del Líder" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
+          </div>
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Squad Asignado</label>
+            <input type="text" id="new-proj-squad" placeholder="Ej: Squad Cultura & TI" value="Squad Cultura & TI" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal" />
+          </div>
+        </div>
+
+        <!-- Etapa Kanban y Categoría -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Etapa Inicial Kanban *</label>
+            <select id="new-proj-stage" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+              <option value="inicial" selected>1. Fase Inicial / Propuesta</option>
+              <option value="ejecucion">2. En Desarrollo / Ejecución</option>
+              <option value="pruebas">3. Pruebas & Validación UX</option>
+              <option value="produccion">4. En Producción / Listos</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Eje Estratégico / Categoría</label>
+            <select id="new-proj-category" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+              <option value="cambio" selected>Cultura y Gestión del Cambio</option>
+              <option value="digital">Transformación Digital</option>
+              <option value="gestion">Gestión del Talento Humano</option>
+              <option value="operaciones">Eficiencia y Operaciones</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Prioridad y Progreso Inicial -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Prioridad</label>
+            <select id="new-proj-priority" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+              <option value="Alta">Alta</option>
+              <option value="Media" selected>Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Avance Inicial</label>
+              <span class="text-xs font-black text-brand-tealDark bg-brand-teal/10 px-2 py-0.5 rounded-full"><span id="new-proj-progress-label">10</span>%</span>
+            </div>
+            <input type="range" min="0" max="100" value="10" id="new-proj-progress" oninput="document.getElementById('new-proj-progress-label').innerText = this.value" class="w-full accent-brand-teal cursor-pointer" />
+          </div>
+        </div>
+
+        <!-- Trimestres Inicio y Fin -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Trimestre Inicio</label>
+            <select id="new-proj-qstart" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+              <option value="Q1 2026">Q1 2026</option>
+              <option value="Q2 2026" selected>Q2 2026</option>
+              <option value="Q3 2026">Q3 2026</option>
+              <option value="Q4 2026">Q4 2026</option>
+              <option value="Q1 2027">Q1 2027</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Trimestre Cierre Estimado</label>
+            <select id="new-proj-qend" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-teal">
+              <option value="Q2 2026">Q2 2026</option>
+              <option value="Q3 2026">Q3 2026</option>
+              <option value="Q4 2026" selected>Q4 2026</option>
+              <option value="Q1 2027">Q1 2027</option>
+              <option value="Q2 2027">Q2 2027</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tecnologías y Presupuesto -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Tecnología / Stack</label>
+            <input type="text" id="new-proj-tech" placeholder="Ej: Power Apps, Forms, RPA" value="Power Apps, Forms" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800" />
+          </div>
+          <div>
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Presupuesto / Inversión</label>
+            <input type="text" id="new-proj-budget" placeholder="Ej: Recurso interno o valor" value="Recurso interno" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800" />
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Descripción del Objetivo *</label>
+          <textarea id="new-proj-desc" rows="2" required placeholder="Describe el propósito del proyecto, problema a resolver y valor para la organización..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 font-medium text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal"></textarea>
+        </div>
+
+        <!-- Primer Hito -->
+        <div>
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1">Primer Hito o Entrega Inicial</label>
+          <input type="text" id="new-proj-milestone" placeholder="Ej: Aprobación de alcance y levantamiento de requerimientos" value="Iniciativa formalmente radicada y priorizada." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800" />
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeNewProjectModal()" class="px-4 py-2 border rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors">Cancelar</button>
+          <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl font-black shadow-sm flex items-center gap-1.5 transition-all">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Crear y Guardar Proyecto</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1727,6 +1870,136 @@
       document.getElementById('modal-progress-label').innerText = val;
     }
 
+
+    // ==========================================
+    // CREAR Y ARCHIVAR PROYECTOS
+    // ==========================================
+    function openNewProjectModal(defaultStage = 'inicial') {
+      const form = document.getElementById('new-project-form');
+      if (form) form.reset();
+      
+      const stageSelect = document.getElementById('new-proj-stage');
+      if (stageSelect) stageSelect.value = defaultStage;
+      
+      const progInput = document.getElementById('new-proj-progress');
+      const progLabel = document.getElementById('new-proj-progress-label');
+      const defaultProg = defaultStage === 'produccion' ? 100 : (defaultStage === 'pruebas' ? 80 : (defaultStage === 'ejecucion' ? 40 : 10));
+      if (progInput) progInput.value = defaultProg;
+      if (progLabel) progLabel.innerText = defaultProg;
+
+      const leaderInput = document.getElementById('new-proj-leader');
+      if (leaderInput && currentUser && currentUser !== 'Invitado') {
+        leaderInput.value = currentUser.split('@')[0];
+      }
+
+      document.getElementById('new-project-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeNewProjectModal() {
+      document.getElementById('new-project-modal').classList.add('hidden');
+    }
+
+    function handleNewProjectSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('new-proj-title').value.trim();
+      const leader = document.getElementById('new-proj-leader').value.trim();
+      const squad = document.getElementById('new-proj-squad').value.trim() || 'Squad Cultura & TI';
+      const stage = document.getElementById('new-proj-stage').value || 'inicial';
+      const category = document.getElementById('new-proj-category').value || 'cambio';
+      const priority = document.getElementById('new-proj-priority').value || 'Media';
+      const progress = parseInt(document.getElementById('new-proj-progress').value) || 10;
+      const qStart = document.getElementById('new-proj-qstart').value || 'Q2 2026';
+      const qEnd = document.getElementById('new-proj-qend').value || 'Q4 2026';
+      const tech = document.getElementById('new-proj-tech').value.trim() || 'Power Apps';
+      const budget = document.getElementById('new-proj-budget').value.trim() || 'Recurso interno';
+      const desc = document.getElementById('new-proj-desc').value.trim();
+      const milestone = document.getElementById('new-proj-milestone').value.trim() || 'Iniciativa formalmente radicada.';
+
+      // Calcular correlativo #No
+      const maxNo = projects.reduce((max, p) => Math.max(max, parseInt(p.no) || 0), 0);
+      const nextNo = maxNo > 0 ? maxNo + 1 : projects.length + 1;
+      const newId = 'proj_' + Date.now();
+
+      const newProject = {
+        id: newId,
+        no: nextNo,
+        title: title,
+        area: 'Subdirección de Desarrollo Humano y Organizacional (SDHO)',
+        category: category,
+        status: stage === 'produccion' ? 'Terminado' : (progress >= 50 ? 'En Ejecución' : 'Fase Inicial'),
+        kanbanStage: stage,
+        priority: priority,
+        difficulty: 'Media',
+        assigned: leader,
+        squad: squad,
+        progress: progress,
+        health: 'en_tiempo',
+        healthReason: 'Iniciativa creada en cronograma.',
+        blockage: null,
+        investment: budget,
+        tech: tech,
+        quarterStart: qStart,
+        quarterEnd: qEnd,
+        timeline: `${qStart} - ${qEnd}`,
+        description: desc,
+        highlights: [milestone],
+        nextPhase: ['Definición de requerimientos y coordinación de Squad'],
+        issues: [],
+        url: ''
+      };
+
+      projects.unshift(newProject);
+      closeNewProjectModal();
+      showToast('¡Proyecto Creado!', `#${nextNo} ${title} añadido al portafolio.`);
+      renderApp();
+
+      if (isAppsScript) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            showToast('Google Sheets', 'Guardado en la hoja "Proyectos Activos".');
+          })
+          .withFailureHandler(function(err) {
+            showToast('Advertencia', 'Error en Sheets: ' + (err.message || err));
+          })
+          .crearProyecto({
+            title: title,
+            assigned: leader,
+            squad: squad,
+            stage: stage,
+            category: category,
+            priority: priority,
+            progress: progress,
+            quarterStart: qStart,
+            quarterEnd: qEnd,
+            tech: tech,
+            investment: budget,
+            description: desc,
+            initialMilestone: milestone
+          });
+      }
+    }
+
+    function archivarProyectoAction(projId) {
+      const p = projects.find(x => x.id === projId);
+      if (!p) return;
+      if (!confirm(`¿Confirmas que deseas archivar el proyecto "${p.title}"? Se moverá al histórico.`)) return;
+
+      projects = projects.filter(x => x.id !== projId);
+      archivedProjects.unshift(p);
+      selectProject(null);
+      showToast('Proyecto Archivado', `#${p.no || ''} ${p.title} se movió a Archivados.`);
+      renderApp();
+
+      if (isAppsScript) {
+        google.script.run
+          .withSuccessHandler(function() {
+            showToast('Google Sheets', 'Iniciativa archivada en la base de datos.');
+          })
+          .archivarProyecto({ id: projId, reason: 'Archivado desde el tablero de control' });
+      }
+    }
+
     function handleFormSubmit(e) {
       e.preventDefault();
       const projId = document.getElementById('modal-select-project').value;
@@ -2015,9 +2288,14 @@
                       <span class="w-2.5 h-2.5 rounded-full ${col.color}"></span>
                       <span>${col.title}</span>
                     </h4>
-                    <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-700 rounded-full border border-slate-200 shadow-2xs">
-                      ${colProjects.length}
-                    </span>
+                    <div class="flex items-center gap-1">
+                      <span class="text-[10px] font-black px-2 py-0.5 bg-white text-slate-700 rounded-full border border-slate-200 shadow-2xs">
+                        ${colProjects.length}
+                      </span>
+                      <button onclick="openNewProjectModal('${col.id}')" class="p-1 hover:bg-white text-slate-500 hover:text-emerald-600 rounded-lg text-xs transition-colors shadow-2xs" title="Crear iniciativa en esta etapa">
+                        <i data-lucide="plus" class="w-3 h-3"></i>
+                      </button>
+                    </div>
                   </div>
                   <p class="text-[10px] text-slate-400 font-medium mt-0.5 pl-4">${col.subtitle}</p>
                 </div>
