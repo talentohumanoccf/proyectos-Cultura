@@ -1480,6 +1480,9 @@
     const APPS_SCRIPT_WEBAPP_URL = 'https://script.google.com/a/macros/comfamiliar.com/s/AKfycbwNmXBwNiSucZ21Ty_nYwXVSl1aNjLFlrijeu9f2UwHBoxBJB8nPtpvw08k4qPUJyBR/exec';
 
     function initCloudConnection() {
+      applyLocalStorageCovers();
+      renderApp();
+
       if (isAppsScript) {
         // En entorno Google Apps Script: carga directa de Sheets
         google.script.run
@@ -1490,6 +1493,7 @@
               if (response.projects && response.projects.length > 0) projects = response.projects;
               archivedProjects = response.archivedProjects || [];
               bitacoraLogs = response.bitacora || [];
+              applyLocalStorageCovers();
               renderApp();
             }
           })
@@ -1861,18 +1865,56 @@
       saveCoverImageForProject(projId, url);
     }
 
+    function applyLocalStorageCovers() {
+      if (!projects || !projects.length) return;
+      projects.forEach(p => {
+        try {
+          const custom = localStorage.getItem('sdho_cover_' + p.id) || localStorage.getItem('sdho_cover_' + p.no);
+          if (custom) {
+            p.coverImage = custom;
+            p.imageUrl = custom;
+          }
+        } catch(e) {}
+      });
+    }
+
     function saveCoverImageForProject(projId, url) {
       const p = projects.find(x => x.id === projId);
       if (p) {
         p.coverImage = url;
         p.imageUrl = url;
       }
+      
+      // Persistencia inmediata en localStorage del navegador
+      try {
+        localStorage.setItem('sdho_cover_' + projId, url);
+        if (p && p.no) localStorage.setItem('sdho_cover_' + p.no, url);
+      } catch(e) {}
+
       closeChangeCoverModal();
-      showToast('Portada Actualizada', 'Nueva imagen asignada estilo Trello.');
       renderApp();
+      showToast('Guardando...', 'Sincronizando portada con Google Sheets...');
 
       if (isAppsScript) {
-        google.script.run.actualizarPortadaProyecto({ projectId: projId, coverImage: url });
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.success) {
+              showToast('✅ Portada Guardada', 'Registrada permanentemente en Google Sheets.');
+            } else {
+              showToast('Atención', (res && res.message) ? res.message : 'No se pudo sincronizar en Sheets.');
+            }
+          })
+          .withFailureHandler(function(err) {
+            showToast('Error', 'Fallo al conectar con Google Sheets: ' + (err.message || err));
+          })
+          .actualizarPortadaProyecto({
+            projectId: projId,
+            no: p ? p.no : null,
+            title: p ? p.title : null,
+            coverImage: url
+          });
+      } else {
+        showToast('✅ Portada Guardada', 'Guardada localmente en tu navegador.');
       }
     }
 
@@ -2289,6 +2331,15 @@
       // VISTA 1: TABLERO KANBAN CON PORTADAS TRELLO
       // ==========================================
       if (state.viewMode === 'kanban') {
+        function resolveCardStage(p) {
+          if (p.kanbanStage) return p.kanbanStage;
+          const prog = parseInt(p.progress) || 0;
+          if (prog === 100) return 'produccion';
+          if (prog >= 70) return 'pruebas';
+          if (prog >= 35) return 'ejecucion';
+          return 'inicial';
+        }
+
         const columns = [
           { 
             id: 'inicial', 
@@ -2296,7 +2347,7 @@
             subtitle: 'Concepción & Diagnóstico', 
             color: 'bg-amber-500', 
             borderAccent: 'border-t-4 border-amber-500',
-            filter: p => (p.kanbanStage || (p.progress < 50 ? 'inicial' : 'ejecucion')) === 'inicial' 
+            filter: p => resolveCardStage(p) === 'inicial' 
           },
           { 
             id: 'ejecucion', 
@@ -2304,7 +2355,7 @@
             subtitle: 'Construcción & Despliegue', 
             color: 'bg-brand-cyan', 
             borderAccent: 'border-t-4 border-brand-cyan',
-            filter: p => (p.kanbanStage || 'ejecucion') === 'ejecucion' 
+            filter: p => resolveCardStage(p) === 'ejecucion' 
           },
           { 
             id: 'pruebas', 
@@ -2312,7 +2363,7 @@
             subtitle: 'Piloto con Usuarios Reales', 
             color: 'bg-blue-500', 
             borderAccent: 'border-t-4 border-blue-500',
-            filter: p => (p.kanbanStage || 'pruebas') === 'pruebas' 
+            filter: p => resolveCardStage(p) === 'pruebas' 
           },
           { 
             id: 'produccion', 
@@ -2320,7 +2371,7 @@
             subtitle: 'Operativo & Estabilizado', 
             color: 'bg-emerald-500', 
             borderAccent: 'border-t-4 border-emerald-500',
-            filter: p => (p.kanbanStage || (p.progress === 100 ? 'produccion' : 'ejecucion')) === 'produccion' 
+            filter: p => resolveCardStage(p) === 'produccion' 
           }
         ];
 
