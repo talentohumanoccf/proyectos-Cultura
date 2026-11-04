@@ -683,10 +683,784 @@
     // ESTADO GLOBAL Y DATOS
     // ==========================================
     
-    let projects = [];
+    let projects = [
+  {
+    "id": "proyectocx",
+    "no": 28,
+    "title": "Proyecto CX (Experiencia del Cliente)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "Propuesta Presentada (40%)",
+    "progress": 40,
+    "priority": "Alto",
+    "priorityReason": "Alineación con la Subdirección de Desarrollo Estratégico para transformar y unificar la experiencia del afiliado en todos los canales.",
+    "difficulty": "Alto",
+    "directPeople": 2,
+    "indirectPeople": 18,
+    "imageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80",
+    "assigned": "Subdirección de Desarrollo Estratégico",
+    "squad": [
+      "Equipo de Desarrollo Estratégico",
+      "Líderes de Procesos de Cara al Cliente",
+      "Acompañamiento Consultor Metodológico IZO"
+    ],
+    "description": "Estrategia de transformación integral centrada en el usuario para rediseñar y unificar la interacción con los afiliados de Comfamiliar Risaralda en todos los canales.",
+    "impact": "Propuesta Presentada (40%). Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad. Fase I: Alineación de equipo transversal (18 personas). Pendiente Fase II: Intervención Parque Consota, Crédito Comfamiliar y Cirugía. Instalación Células metodológicas.",
+    "tech": [
+      "Ecosistema omnicanal (físico y digital)",
+      "Sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES)",
+      "Herramientas colaborativas y PC corporativo"
+    ],
+    "investment": "$440.752.000 (2026-2027)",
+    "initialBudget": "Fase I 2026: $161.665.000",
+    "roi": "Mejora en indicadores NPS, CSAT y CES en todos los puntos de contacto.",
+    "targetAreas": "Toda la Caja (Procesos de cara al cliente y canales de atención)",
+    "extrapolateAreas": "Todos los servicios misionales y canales de atención de la Caja",
+    "maintenance": "En fase de propuesta (requiere gobernanza CX continua al implementarse)",
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Documentación Proyecto CX",
+    "highlights": [
+      "Elaboración y formalización del documento de propuesta metodológica de CX.",
+      "Presentación oficial ante la Subdirección de Desarrollo Estratégico para evaluación de viabilidad y asignación de recursos.",
+      "Definición preliminar del framework de cultura de servicio enfocado en empatía y resolutividad.",
+      "Alineación de equipo transversal con acompañamiento del consultor metodológico IZO."
+    ],
+    "nextPhase": [
+      "Aprobación formal del proyecto por parte de la Subdirección de Desarrollo Estratégico.",
+      "Diagnóstico participativo y mapeo de Arquetipos de Clientes y Customer Journeys prioritarios.",
+      "Establecimiento de la estructura de gobernanza de CX y asignación del Squad multidisciplinario.",
+      "Instalación de Células Metodológicas (Fase II: Parque Consota, Crédito Comfamiliar y Cirugía)."
+    ],
+    "issues": [
+      "Necesidad de unificar la voz del cliente entre los canales físicos y la creciente oferta de canales digitales.",
+      "Requerimiento de un sistema unificado de medición de satisfacción en tiempo real (NPS, CSAT, CES)."
+    ],
+    "interdependencies": [
+      "Subdirección de Desarrollo Estratégico",
+      "Procesos de Cara al Cliente",
+      "SDHO"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "Alineación completada con Subdirección, fase I en marcha con framework IZO.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q4 2027",
+    "timelineStartPct": 5,
+    "timelineWidthPct": 90,
+    "budgetType": "Aprobado",
+    "budgetNumeric": 440752000,
+    "blockage": null,
+    "kanbanStage": "inicial",
+    "startDate": "2026-03-01",
+    "endDate": "2026-11-30",
+    "coverImage": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "dotacion",
+    "no": 29,
+    "title": "Módulo de Compras (Dotación)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Fase I Entregada (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Optimización operativa, trazabilidad en entregas y eliminación de tarjetas físicas en el proceso de dotación institucional.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "url": "https://dotacion.comfamiliar.com/",
+    "linkText": "Acceder a Módulo de Compras (Dotación)",
+    "assigned": "Angela Cristina Arias Hernández (Acompañamiento Gestión Humana)",
+    "squad": [
+      "Angela Cristina Arias Hernández",
+      "Equipo Proceso de Compras",
+      "Equipo de Sistemas (In-house)"
+    ],
+    "description": "Entrega de Fase I de Módulo de compras en trabajo conjunto con el proceso y sistemas para la automatización integral de dotaciones.",
+    "impact": "Fase I Entregada (100%). Automatización de listados de personal con derecho a dotación, actas de entrega y bonos con código consecutivo eliminando tarjetas físicas. Fase II: Gestión de Firmas Digitales (Proceso End to End Digital).",
+    "tech": [
+      "Aplicación Web Módulo de Compras (Dotación In-house)",
+      "Integración para generación digital de documentos y firmas digitales"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Eliminación de tarjetas físicas y reducción drástica de tiempos de gestión y entrega.",
+    "targetAreas": "Gestión Humana, Compras y todos los procesos con personal con derecho a dotación.",
+    "extrapolateAreas": "Otros procesos de entregas, suministros o activos a colaboradores.",
+    "maintenance": "Activo (en evolución a Fase II con firmas digitales)",
+    "highlights": [
+      "Generación automatizada de listados de personal con derecho a dotación.",
+      "Generación digital de actas de entrega oficiales.",
+      "Incorporación de código consecutivo de tarjetas (bonos dotación) eliminando tarjetas físicas.",
+      "Identificación y mitigación de incidencias entre la compra y el momento de entrega efectiva."
+    ],
+    "nextPhase": [
+      "Fase II: Generación Digital de documentos y custodia.",
+      "Firmas digitales por parte del líder de proceso en la custodia.",
+      "Firma digital por parte del colaborador en la recepción de la dotación (End to End Digital)."
+    ],
+    "issues": [
+      "Incidencias o desfase temporal entre el momento de generación de listados para la compra vs. momento de entrega.",
+      "Gestión del cambio para adopción de la firma digital por líderes y colaboradores."
+    ],
+    "interdependencies": [
+      "Gestión Humana",
+      "Compras",
+      "Sistemas"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "Fase I 100% entregada con éxito; Fase II de firmas digitales programada.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q2 2026",
+    "timelineStartPct": 0,
+    "timelineWidthPct": 35,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-05-30",
+    "coverImage": "https://images.unsplash.com/photo-1556742049-0a67e55722ee?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67e55722ee?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "turnos",
+    "no": 30,
+    "title": "Módulo de Gestión de Turnos Clínica Comfamiliar",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "En Pruebas de Usuario (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Necesidad crítica de controlar cambios de turno, mitigar extensiones de jornada hasta de 24 horas y ordenar fechas de pago en la Clínica.",
+    "difficulty": "Alto",
+    "directPeople": 2,
+    "indirectPeople": 30,
+    "url": "https://turnos.comfamiliar.com/login",
+    "linkText": "Acceder al Portal de Turnos Clínica",
+    "assigned": "Proceso de Turnos Clínica / Acompañamiento Gestión Humana",
+    "squad": [
+      "Líderes de Turnos Clínica Comfamiliar",
+      "Gestión Humana / Nómina",
+      "Desarrollo Google Apps Script"
+    ],
+    "description": "Programa iniciado para propiciar la automatización integral de los cuadros de turno en la Clínica Comfamiliar con reglas de negocio y validaciones preventivas.",
+    "impact": "En Pruebas de Usuario (100%). Automatización de la visualización de cuadros de turnos e integración de reglas de negocio para mitigar incidencias.",
+    "tech": [
+      "Plataforma web en Google Apps Script",
+      "Motor de reglas de negocio para validación de cuadros de turnos"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Reducción de errores en nómina y control riguroso de jornadas asistenciales.",
+    "targetAreas": "Clínica Comfamiliar (Salud) y Gestión Humana / Nómina",
+    "extrapolateAreas": "Otras áreas operativas y sedes con programación de turnos rotativos (Parque Consotá, etc.)",
+    "maintenance": "En cierre de pruebas de usuario para soporte continuo",
+    "highlights": [
+      "Automatización de la visualización de cuadros de turnos en fase avanzada de validación.",
+      "Integración de motor de reglas de negocio para mitigar las incidencias reportadas.",
+      "Fase de pruebas con usuarios asistenciales y supervisores."
+    ],
+    "nextPhase": [
+      "Cierre de etapa de pruebas de usuario final.",
+      "Puesta en marcha oficial en la Clínica Comfamiliar.",
+      "Pendiente activación en Parque Consotá."
+    ],
+    "issues": [
+      "Política de cambio de turnos: límite de 6 cambios al mes por colaborador.",
+      "Incapacidades o renuncias que generan la necesidad de extender horarios asistenciales.",
+      "Cambios de turnos informales sin fecha definida para el pago del turno compensatorio."
+    ],
+    "interdependencies": [
+      "Salud (Clínica Comfamiliar)",
+      "Gestión Humana / Nómina"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "Pruebas de usuario al 100% con reglas de control asistencial en Clínica.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q2 2026",
+    "timelineStartPct": 0,
+    "timelineWidthPct": 35,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "produccion",
+    "startDate": "2026-02-01",
+    "endDate": "2026-08-31",
+    "coverImage": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "conciliacion",
+    "no": 31,
+    "title": "Herramienta de Conciliación Interface Contable",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "En Producción (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Prevención de errores y descuadres contables críticos en el ERP institucional (JDE).",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 10,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Trazabilidad de Conciliación JDE",
+    "assigned": "Sistemas / Contabilidad (Acompañamiento Gestión Humana)",
+    "squad": [
+      "Equipo de Sistemas",
+      "Equipo de Contabilidad",
+      "Gestión Humana"
+    ],
+    "description": "Herramienta preventiva de validación y conciliación de interfaces para detectar inconsistencias antes de subir datos contables al sistema JDE.",
+    "impact": "En producción y funcionando exitosamente (100%). Cumple al 100% el objetivo de prevenir descuadres contables antes del cargue en JDE.",
+    "tech": [
+      "Herramienta de validación y conciliación de interfaces pre-cargue JDE",
+      "Scripts de validación y análisis de consistencia de cuentas"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "100% de prevención de descuadres en cargues a JDE y ahorro sustancial en reprocesos contables.",
+    "targetAreas": "Contabilidad, Nómina / Gestión Humana y Sistemas.",
+    "extrapolateAreas": "Otras interfaces contables y financieras que cargan información a JDE.",
+    "maintenance": "Activo (en producción con refinamientos menores)",
+    "highlights": [
+      "En producción y funcionando exitosamente en los ciclos contables.",
+      "Cumplimiento total en la prevención de descuadres e inconsistencias en JDE.",
+      "Acompañamiento cercano entre áreas técnicas y contables."
+    ],
+    "nextPhase": [
+      "Refinamientos menores de optimización de interfaz y tiempos de respuesta."
+    ],
+    "issues": [
+      "Posibles cambios en estructuras de datos o reglas contables tributarias que requieran actualizar validaciones."
+    ],
+    "interdependencies": [
+      "Sistemas",
+      "Contabilidad",
+      "Nómina / Gestión Humana"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "En producción y funcionando al 100% en los cierres contables JDE.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q1 2026",
+    "timelineStartPct": 0,
+    "timelineWidthPct": 25,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-06-30",
+    "coverImage": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "biometria",
+    "no": 32,
+    "title": "Dispositivos Biométricos y Reconocimiento Facial",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Habilitado (85% - Pendiente Comunicación)",
+    "progress": 85,
+    "priority": "Alto",
+    "priorityReason": "Modernización tecnológica del control de acceso e identificación segura del personal en las sedes de la Caja.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "assigned": "Seguridad / Gestión Humana",
+    "squad": [
+      "Equipo de Seguridad Física",
+      "Gestión Humana",
+      "Infraestructura Tecnológica"
+    ],
+    "description": "Instalación de dispositivos biométricos de alta tecnología y reconocimiento facial en las sedes físicas de la organización para control seguro de acceso.",
+    "impact": "Habilitado al 85% (Pendiente Comunicación). Puntos habilitados de manera física y tecnológica en las sedes organizacionales.",
+    "tech": [
+      "Dispositivos biométricos de reconocimiento facial de última generación",
+      "Red e infraestructura física cableada y Wi-Fi en sedes"
+    ],
+    "investment": "Inversión en dispositivos e infraestructura física",
+    "initialBudget": "Aprobado por Seguridad y Gestión Humana",
+    "roi": "Mayor seguridad en instalaciones, agilidad en marcación y precisión en registro de asistencia.",
+    "targetAreas": "Seguridad, Gestión Humana y todas las sedes con personal Comfamiliar.",
+    "extrapolateAreas": "Nuevas sedes físicas y puntos de atención descentralizados.",
+    "maintenance": "Habilitado técnicamente (mantenimiento preventivo por Seguridad)",
+    "highlights": [
+      "Puntos de reconocimiento facial habilitados de manera física y tecnológica en sedes clave.",
+      "Validaciones de lectura biométrica en condiciones variables de iluminación y afluencia."
+    ],
+    "nextPhase": [
+      "Envío de circular corporativa para la activación del proceso de registro y enrolamiento de empleados.",
+      "Campaña de sensibilización sobre uso adecuado y privacidad de datos biométricos."
+    ],
+    "issues": [
+      "Gestión de comunicación efectiva para lograr el enrolamiento oportuno del personal.",
+      "Ajustes de iluminación ambiental en accesos peatonales exteriores."
+    ],
+    "interdependencies": [
+      "Seguridad Física",
+      "Gestión Humana",
+      "Comunicaciones Institucionales",
+      "Sistemas / Redes"
+    ],
+    "health": "en_riesgo",
+    "healthLabel": "En Riesgo",
+    "healthReason": "Equipos instalados al 85%, pero retraso en emisión de circular institucional de enrolamiento.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q2 2026",
+    "timelineStartPct": 15,
+    "timelineWidthPct": 30,
+    "budgetType": "Aprobado",
+    "budgetNumeric": 35000000,
+    "blockage": "Requiere emisión de circular institucional por Dirección y Gestión Humana para iniciar registro masivo de personal.",
+    "kanbanStage": "pruebas",
+    "startDate": "2026-04-01",
+    "endDate": "2026-10-31",
+    "coverImage": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "culturadigital",
+    "no": 33,
+    "title": "Proyecto Cultura Digital",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Ejecución (75%)",
+    "progress": 75,
+    "priority": "Alto",
+    "priorityReason": "Eje movilizador para la adopción tecnológica, actualización de responsabilidades y democratización de soluciones de IA en la Caja.",
+    "difficulty": "Alto",
+    "directPeople": 4,
+    "indirectPeople": 4,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Directorio de Soluciones Digitales",
+    "assigned": "Squad Gestores de Cambio",
+    "squad": [
+      "Pablo Esteban Sánchez Restrepo",
+      "Wilmer López Colorado",
+      "Diana Carolina Triana Serna",
+      "John Alexander Gil Mazuera"
+    ],
+    "description": "Proyecto estratégico transversal para impulsar el cambio y adopción de herramientas digitales y soluciones de IA generativa dentro de la caja de compensación.",
+    "impact": "En Ejecución (75%). Recomendaciones entregadas para manuales de responsabilidades, primera Gema IA completada y probada, y estructuración de Geeks Digitales.",
+    "tech": [
+      "Herramientas de IA generativa (Gemas de automatización basadas en MAP)",
+      "Directorio de Soluciones Digitales",
+      "Cápsulas de video digital y microaprendizaje"
+    ],
+    "investment": "Recurso interno (Squad Gestores de Cambio)",
+    "initialBudget": "Recurso interno",
+    "roi": "Reducción significativa de tiempos en elaboración de actas e informes, y cultura proactiva de IA.",
+    "targetAreas": "Toda la Caja (áreas administrativas y misionales)",
+    "extrapolateAreas": "Todas las áreas mediante la red de Geeks Digitales",
+    "maintenance": "Activo y en expansión continua",
+    "strategies": [
+      {
+        "name": "1. Actualización de Manuales de Responsabilidades",
+        "desc": "Reunión realizada con Nancy Toro y Valeria Gómez. Se entregaron recomendaciones de cultura digital y competencias de agilidad para su incorporación formal en el manual institucional."
+      },
+      {
+        "name": "2. Directorio de Soluciones Digitales & Gemas IA",
+        "desc": "Creación y validación de la primera 'Gema' de automatización de actas e informes mediante IA basados en MAP. Producción de video tipo cápsula digital de lanzamiento con Ximena Agudelo Rendón."
+      },
+      {
+        "name": "3. Red de Geeks Digitales",
+        "desc": "Identificación, formación y mentoría de 'Geeks Digitales' en distintas dependencias, capaces de diseñar gemas y propagar metodologías ágiles en sus áreas."
+      }
+    ],
+    "highlights": [
+      "Estrategia 1 (Manuales): Reunión con Nancy Toro y Valeria Gómez; recomendaciones de cultura digital formalmente entregadas.",
+      "Estrategia 2 (Directorio Digital): Creación de la primera 'Gema' de IA para actas e informes (MAP) y cápsula audiovisual lista.",
+      "Estrategia 3 (Geeks Digitales): Mapeo inicial de embajadores digitales y programa formativo."
+    ],
+    "nextPhase": [
+      "Lanzamiento oficial del Directorio Digital institucional.",
+      "Expansión de la red de Geeks Digitales y primeros retos de innovación interna."
+    ],
+    "issues": [
+      "Riesgo de resistencia al cambio en procesos tradicionales o baja adopción inicial sin acompañamiento continuo."
+    ],
+    "interdependencies": [
+      "Gestión Humana (Manuales de responsabilidades)",
+      "Comunicaciones",
+      "Todos los procesos participantes en Geeks Digitales"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "75% ejecutado: 1ra Gema IA MAP probada y manuales de responsabilidades asesorados.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q3 2026",
+    "timelineStartPct": 10,
+    "timelineWidthPct": 55,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "ejecucion",
+    "startDate": "2026-03-15",
+    "endDate": "2026-12-15",
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "whatsappflow",
+    "no": 34,
+    "title": "WhatsApp Flow Centro Médico Aliado (IA Multimodal)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Pruebas / Piloto (60%)",
+    "progress": 60,
+    "priority": "Alto",
+    "priorityReason": "Innovación en la atención al paciente de Salud, eliminando fricciones entre llamadas y chat y automatizando la validación de órdenes y preparación de exámenes.",
+    "difficulty": "Alto",
+    "directPeople": 3,
+    "indirectPeople": 5,
+    "url": "https://www.youtube.com/watch?v=wT-bZe5THu4",
+    "linkText": "Ver Video Showcase IA Multimodal en Salud",
+    "assigned": "Squad Salud & IA Multimodal",
+    "squad": [
+      "Jhonier Alexander Álvarez Gallo",
+      "Yerly Yurany Oviedo Montealegre",
+      "Juan Camilo Pinto Osorio"
+    ],
+    "description": "Integración de IA Multimodal en WhatsApp Business para transformar la experiencia del paciente en salud, unificando telefonía y mensajería con soporte de texto, audios de voz y documentos.",
+    "impact": "En Pruebas / Flujo Nuevo (60%). Piloto desplegado con continuidad conversacional entre llamada y WhatsApp y comprensión de audios e imágenes de órdenes médicas.",
+    "tech": [
+      "WhatsApp Flow (Business) API",
+      "Modelos de Inteligencia Artificial Multimodal (texto, audio, imagen)",
+      "Integración de telefonía PBX con correo electrónico y chat"
+    ],
+    "investment": "Piloto desarrollado por Squad",
+    "initialBudget": "Por definir para escalamiento en producción",
+    "roi": "Disminución sustancial en tiempos de espera, atención 24/7 y descongestión de canales telefónicos en Salud.",
+    "targetAreas": "Salud Comfamiliar / Centro Médico Aliado y Contact Center / Atención al Usuario.",
+    "extrapolateAreas": "Otros servicios de la Caja con atención omnicanal (Subsidios, Recreación, Crédito, Educación).",
+    "maintenance": "En fase de prototipo / piloto funcional",
+    "highlights": [
+      "Despliegue del piloto de IA Multimodal enfocado en la atención integrada del sector salud.",
+      "Capacidad del bot conversacional de continuar por WhatsApp una llamada telefónica previa sin perder contexto.",
+      "Comprensión avanzada de formatos mixtos: el paciente puede enviar audios con dudas o fotos de órdenes médicas y recibir instrucciones unificadas en texto o correo.",
+      "Pruebas de campo con casos médicos (preparación de endoscopias, suspensión de medicamentos anticoagulantes, etc.)."
+    ],
+    "nextPhase": [
+      "Presentación oficial del prototipo funcional integrado de IA Multimodal en la semana de seguimiento institucional.",
+      "Definición de arquitectura definitiva para migración a producción corporativa con proveedor tecnológico ICONO."
+    ],
+    "issues": [
+      "Complejidad en la validación clínica de consultas médicas diversas y requerimientos estrictos de ciberseguridad y datos sensibles.",
+      "Integración técnica entre la infraestructura PBX de telefonía y WhatsApp Flow."
+    ],
+    "interdependencies": [
+      "Salud Comfamiliar / Centro Médico Aliado",
+      "Sistemas / Contact Center",
+      "ICONO (Proveedor Tecnológico)"
+    ],
+    "health": "en_riesgo",
+    "healthLabel": "En Riesgo",
+    "healthReason": "Piloto de IA Multimodal funcional (60%), pero pendiente homologación PBX con proveedor ICONO.",
+    "quarterStart": "Q2 2026",
+    "quarterEnd": "Q4 2026",
+    "timelineStartPct": 25,
+    "timelineWidthPct": 50,
+    "budgetType": "Por Definir",
+    "budgetNumeric": 0,
+    "blockage": "Complejidad técnica de integración entre telefonía PBX e infraestructura del proveedor tecnológico ICONO.",
+    "kanbanStage": "pruebas",
+    "startDate": "2026-05-01",
+    "endDate": "2026-11-30",
+    "coverImage": "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "aipiweb",
+    "no": 35,
+    "title": "AIPIWEB (Atención a la Primera Infancia)",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Pruebas UX (100%)",
+    "progress": 100,
+    "priority": "Medio",
+    "priorityReason": "Fortalecimiento digital e interactivo de las actividades pedagógicas del programa Foniñez (AIPI).",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 5,
+    "url": "https://aipi.comfamiliar.com/",
+    "linkText": "Visitar Sitio Web Interactivo AIPI (Foniñez)",
+    "assigned": "Squad Educación & TED + SDHO",
+    "squad": [
+      "Catalina Pabón",
+      "Juanita Carmona Estrada",
+      "Practicante TED + SDHO"
+    ],
+    "description": "Desarrollo de una plataforma web interactiva orientada a las actividades pedagógicas y formativas de Foniñez en el programa integral de Atención Integral a la Primera Infancia (AIPI).",
+    "impact": "En Pruebas UX (100%). Plataforma al 100% de desarrollo, puesta en marcha en entorno de producción para medir la experiencia de los usuarios reales.",
+    "tech": [
+      "Plataforma web interactiva responsiva (https://aipi.comfamiliar.com/)",
+      "Herramientas de analítica y medición de experiencia de usuario (UX)"
+    ],
+    "investment": "Recurso interno (Squad)",
+    "initialBudget": "Recurso interno",
+    "roi": "Mayor alcance pedagógico, interacción digital con familias beneficiarias y modernización del programa.",
+    "targetAreas": "Educación / Foniñez (Programa AIPI)",
+    "extrapolateAreas": "Otros programas educativos, recreativos y culturales de Comfamiliar Risaralda.",
+    "maintenance": "Activo en entorno de producción (en estabilización final)",
+    "highlights": [
+      "Plataforma al 100% de desarrollo y despliegue técnico.",
+      "Página puesta en marcha en entorno real de producción para medir usabilidad con familias y docentes.",
+      "Diseño amigable y adaptado a dispositivos móviles."
+    ],
+    "nextPhase": [
+      "Análisis de métricas de experiencia de usuario (UX).",
+      "Cierre formal y estabilización final del proyecto."
+    ],
+    "issues": [
+      "Ajustes finales de usabilidad derivados de la retroalimentación de usuarios reales en territorio."
+    ],
+    "interdependencies": [
+      "Educación / Programa Foniñez (AIPI)",
+      "Sistemas"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "Plataforma 100% desarrollada, actualmente en pruebas UX en producción con usuarios reales.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q2 2026",
+    "timelineStartPct": 0,
+    "timelineWidthPct": 40,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-07-31",
+    "coverImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "carnet",
+    "no": 36,
+    "title": "Carnet Digital Interactiva",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "En Ejecución (90%)",
+    "progress": 90,
+    "priority": "Medio",
+    "priorityReason": "Digitalización de la identificación corporativa y fortalecimiento del bienestar y fidelización de colaboradores y sus familias.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 3,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Plataforma de Carnetización",
+    "assigned": "Squad Bienestar & Identidad Digital",
+    "squad": [
+      "Javier de Jesús Trejos Cruz",
+      "Juanita Carmona Estrada"
+    ],
+    "description": "Ecosistema de carnetización interactiva digital que centraliza la identificación del colaborador, información de su grupo familiar y acumulación/canje de Pithcoripuntos.",
+    "impact": "En Ejecución (90%). Permite la identificación interactiva del colaborador y su grupo familiar, así como la visualización de Pithcoripuntos y control de ingresos al Parque Consotá.",
+    "tech": [
+      "Aplicación / Ecosistema de Carnetización Digital Interactiva",
+      "Módulo de gestión y redención de Pithcoripuntos",
+      "Integración con torniquetes y validación de ingresos en Parque Consotá"
+    ],
+    "investment": "Recurso interno (Squad)",
+    "initialBudget": "Recurso interno",
+    "roi": "Incremento en el uso de servicios recreativos (Consotá), reducción de costos de carnets plásticos y mayor fidelización.",
+    "targetAreas": "Gestión Humana, Parque Consotá y todos los colaboradores con sus grupos familiares.",
+    "extrapolateAreas": "Parque Consotá, Recreación, Deportes y Gerontología.",
+    "maintenance": "En ejecución (pendiente despliegue de campañas de fidelización)",
+    "highlights": [
+      "Permite la identificación del colaborador y su grupo familiar de forma 100% interactiva.",
+      "Visualización en tiempo real de Pithcoripuntos acumulados.",
+      "Habilitación de control de ingresos para colaboradores y familias al Parque Consotá."
+    ],
+    "nextPhase": [
+      "Implementación de campañas de fidelización para incrementar la entrada de colaboradores al Parque Consotá.",
+      "Alineación con eventos institucionales y temporadas vacacionales."
+    ],
+    "issues": [
+      "Adopción continua por parte de los colaboradores y articulación fluida en los puntos de ingreso físico al Parque Consotá."
+    ],
+    "interdependencies": [
+      "Gestión Humana / Bienestar",
+      "Parque Consotá (Recreación)",
+      "Sistemas"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "90% completado con validación de ingresos interactiva al Parque Consotá.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q3 2026",
+    "timelineStartPct": 10,
+    "timelineWidthPct": 50,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "ejecucion",
+    "startDate": "2026-04-15",
+    "endDate": "2026-10-31",
+    "coverImage": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "robotica",
+    "no": 37,
+    "title": "Proyecto Robótica Educativa & STEAM",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "cambio",
+    "status": "Fase Inicial Maker (40%)",
+    "progress": 40,
+    "priority": "Medio",
+    "priorityReason": "Posicionamiento del Instituto Comfamiliar en innovación educativa STEAM y proyección hacia la Copa Robótica Comfamiliar regional.",
+    "difficulty": "Medio",
+    "directPeople": 1,
+    "indirectPeople": 3,
+    "url": "https://talentohumanoccf.github.io/proyectos-Cultura/",
+    "linkText": "Ver Plan Pedagógico de Robótica STEAM",
+    "assigned": "Walter David Soto Villada (Instituto Comfamiliar)",
+    "squad": [
+      "Walter David Soto Villada"
+    ],
+    "description": "Laboratorio de innovación basado en la cultura maker 'Aprender Haciendo' y enfoque STEAM. Inicia en el Instituto Comfamiliar y escala como polo regional de ciencia y tecnología.",
+    "impact": "En Fase Inicial Maker (40%). Diseño conceptual STEAM sólido y planteamiento de transición de espacio educativo interno hacia polo de innovación regional estructurado en 4 fases.",
+    "tech": [
+      "Plataformas de prototipado Arduino, ESP32 y simuladores (Tinkercad)",
+      "Kits de robótica y componentes electrónicos educativos",
+      "Repositorio Web Institucional de Proyectos STEAM"
+    ],
+    "investment": "Por definir (Kits de robótica y formación docente)",
+    "initialBudget": "Por aprobar para dotación de kits STEAM",
+    "roi": "Posicionamiento educativo de vanguardia en Risaralda y semillero de talento tecnológico juvenil.",
+    "targetAreas": "Educación (Instituto Comfamiliar)",
+    "extrapolateAreas": "Colegios aliados, programas de Foniñez, recreación y talleres externos en el departamento.",
+    "maintenance": "En desarrollo (Fase 1: Activación y Cimentación)",
+    "phases": [
+      {
+        "phase": "Fase 1",
+        "title": "Activación y Cimentación",
+        "desc": "Conformación del semillero de robótica con estudiantes pioneros, capacitación docente intensiva y prácticas iniciales con simulación (Tinkercad) y kits Arduino."
+      },
+      {
+        "phase": "Fase 2",
+        "title": "Desarrollo y Sistematización",
+        "desc": "Construcción de prototipos funcionales autónomos, apertura del Repositorio Web Institucional y primeros desafíos de robótica aplicada."
+      },
+      {
+        "phase": "Fase 3",
+        "title": "Validación y Competencia",
+        "desc": "Participación del equipo en ferias científicas regionales y organización de la primera edición de la Copa Robótica Comfamiliar."
+      },
+      {
+        "phase": "Fase 4",
+        "title": "Liderazgo y Transferencia",
+        "desc": "Consolidación del Instituto como referente STEAM del Eje Cafetero, transfiriendo metodología y kits a colegios públicos y aliados."
+      }
+    ],
+    "requirements": {
+      "training": "Plan de formación docente en plataformas como Arduino, ESP32 y entorno de simulación (Tinkercad).",
+      "materials": "Dotación de kits de robótica, sensores, actuadores y componentes electrónicos educativos."
+    },
+    "highlights": [
+      "Diseño conceptual STEAM estructurado bajo el principio maker 'Aprender Haciendo'.",
+      "Planteamiento metodológico de transición de aula interna a polo de innovación regional.",
+      "Estructuración detallada del roadmap en 4 fases escalables."
+    ],
+    "nextPhase": [
+      "Ejecución del plan de formación docente en robótica y plataformas digitales.",
+      "Dotación y adquisición de los primeros kits de robótica educativa.",
+      "Convocatoria y selección de estudiantes pioneros para el club de robótica (Fase 1)."
+    ],
+    "issues": [
+      "Disponibilidad presupuestal oportuna para la adquisición de kits físicos.",
+      "Disponibilidad de agenda docente para completar la ruta de capacitación sin afectar clases regulares."
+    ],
+    "interdependencies": [
+      "Educación (Instituto Comfamiliar)",
+      "Compras / Dirección Administrativa"
+    ],
+    "health": "bloqueado",
+    "healthLabel": "Bloqueado",
+    "healthReason": "Diseño conceptual STEAM terminado (40%), pero detenido esperando aprobación presupuestal para kits de robótica.",
+    "quarterStart": "Q2 2026",
+    "quarterEnd": "Q4 2026",
+    "timelineStartPct": 25,
+    "timelineWidthPct": 60,
+    "budgetType": "Por Aprobar",
+    "budgetNumeric": 28000000,
+    "blockage": "Detenido por falta de aprobación presupuestal para kits Arduino/ESP32 y asignación formal de horas docentes en el Instituto.",
+    "kanbanStage": "inicial",
+    "startDate": "2026-06-01",
+    "endDate": "2027-02-28",
+    "coverImage": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    "id": "certificado220",
+    "no": 38,
+    "title": "Certificado 220 DIAN",
+    "area": "Cultura y Gestión del Cambio",
+    "category": "gestion",
+    "status": "Completado / Cerrado (100%)",
+    "progress": 100,
+    "priority": "Alto",
+    "priorityReason": "Cumplimiento legal y tributario estricto para la emisión oportuna de certificados de retención a colaboradores.",
+    "difficulty": "Medio",
+    "directPeople": 2,
+    "indirectPeople": 4,
+    "assigned": "Nómina / Impuestos",
+    "squad": [
+      "Equipo de Nómina",
+      "Proceso de Impuestos y Contabilidad"
+    ],
+    "description": "Proceso automatizado y conciliado con éxito para la emisión de certificados de ingresos y retenciones de la DIAN a los empleados de la organización.",
+    "impact": "Cerrado exitosamente (100%). Proceso conciliado, 13 ajustes críticos implementados y publicación masiva completada con video instructivo.",
+    "tech": [
+      "Módulo de generación DIAN 220",
+      "Video instructivo multimedia para colaboradores"
+    ],
+    "investment": "Recurso interno",
+    "initialBudget": "Recurso interno",
+    "roi": "Cero sanciones tributarias, cumplimiento normativo al 100% y autogestión ágil del certificado por el empleado.",
+    "targetAreas": "Nómina, Contabilidad, Impuestos y todos los empleados.",
+    "extrapolateAreas": "Otros certificados tributarios e institucionales autogestionables.",
+    "maintenance": "Proceso cerrado y estabilizado para el ciclo anual",
+    "highlights": [
+      "Conciliado de manera exitosa con el Proceso de Impuestos.",
+      "Se realizaron 13 ajustes críticos de certificados que no incluían viáticos no informados por contabilidad.",
+      "Ajustadas devoluciones de viáticos de tesorería no informadas oportunamente a Nómina.",
+      "Publicación oficial de certificados y lanzamiento de video instructivo para los empleados."
+    ],
+    "nextPhase": [
+      "Monitoreo estándar durante el próximo calendario tributario anual."
+    ],
+    "issues": [],
+    "interdependencies": [
+      "Nómina",
+      "Impuestos",
+      "Tesorería / Contabilidad"
+    ],
+    "health": "en_tiempo",
+    "healthLabel": "En Tiempo",
+    "healthReason": "Proceso conciliado con Impuestos y cerrado exitosamente al 100%.",
+    "quarterStart": "Q1 2026",
+    "quarterEnd": "Q1 2026",
+    "timelineStartPct": 0,
+    "timelineWidthPct": 25,
+    "budgetType": "In-house",
+    "budgetNumeric": 0,
+    "blockage": null,
+    "kanbanStage": "produccion",
+    "startDate": "2026-01-15",
+    "endDate": "2026-04-30",
+    "coverImage": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=700&q=80",
+    "imageUrl": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=700&q=80"
+  }
+];
     let archivedProjects = [];
     let bitacoraLogs = [];
-    let currentUser = 'Cargando...';
+    let currentUser = 'Invitado SDHO';
     
 
     let state = {
@@ -716,7 +1490,6 @@
               if (response.projects && response.projects.length > 0) projects = response.projects;
               archivedProjects = response.archivedProjects || [];
               bitacoraLogs = response.bitacora || [];
-              applyLocalStorageCovers();
               renderApp();
             }
           })
@@ -1088,56 +1861,18 @@
       saveCoverImageForProject(projId, url);
     }
 
-    function applyLocalStorageCovers() {
-      if (!projects || !projects.length) return;
-      projects.forEach(p => {
-        try {
-          const custom = localStorage.getItem('sdho_cover_' + p.id) || localStorage.getItem('sdho_cover_' + p.no);
-          if (custom) {
-            p.coverImage = custom;
-            p.imageUrl = custom;
-          }
-        } catch(e) {}
-      });
-    }
-
     function saveCoverImageForProject(projId, url) {
       const p = projects.find(x => x.id === projId);
       if (p) {
         p.coverImage = url;
         p.imageUrl = url;
       }
-      
-      // Persistencia inmediata en localStorage del navegador
-      try {
-        localStorage.setItem('sdho_cover_' + projId, url);
-        if (p && p.no) localStorage.setItem('sdho_cover_' + p.no, url);
-      } catch(e) {}
-
       closeChangeCoverModal();
+      showToast('Portada Actualizada', 'Nueva imagen asignada estilo Trello.');
       renderApp();
-      showToast('Guardando...', 'Sincronizando portada con Google Sheets...');
 
       if (isAppsScript) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.success) {
-              showToast('✅ Portada Guardada', 'Registrada permanentemente en Google Sheets.');
-            } else {
-              showToast('Atención', (res && res.message) ? res.message : 'No se pudo sincronizar en Sheets.');
-            }
-          })
-          .withFailureHandler(function(err) {
-            showToast('Error', 'Fallo al conectar con Google Sheets: ' + (err.message || err));
-          })
-          .actualizarPortadaProyecto({
-            projectId: projId,
-            no: p ? p.no : null,
-            title: p ? p.title : null,
-            coverImage: url
-          });
-      } else {
-        showToast('✅ Portada Guardada', 'Guardada localmente en tu navegador.');
+        google.script.run.actualizarPortadaProyecto({ projectId: projId, coverImage: url });
       }
     }
 
